@@ -98,9 +98,9 @@ class ServiceController extends RenderView
         $msg = [];
 
         if ($service->delete($id[0])) {
-            $msg['success'] = "Produto deletado com sucesso!";
+            $msg['success'] = "Serviço deletado com sucesso!";
         } else {
-            $msg['error'] = "Erro ao deletar o produto!";
+            $msg['error'] = "Erro ao deletar o serviço!";
         }
 
         echo json_encode($msg);

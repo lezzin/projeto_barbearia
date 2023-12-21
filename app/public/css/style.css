@@ -2,8 +2,8 @@
 
 :root {
     --bg-primary: #111;
-    --bg-secondary: #222;
-    --border-color: #353535;
+    --bg-secondary: #181818;
+    --border-color: #333;
 
     --font-color: #FFF;
     --details-color: #f02b2b;
@@ -76,7 +76,7 @@ body {
 .container {
     max-width: 1080px;
     margin: 0 auto;
-    width: 100%;
+    width: calc(100% - 1.5rem);
 }
 
 .active {
@@ -315,7 +315,6 @@ h2 {
 
 .services__container {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 1.6rem;
@@ -405,6 +404,16 @@ article {
     grid-template-columns: 1fr 1fr;
     place-content: center;
     padding-top: 6rem;
+}
+
+@media (max-width: 768px) {
+    .article__columns{
+        grid-template-columns: 1fr;
+    }
+
+    .article__columns .column:last-child {
+        margin-top: 5rem;
+    }
 }
 
 .article__columns .column {
@@ -510,6 +519,16 @@ footer {
     place-content: center;
     min-height: 100vh;
     gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .admin__item__section .container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin__item__section .container form {
+        max-width: unset;
+    }
 }
 
 .admin__item__section form {

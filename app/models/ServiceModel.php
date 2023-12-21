@@ -85,8 +85,9 @@ class ServiceModel extends Database
     public function delete($id)
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM service WHERE id = ?");
+            $stmt = $this->pdo->prepare("DELETE FROM `service` WHERE id = ?");
             $stmt->execute([$id]);
+
             if ($stmt->rowCount() > 0) {
                 return true;
             } else {

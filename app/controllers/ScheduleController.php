@@ -10,6 +10,7 @@ class ScheduleController extends RenderView {
         $this->loadView('schedule', [
             'title' => 'Agendamento',
             'services' => $allServices,
+            'isAuth' => isset($_SESSION['user']),
         ]);
     }
 

@@ -1,18 +1,19 @@
 $(document).ready(function () {
-    var url =  $("span#url").text();
+    const url =  $("span#url").text();
 
-    var currentYear, currentMonth;
-    var user_choices = {
+    let currentYear, currentMonth;
+    let user_choices = {
         username: '',
         tel: '',
         service: '',
+        serviceName: '',
         date: '',
         time: '',
         message: '',
     };
 
     function getMonthName(month) {
-        var monthNames = [
+        const monthNames = [
             "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
         ];
@@ -21,8 +22,8 @@ $(document).ready(function () {
     }
 
     function fillWeekdays() {
-        var weekdays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-        var weekdaysContainer = $(".calendar_weekdays");
+        const weekdays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+        const weekdaysContainer = $(".calendar_weekdays");
 
         weekdays.forEach(function (day) {
             weekdaysContainer.append("<div>" + day + "</div>");
@@ -30,19 +31,19 @@ $(document).ready(function () {
     }
 
     function fillCalendarContent(year, month) {
-        var daysInMonth = new Date(year, month + 1, 0).getDate();
-        var firstDayOfMonth = new Date(year, month, 1).getDay();
-        var calendarContent = $(".calendar_content");
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const calendarContent = $(".calendar_content");
         calendarContent.empty();
 
-        for (var i = 0; i < firstDayOfMonth; i++) {
+        for (let i = 0; i < firstDayOfMonth; i++) {
             calendarContent.append(`<div class="blank"></div>`);
         }
 
-        var currentDate = new Date();
-        for (var day = 1; day <= daysInMonth; day++) {
-            var date = new Date(year, month, day);
-            var dayClass = date < currentDate ? "passed" : "";
+        const currentDate = new Date();
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(year, month, day);
+            const dayClass = date < currentDate ? "passed" : "";
 
             if (date.toDateString() !== currentDate.toDateString()) {
                 calendarContent.append(`<div data-time="${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}" class="${dayClass}">` + day + "</div>");
@@ -57,7 +58,7 @@ $(document).ready(function () {
     }
 
     function initializeCalendar() {
-        var currentDate = new Date();
+        const currentDate = new Date();
         currentYear = currentDate.getFullYear();
         currentMonth = currentDate.getMonth();
 
@@ -71,10 +72,10 @@ $(document).ready(function () {
     }
 
     async function fillTimeChoices(datetime) {
-        var fetchData = await fetch(`${url}schedule/get_unavailable_datetime`);
-        var indisponibleTimes = await fetchData.json();
+        const fetchData = await fetch(`${url}schedule/get_unavailable_datetime`);
+        const indisponibleTimes = await fetchData.json();
 
-        var disponibleTimes = [
+        const disponibleTimes = [
             "07:00", "07:30",
             "08:00", "08:30",
             "09:00", "09:30",
@@ -88,12 +89,12 @@ $(document).ready(function () {
             "17:00", "17:30",
         ];
 
-        var timesContent = $(".time__buttons");
+        const timesContent = $(".time__buttons");
         timesContent.empty();
 
-        for (var index = 0; index <= disponibleTimes.length - 1; index++) {
-            var currentTime = disponibleTimes[index];
-            var check = `${datetime} ${currentTime}:00`;
+        for (let index = 0; index <= disponibleTimes.length - 1; index++) {
+            const currentTime = disponibleTimes[index];
+            const check = `${datetime} ${currentTime}:00`;
             
             if (!isDatetimeUnavailable(check, indisponibleTimes)) {
                 timesContent.append(`<button>${currentTime}</button>`);
@@ -107,6 +108,7 @@ $(document).ready(function () {
 
     function handleServiceSelection() {
         user_choices.service = $(this).attr('data-id');
+        user_choices.serviceName = $(this).attr('data-service');
 
         $('.services__container .service').removeClass('active');
         $(this).addClass('active');
@@ -143,7 +145,7 @@ $(document).ready(function () {
         user_choices.message = $('#textarea_message').val() || '';
         user_choices.tel = $('#telephone_message').val() || '';
 
-        var targetSection =
+        const targetSection =
             !user_choices.service ? '.service__type__section' :
                 (!user_choices.date || !user_choices.time) ? '.datetime__section' :
                     (!user_choices.username || !user_choices.tel) ? '.message__section' :
@@ -191,6 +193,7 @@ $(document).ready(function () {
             username: '',
             tel: '',
             service: '',
+            serviceName: '',
             date: '',
             time: '',
             message: '',
@@ -202,10 +205,10 @@ $(document).ready(function () {
     }
 
     function showConfirmationModal() {
-        const { username, tel, service, date, time, message } = user_choices;
+        const { username, tel, serviceName, date, time, message } = user_choices;
 
-        var splitedDate = String(date).split('-');
-        var formattedDate = `${splitedDate[2].trim()}/${splitedDate[1].trim()}/${splitedDate[0].trim()}`;
+        const splitedDate = String(date).split('-');
+        const formattedDate = `${splitedDate[2].trim()}/${splitedDate[1].trim()}/${splitedDate[0].trim()}`;
 
         $('.modal__overlay').addClass('modal__active');
         $('.modal__body').html(`
@@ -214,7 +217,7 @@ $(document).ready(function () {
             <p>Telefone para contato: ${tel}</p>
             ${message ? `<p>Mensagem: ${user_choices.message}</p>` : ``}
             <hr>
-            <p>Serviço: ${service}</p>
+            <p>Serviço: ${serviceName}</p>
             <p>Data: ${formattedDate}</p>
             <p>Horário: ${time}</p>
         `);

@@ -31,7 +31,7 @@
 
                     <div class="services__container services__sm">
                         <?php foreach ($services as $service) : ?>
-                            <div class="service" data-aos="fade-right" data-aos-duration="1000" data-id="<?= $service["id"] ?>">
+                            <div class="service" data-aos="fade-right" data-aos-duration="1000" data-id="<?= $service["id"] ?>" data-service="<?= $service["name"] ?>">
                                 <h3><?= $service["name"] ?></h3>
                                 <p>R$<?= str_replace('.', ',', $service["price"]) ?></p>
                             </div>

@@ -10,8 +10,8 @@
     <main>
         <section class="admin__item__section">
             <div class="container">
-                <form method="post" action="<?= BASE_URL . "service/create" ?>" id="form-service">
-                    <h2>Serviço</h2>
+                <form method="post" action="<?= BASE_URL . "service/create" ?>" id="form-service" data-aos="fade-right" data-aos-duration="1000">
+                    <h2>Serviços</h2>
 
                     <div class="form__alert"></div>
 
@@ -28,7 +28,7 @@
                     <button class="btn-primary" type="submit">Adicionar serviço</button>
                 </form>
 
-                <table>
+                <table data-aos="fade-left" data-aos-duration="1000">
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -44,7 +44,7 @@
                                 <td>
                                     <div class="actions">
                                         <button><i class="bi bi-pencil"></i></button>
-                                        <a href="<?= BASE_URL . "service/delete/{$service["id"]}" ?>"><i class="bi bi-trash"></i></a>
+                                        <button data-delete-url="<?= BASE_URL . "service/delete/{$service["id"]}" ?>" type="button"><i class="bi bi-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -56,7 +56,7 @@
 
         <section class="admin__item__section">
             <div class="container">
-                <form method="post" action="<?= BASE_URL . "unavailable_datetime/create" ?>" id="form-unavailable-datetime">
+                <form method="post" action="<?= BASE_URL . "unavailable_datetime/create" ?>" id="form-unavailable-datetime" data-aos="fade-right" data-aos-duration="1000">
                     <h2>Datas indisponiveis</h2>
 
                     <div class="form__alert"></div>
@@ -69,7 +69,7 @@
                     <button class="btn-primary" type="submit">Adicionar data</button>
                 </form>
 
-                <table>
+                <table data-aos="fade-left" data-aos-duration="1000">
                     <thead>
                         <tr>
                             <th>Data</th>
@@ -83,7 +83,7 @@
                                 <td>
                                     <div class="actions">
                                         <button><i class="bi bi-pencil"></i></button>
-                                        <a href="<?= BASE_URL . "unavailable_datetime/delete/{$unavailable_datetime["id"]}" ?>"><i class="bi bi-trash"></i></a>
+                                        <button data-delete-url="<?= BASE_URL . "unavailable_datetime/delete/{$unavailable_datetime["id"]}" ?>"><i class="bi bi-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>

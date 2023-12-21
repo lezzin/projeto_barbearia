@@ -9,6 +9,8 @@ CREATE TABLE `user` (
     PRIMARY KEY(`id`)
 );
 
+INSERT INTO `user` (`name`, `password`) VALUES ("adm", "$2y$10$34zXSGF5yVuDp/Q09rCZnu2FtBNZF.4bZectqBLvM4BGGqFhScXXq");
+
 CREATE TABLE `service` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
@@ -32,4 +34,5 @@ CREATE TABLE `schedule` (
     PRIMARY KEY(`id`)
 );
 
-ALTER TABLE `schedule` ADD CONSTRAINT `fk_schedule_service_id` FOREIGN KEY ( `service_id` ) REFERENCES `service` ( `id` ) ;
+ALTER TABLE `schedule` ADD CONSTRAINT `fk_schedule_service_id` FOREIGN KEY ( `service_id` ) REFERENCES `service` ( `id` ) ON DELETE CASCADE;
+
