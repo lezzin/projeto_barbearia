@@ -1,0 +1,99 @@
+
+<?php
+
+class UnavailableDatetimeModel extends Database
+{
+    private $pdo;
+
+    public function __construct() {
+        $conn = $this->getConnection();
+        $this->pdo = $conn;
+    }
+
+    public function create($datetime) {
+        try {
+            $stm = $this->pdo->prepare("INSERT INTO `unavailable_datetime` (`datetime`) VALUES (?)");
+            $stm->execute([$datetime]);
+
+            if ($this->pdo->lastInsertId() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function getTotalUnavailableDatetimes()
+    {
+        try {
+            $stm = $this->pdo->query("SELECT COUNT(*) as total FROM `unavailable_datetime`");
+
+            if ($stm->rowCount() > 0) {
+                return $stm->fetch(PDO::FETCH_ASSOC)['total'];
+            } else {
+                return [];
+            }
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function allUnavailableDatetimes()
+    {
+        try {
+            $stm = $this->pdo->query("SELECT * FROM `unavailable_datetime`");
+
+            if ($stm->rowCount() > 0) {
+                return $stm->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                return [];
+            }
+        } catch (PDOException $err) {
+            return [];
+        }
+    }
+
+    public function fetchUnavailableDatetime($id)
+    {
+        try {
+            $stm = $this->pdo->prepare("SELECT * FROM `unavailable_datetime` WHERE id = ?");
+            $stm->execute([$id]);
+
+            if ($stm->rowCount() > 0) {
+                return $stm->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function update($price, $id)
+    {
+        try {
+            $stm = $this->pdo->prepare("UPDATE `unavailable_datetime` SET datetime = ? WHERE id = ?");
+            $stm->execute([$price, $id]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $stm = $this->pdo->prepare("DELETE FROM `unavailable_datetime` WHERE id = ?");
+            $stm->execute([$id]);
+            if ($stm->rowCount() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+}
