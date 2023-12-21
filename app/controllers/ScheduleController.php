@@ -3,7 +3,7 @@
 session_start();
 
 class ScheduleController extends RenderView {
-    function index() {
+    public function index() {
         $service = new ServiceModel();
         $allServices = $service->allServices();
         
@@ -13,22 +13,32 @@ class ScheduleController extends RenderView {
         ]);
     }
 
-    function get_unavailable_datetime() {
+    public function get_unavailable_datetime() {
         $unavailableDatetime = new UnavailableDatetimeModel();
         $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
         
         echo json_encode($allUnavailableDatetimes);
     }
 
-    function add() {
-        $insertStatus = insert("schedule", [
-            "user" => $_POST["username"],
-            "tel" => $_POST["tel"],
-            "service_id" => $_POST["service"],
-            "datetime" => $_POST["datetime"],
-            "message" => $_POST["message"],
-        ]);
+    public function create() {
+        $msg = [];
+        
+        $schedule = new ScheduleModel();
+        $unavailableDatetime = new UnavailableDatetimeModel();
 
-        echo json_encode(["status" => $insertStatus]);
+        $user = $_POST["username"];
+        $tel = $_POST["tel"];
+        $service_id = $_POST["service"];
+        $datetime = $_POST["datetime"];
+        $message = $_POST["message"];
+
+        if ($schedule->create($user, $tel, $service_id, $datetime, $message)) {
+            $unavailableDatetime->create($datetime);
+            $msg['success'] = "Agendamento realizado com sucesso!";
+        } else {
+            $msg['error'] = "Erro ao realizar agendamento. Tente novamente.";
+        }
+
+        echo json_encode($msg);
     }
 }

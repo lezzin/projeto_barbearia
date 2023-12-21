@@ -10,11 +10,11 @@ class UserModel extends Database {
 
   public function login($username, $password) {
     try {
-      $stm = $this->pdo->prepare("SELECT * FROM `user` WHERE `name` = ?");
-      $stm->execute([$username]);
+      $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `name` = ?");
+      $stmt->execute([$username]);
 
-      if ($stm->rowCount() > 0) {
-        $user = $stm->fetch(PDO::FETCH_ASSOC);
+      if ($stmt->rowCount() > 0) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
       } else {
         return false;
       }

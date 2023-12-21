@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    var url =  $("span#url").text();
+
     var currentYear, currentMonth;
     var user_choices = {
         username: '',
@@ -65,17 +67,17 @@ $(document).ready(function () {
     }
 
     function isDatetimeUnavailable(time, unavailableTimes) {
-        return unavailableTimes.some(unavailableTime => unavailableTime.datetime.includes(time));
+        return unavailableTimes.some(unavailableTime => unavailableTime.datetime == time);
     }
 
     async function fillTimeChoices(datetime) {
-        var fetchData = await fetch("http://localhost/template_php/schedule/get_unavailable_datetime");
+        var fetchData = await fetch(`${url}schedule/get_unavailable_datetime`);
         var indisponibleTimes = await fetchData.json();
 
         var disponibleTimes = [
-            "7:00", "7:30",
-            "8:00", "8:30",
-            "9:00", "9:30",
+            "07:00", "07:30",
+            "08:00", "08:30",
+            "09:00", "09:30",
             "10:00", "10:30",
             "11:00", "11:30",
             "12:00", "12:30",
@@ -91,8 +93,8 @@ $(document).ready(function () {
 
         for (var index = 0; index <= disponibleTimes.length - 1; index++) {
             var currentTime = disponibleTimes[index];
-            var check = `${datetime}${currentTime}:00`;
-
+            var check = `${datetime} ${currentTime}:00`;
+            
             if (!isDatetimeUnavailable(check, indisponibleTimes)) {
                 timesContent.append(`<button>${currentTime}</button>`);
             }
@@ -159,18 +161,19 @@ $(document).ready(function () {
         const { username, tel, service, date, time, message } = user_choices;
         const datetime = `${date} ${time}:00`;
 
-        $.post("http://localhost/template_php/schedule/add", {
+        $.post(`${url}schedule/create`, {
             username, tel, service, datetime, message
         })
             .done(function (data) {
                 const response = JSON.parse(data);
+                $('.modal__body').empty();
 
-                if (response.status) {
-                    $('.modal__body').append(`<p class="modal__alert">Agendamento realizado com sucesso!</p>`);
+                if(response.success) {
+                    $('.modal__body').append(`<p class="modal__alert">${response.success}</p>`);
                     $('.modal__footer').children("#modal_close").html("Fechar");
                     resetAll();
                 } else {
-                    $('.modal__body').append(`<p class="modal__alert">Erro ao realizar agendamento. Tente novamente.</p>`);
+                    $('.modal__body').append(`<p class="modal__alert">${response.error}</p>`);
                 }
             });
     }

@@ -9,9 +9,9 @@
     <main>
         <section class="form__section">
             <div class="container">
-                <form method="post" action="<?= BASE_URL . "verify" ?>">
-                    <h2>Login</h2>
+                <h2>Login</h2>
 
+                <form method="post" action="<?= BASE_URL . "verify" ?>">
                     <div class="form__alert"></div>
 
                     <div class="form__group">

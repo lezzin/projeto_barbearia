@@ -1,4 +1,3 @@
-
 <?php
 
 class UnavailableDatetimeModel extends Database
@@ -12,8 +11,8 @@ class UnavailableDatetimeModel extends Database
 
     public function create($datetime) {
         try {
-            $stm = $this->pdo->prepare("INSERT INTO `unavailable_datetime` (`datetime`) VALUES (?)");
-            $stm->execute([$datetime]);
+            $stmt = $this->pdo->prepare("INSERT INTO `unavailable_datetime` (`datetime`) VALUES (?)");
+            $stmt->execute([$datetime]);
 
             if ($this->pdo->lastInsertId() > 0) {
                 return true;
@@ -25,13 +24,12 @@ class UnavailableDatetimeModel extends Database
         }
     }
 
-    public function getTotalUnavailableDatetimes()
-    {
+    public function getTotalUnavailableDatetimes() {
         try {
-            $stm = $this->pdo->query("SELECT COUNT(*) as total FROM `unavailable_datetime`");
+            $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM `unavailable_datetime`");
 
-            if ($stm->rowCount() > 0) {
-                return $stm->fetch(PDO::FETCH_ASSOC)['total'];
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
             } else {
                 return [];
             }
@@ -40,13 +38,12 @@ class UnavailableDatetimeModel extends Database
         }
     }
 
-    public function allUnavailableDatetimes()
-    {
+    public function allUnavailableDatetimes() {
         try {
-            $stm = $this->pdo->query("SELECT * FROM `unavailable_datetime`");
+            $stmt = $this->pdo->query("SELECT * FROM `unavailable_datetime`");
 
-            if ($stm->rowCount() > 0) {
-                return $stm->fetchAll(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } else {
                 return [];
             }
@@ -58,11 +55,11 @@ class UnavailableDatetimeModel extends Database
     public function fetchUnavailableDatetime($id)
     {
         try {
-            $stm = $this->pdo->prepare("SELECT * FROM `unavailable_datetime` WHERE id = ?");
-            $stm->execute([$id]);
+            $stmt = $this->pdo->prepare("SELECT * FROM `unavailable_datetime` WHERE id = ?");
+            $stmt->execute([$id]);
 
-            if ($stm->rowCount() > 0) {
-                return $stm->fetch(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
             } else {
                 return false;
             }
@@ -74,8 +71,8 @@ class UnavailableDatetimeModel extends Database
     public function update($price, $id)
     {
         try {
-            $stm = $this->pdo->prepare("UPDATE `unavailable_datetime` SET datetime = ? WHERE id = ?");
-            $stm->execute([$price, $id]);
+            $stmt = $this->pdo->prepare("UPDATE `unavailable_datetime` SET datetime = ? WHERE id = ?");
+            $stmt->execute([$price, $id]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -85,9 +82,9 @@ class UnavailableDatetimeModel extends Database
     public function delete($id)
     {
         try {
-            $stm = $this->pdo->prepare("DELETE FROM `unavailable_datetime` WHERE id = ?");
-            $stm->execute([$id]);
-            if ($stm->rowCount() > 0) {
+            $stmt = $this->pdo->prepare("DELETE FROM `unavailable_datetime` WHERE id = ?");
+            $stmt->execute([$id]);
+            if ($stmt->rowCount() > 0) {
                 return true;
             } else {
                 return false;

@@ -1,7 +1,7 @@
 
 <?php
 
-class ServiceModel extends Database
+class ScheduleModel extends Database
 {
     private $pdo;
 
@@ -10,10 +10,10 @@ class ServiceModel extends Database
         $this->pdo = $conn;
     }
 
-    public function create($name, $price) {
+    public function create($user, $tel, $service_id, $datetime, $message) {
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO `service` (`name`, `price`) VALUES (?, ?)");
-            $stmt->execute([$name, $price]);
+            $stmt = $this->pdo->prepare("INSERT INTO `schedule` (`user`, `tel`, `service_id`, `datetime`, `message`) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$user, $tel, $service_id, $datetime, $message]);
 
             if ($this->pdo->lastInsertId() > 0) {
                 return true;
@@ -25,10 +25,10 @@ class ServiceModel extends Database
         }
     }
 
-    public function getTotalServices()
+    public function getTotalSchedules()
     {
         try {
-            $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM service");
+            $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM `schedule`");
 
             if ($stmt->rowCount() > 0) {
                 return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
@@ -40,10 +40,10 @@ class ServiceModel extends Database
         }
     }
 
-    public function allServices()
+    public function allSchedules()
     {
         try {
-            $stmt = $this->pdo->query("SELECT * FROM service");
+            $stmt = $this->pdo->query("SELECT * FROM `schedule`");
 
             if ($stmt->rowCount() > 0) {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -55,10 +55,10 @@ class ServiceModel extends Database
         }
     }
 
-    public function fetchService($id)
+    public function fetchSchedule($id)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM service WHERE id = ?");
+            $stmt = $this->pdo->prepare("SELECT * FROM `schedule` WHERE id = ?");
             $stmt->execute([$id]);
 
             if ($stmt->rowCount() > 0) {
@@ -71,11 +71,11 @@ class ServiceModel extends Database
         }
     }
 
-    public function update($name, $price, $id)
+    public function update($user, $tel, $service_id, $datetime, $message, $id)
     {
         try {
-            $stmt = $this->pdo->prepare("UPDATE service SET name = ?, price = ? WHERE id = ?");
-            $stmt->execute([$name, $price, $id]);
+            $stmt = $this->pdo->prepare("UPDATE `schedule` SET `user` = ?, `tel` = ?, `service_id` = ?, `datetime` = ?, `message` = ? WHERE id = ?");
+            $stmt->execute([$user, $tel, $service_id, $datetime, $message, $id]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -85,7 +85,7 @@ class ServiceModel extends Database
     public function delete($id)
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM service WHERE id = ?");
+            $stmt = $this->pdo->prepare("DELETE FROM `schedule` WHERE id = ?");
             $stmt->execute([$id]);
             if ($stmt->rowCount() > 0) {
                 return true;

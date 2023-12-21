@@ -10,11 +10,15 @@ class AdminController extends RenderView
         }
 
         $service = new ServiceModel();
+        $unavailableDatetime = new UnavailableDatetimeModel();
+
         $allServices = $service->allServices();
+        $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
 
         $this->loadView('admin', [
             'title' => 'Admin',
             'services' => $allServices,
+            'unavailable_datetimes' => $allUnavailableDatetimes,
         ]);
     }
 }
