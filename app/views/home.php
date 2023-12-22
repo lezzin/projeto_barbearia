@@ -15,7 +15,7 @@
                     <p data-aos="fade-right" data-aos-duration="1300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores dicta ab assumenda molestiae illo veniam, blanditiis laborum? Quibusdam, esse nam laboriosam harum, quae molestiae obcaecati expedita veritatis officia iure impedit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt rerum corporis harum eius sed? Harum ex accusamus, necessitatibus reprehenderit quo sint exercitationem asperiores autem enim ipsam architecto voluptas rem? Natus!</p>
 
                     <div data-aos="fade-right" data-aos-duration="1600">
-                        <a class="btn-primary" href="<?= BASE_URL . "schedule" ?>" role="button">Agendar horário</a>
+                        <a class="btn__primary" href="<?= BASE_URL . "schedule" ?>" role="button">Agendar horário</a>
                     </div>
                 </div>
             </div>

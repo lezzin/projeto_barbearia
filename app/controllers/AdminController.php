@@ -19,6 +19,7 @@ class AdminController extends RenderView
             'title' => 'Admin',
             'services' => $allServices,
             'unavailable_datetimes' => $allUnavailableDatetimes,
+            'isAuth' => isset($_SESSION['user']),
         ]);
     }
 }

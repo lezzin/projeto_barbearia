@@ -7,8 +7,8 @@
     <?php include_once "templates/header.php"; ?>
 
     <main>
-        <section class="form__section">
-            <div class="container">
+        <section>
+            <div class="container container__centered vh-100">
                 <h2 data-aos="zoom-in" data-aos-duration="1000">Login</h2>
 
                 <form method="post" action="<?= BASE_URL . "verify" ?>">
@@ -24,8 +24,8 @@
                         <input type="password" id="password" name="password">
                     </div>
 
-                    <button class="btn-primary" type="submit" data-aos="fade-right" data-aos-duration="1600">Entrar</button>
-                    <a href="<?php BASE_URL ?>" data-aos="fade-right" data-aos-duration="1900">Sou cliente</a>
+                    <button class="btn__primary" type="submit" data-aos="fade-right" data-aos-duration="1600">Entrar</button>
+                    <a href="<?= BASE_URL ?>" data-aos="fade-right" data-aos-duration="1900">Sou cliente</a>
                 </form>
             </div>
         </section>

@@ -13,11 +13,9 @@ $routes = [
 
     '/admin' => 'AdminController@index',
 
-    '/service/create' => 'ServiceController@create',
-    '/service/edit/{id}' => 'ServiceController@edit',
+    '/service/save' => 'ServiceController@save',
     '/service/delete/{id}' => 'ServiceController@delete',
-    '/service/update' => 'ServiceController@update',
 
-    '/unavailable_datetime/create' => 'UnavailableDatetimeController@create',
+    '/unavailable_datetime/save' => 'UnavailableDatetimeController@save',
     '/unavailable_datetime/delete/{id}' => 'UnavailableDatetimeController@delete',
 ];

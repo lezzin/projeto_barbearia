@@ -16,6 +16,10 @@ class HomeController extends RenderView
     }
 
     public function login() {
+        if ((isset($_SESSION['user']))) {
+            header('Location: ' . BASE_URL);
+        }
+
         $this->loadView('login', [
             'title' => 'Login'
         ]);

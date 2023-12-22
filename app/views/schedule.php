@@ -17,21 +17,21 @@
                         Selecione o tipo de serviço, a data e o horário e pronto, está concluido!
                     </p>
 
-                    <button class="btn-primary start__btn" data-aos="fade-right" data-aos-duration="1600">Começar agora</button>
+                    <button class="btn__primary start__btn" data-aos="fade-right" data-aos-duration="1600">Começar agora</button>
                 </div>
             </div>
         </section>
 
         <section class="service__type__section">
-            <div class="container">
+            <div class="container container__centered">
                 <h2 class="title__background service__title__background">tipo de serviço</h2>
 
                 <article>
                     <h3 data-aos="zoom-in" data-aos-duration="1000">1. Selecione o tipo de serviço</h3>
 
-                    <div class="services__container services__sm">
+                    <div class="services__container">
                         <?php foreach ($services as $service) : ?>
-                            <div class="service" data-aos="fade-right" data-aos-duration="1000" data-id="<?= $service["id"] ?>" data-service="<?= $service["name"] ?>">
+                            <div class="service service__sm" data-aos="fade-right" data-aos-duration="1000" data-id="<?= $service["id"] ?>" data-service="<?= $service["name"] ?>">
                                 <h3><?= $service["name"] ?></h3>
                                 <p>R$<?= str_replace('.', ',', $service["price"]) ?></p>
                             </div>
@@ -50,17 +50,17 @@
                         <h3 data-aos="zoom-in" data-aos-duration="1000">2. Selecione a data</h3>
 
                         <div class="calendar">
-                            <div class="calendar_header">
+                            <div class="calendar__header">
                                 <div>
-                                    <button class="btn-primary btn-sm switch-left" data-aos="fade-left" data-aos-duration="1000"> <i class="bi bi-caret-left"></i></button>
-                                    <button class="btn-primary btn-sm switch-right" data-aos="fade-left" data-aos-duration="1300"> <i class="bi bi-caret-right"></i></button>
+                                    <button class="btn__primary btn__sm switch-left" data-aos="fade-left" data-aos-duration="1000"> <i class="bi bi-caret-left"></i></button>
+                                    <button class="btn__primary btn__sm switch-right" data-aos="fade-left" data-aos-duration="1300"> <i class="bi bi-caret-right"></i></button>
                                 </div>
 
                                 <h4 class="current-month-year" data-aos="fade-right" data-aos-duration="1600"></h4>
                             </div>
 
-                            <div class="calendar_weekdays" data-aos="fade-right" data-aos-duration="1900"></div>
-                            <div class="calendar_content" data-aos="fade-right" data-aos-duration="1900"></div>
+                            <div class="calendar__weekdays" data-aos="fade-right" data-aos-duration="1900"></div>
+                            <div class="calendar__content" data-aos="fade-right" data-aos-duration="1900"></div>
                         </div>
                     </div>
 
@@ -94,7 +94,7 @@
                         </div>
                     </form>
 
-                    <button class="btn-primary schedule__confirm" data-aos="fade-up" data-aos-duration="1000">Confirmar agendamento</button>
+                    <button class="btn__primary schedule__confirm" data-aos="fade-up" data-aos-duration="1000">Confirmar agendamento</button>
                 </article>
             </div>
         </section>
@@ -105,7 +105,7 @@
             <div class="modal__body"></div>
 
             <div class="modal__footer">
-                <button class="btn-primary" id="confirm_modal_btn">Confirmar</button>
+                <button class="btn__primary" id="confirm_modal_btn">Confirmar</button>
                 <button class="btn-close" id="modal_close">Cancelar</a>
             </div>
         </div>

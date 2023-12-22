@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     function fillWeekdays() {
         const weekdays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-        const weekdaysContainer = $(".calendar_weekdays");
+        const weekdaysContainer = $(".calendar__weekdays");
 
         weekdays.forEach(function (day) {
             weekdaysContainer.append("<div>" + day + "</div>");
@@ -33,7 +33,7 @@ $(document).ready(function () {
     function fillCalendarContent(year, month) {
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const calendarContent = $(".calendar_content");
+        const calendarContent = $(".calendar__content");
         calendarContent.empty();
 
         for (let i = 0; i < firstDayOfMonth; i++) {
@@ -110,8 +110,8 @@ $(document).ready(function () {
         user_choices.service = $(this).attr('data-id');
         user_choices.serviceName = $(this).attr('data-service');
 
-        $('.services__container .service').removeClass('active');
-        $(this).addClass('active');
+        $('.services__container .service').removeClass('schedule__option__selected');
+        $(this).addClass('schedule__option__selected');
 
         scrollToSection('.datetime__section');
     }
@@ -119,8 +119,8 @@ $(document).ready(function () {
     function handleTimeSelection() {
         user_choices.time = $(this).text();
 
-        $('.time__buttons button').removeClass('active');
-        $(this).addClass('active');
+        $('.time__buttons button').removeClass('schedule__option__selected');
+        $(this).addClass('schedule__option__selected');
 
         if (user_choices.time && user_choices.date) {
             scrollToSection('.message__section');
@@ -132,8 +132,8 @@ $(document).ready(function () {
 
         fillTimeChoices($(this).attr('data-time'));
 
-        $('.calendar_content div').removeClass('active');
-        $(this).addClass('active');
+        $('.calendar__content div').removeClass('schedule__option__selected');
+        $(this).addClass('schedule__option__selected');
 
         if (user_choices.time && user_choices.date) {
             scrollToSection('.message__section');
@@ -181,7 +181,7 @@ $(document).ready(function () {
     }
 
     function resetAll() {
-        $('.calendar_content div').removeClass('active');
+        $('.calendar__content div').removeClass('active');
         $('.services__container .service').removeClass('active');
         $('.time__buttons').empty();
 
@@ -274,7 +274,7 @@ $(document).ready(function () {
 
     $('.time__buttons').on('click', 'button', handleTimeSelection);
 
-    $('.calendar_content').on('click', 'div:not(.blank, .passed)', handleDateSelection);
+    $('.calendar__content').on('click', 'div:not(.blank, .passed)', handleDateSelection);
 
     $('.schedule__confirm').click(handleConfirmation);
 

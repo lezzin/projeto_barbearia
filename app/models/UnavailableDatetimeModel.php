@@ -71,7 +71,7 @@ class UnavailableDatetimeModel extends Database
     public function update($price, $id)
     {
         try {
-            $stmt = $this->pdo->prepare("UPDATE `unavailable_datetime` SET datetime = ? WHERE id = ?");
+            $stmt = $this->pdo->prepare("UPDATE `unavailable_datetime` SET `datetime` = ? WHERE id = ?");
             $stmt->execute([$price, $id]);
             return true;
         } catch (PDOException $e) {
