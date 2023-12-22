@@ -72,7 +72,7 @@ $(document).ready(function () {
     }
 
     async function fillTimeChoices(datetime) {
-        const fetchData = await fetch(`${url}schedule/get_unavailable_datetime`);
+        const fetchData = await fetch(`${url}unavailable_datetime/get_all`);
         const indisponibleTimes = await fetchData.json();
 
         const disponibleTimes = [
@@ -97,7 +97,7 @@ $(document).ready(function () {
             const check = `${datetime} ${currentTime}:00`;
             
             if (!isDatetimeUnavailable(check, indisponibleTimes)) {
-                timesContent.append(`<button>${currentTime}</button>`);
+                timesContent.append(`<button data-aos="fade-right" data-aos-duration="1000">${currentTime}</button>`);
             }
         }
     }
@@ -173,7 +173,6 @@ $(document).ready(function () {
                 if(response.success) {
                     $('.modal__body').append(`<p class="modal__alert">${response.success}</p>`);
                     $('.modal__footer').children("#modal_close").html("Fechar");
-                    resetAll();
                 } else {
                     $('.modal__body').append(`<p class="modal__alert">${response.error}</p>`);
                 }
@@ -189,6 +188,8 @@ $(document).ready(function () {
         $('#textarea_message').val('');
         $('#telephone_message').val('');
 
+        $('.modal__footer').children("#modal_close").html("Cancelar");
+
         user_choices = {
             username: '',
             tel: '',
@@ -202,6 +203,7 @@ $(document).ready(function () {
 
     function hideConfirmationModal() {
         $('.modal__overlay').removeClass('modal__active');
+        resetAll();
     }
 
     function showConfirmationModal() {

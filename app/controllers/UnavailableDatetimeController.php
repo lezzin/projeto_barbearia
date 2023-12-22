@@ -75,4 +75,11 @@ class UnavailableDatetimeController extends RenderView  {
 
         echo json_encode($msg);
     }
+
+    public function getAllUnavailableDatetimes() {
+        $unavailableDatetime = new UnavailableDatetimeModel();
+        $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
+
+        echo json_encode($allUnavailableDatetimes);
+    }
 }

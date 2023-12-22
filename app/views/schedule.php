@@ -94,7 +94,7 @@
                         </div>
                     </form>
 
-                    <button class="btn__primary schedule__confirm" data-aos="fade-up" data-aos-duration="1000">Confirmar agendamento</button>
+                    <button class="btn__primary schedule__confirm" type="button" data-aos="fade-up" data-aos-duration="1000">Confirmar agendamento</button>
                 </article>
             </div>
         </section>

@@ -25,6 +25,12 @@ class HomeController extends RenderView
         ]);
     }
 
+    public function register() {
+        $this->loadView('register', [
+            'title' => 'Registro'
+        ]);
+    }
+
     public function logout() {
       unset($_SESSION['user']);
       header("Location: " . BASE_URL . "login");

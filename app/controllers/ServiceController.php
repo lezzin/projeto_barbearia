@@ -74,4 +74,11 @@ class ServiceController extends RenderView
 
         echo json_encode($msg);
     }
+
+    public function getAllServices() {
+        $service = new ServiceModel();
+        $allServices = $service->allServices();
+
+        echo json_encode($allServices);
+    }
 }

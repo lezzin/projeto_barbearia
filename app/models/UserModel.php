@@ -28,4 +28,19 @@ class UserModel extends Database {
       return false;
     }
   }
+
+  public function create($username, $password) {
+    try {
+        $stmt = $this->pdo->prepare("INSERT INTO `user` (`name`, `password`) VALUES (?, ?)");
+        $stmt->execute([$username, $password]);
+
+        if ($this->pdo->lastInsertId() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        return false;
+    }
+  }
 }

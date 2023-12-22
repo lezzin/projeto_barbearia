@@ -8,9 +8,10 @@
             <a href="<?= BASE_URL ?>">Home</a>
             <?php if (isset($isAuth) and $isAuth): ?>
                 <a href="<?= BASE_URL . "admin"  ?>">Admin</a>
-                <a href="<?= BASE_URL . "logout"  ?>">Sair</a>
+                <a href="<?= BASE_URL . "logout"  ?>"><i class="bi bi-box-arrow-right"></i></a>
+                <a class="btn__primary" role="button" href="<?= BASE_URL . "schedule" ?>">Agende já seu horário!</a>
             <?php else: ?>
-                    <a class="btn__primary" role="button" href="<?= BASE_URL . "schedule" ?>">Agende já seu horário!</a>
+                <a href="<?= BASE_URL . "login"  ?>">Login</a>
             <?php endif; ?>
         </nav>
     </div>

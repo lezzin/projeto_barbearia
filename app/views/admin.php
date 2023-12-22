@@ -13,7 +13,7 @@
                 <form method="post" action="<?= BASE_URL . "service/save" ?>" id="form-service" data-aos="fade-right" data-aos-duration="1000">
                     <h2>Serviços</h2>
                     
-                    <input type="hidden" name="id" id="service_id">
+                    <input type="text" name="id" id="service_id" hidden>
 
                     <div class="form__alert"></div>
 
@@ -39,20 +39,7 @@
                             <th>Ação</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php foreach ($services as $service) : ?>
-                            <tr>
-                                <td data-name><?= $service["name"] ?></td>
-                                <td data-price><?= $service["price"] ?></td>
-                                <td>
-                                    <div class="actions">
-                                        <button data-edit-table="service" data-id="<?= $service["id"] ?>"><i class="bi bi-pencil"></i></button>
-                                        <button data-delete-url="<?= BASE_URL . "service/delete/{$service["id"]}" ?>" type="button"><i class="bi bi-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach ?>
-                    </tbody>
+                    <tbody data-table-services></tbody>
                 </table>
             </div>
         </section>
@@ -62,7 +49,7 @@
                 <form method="post" action="<?= BASE_URL . "unavailable_datetime/save" ?>" id="form-unavailable-datetime" data-aos="fade-right" data-aos-duration="1000">
                     <h2>Datas indisponiveis</h2>
                 
-                    <input type="hidden" id="unavailable_datetime_id" name="id">
+                    <input type="text" id="unavailable_datetime_id" name="id" hidden>
 
                     <div class="form__alert"></div>
 
@@ -86,22 +73,27 @@
                             <th>Ação</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php foreach ($unavailable_datetimes as $unavailable_datetime) : ?>
-                            <tr>
-                                <td data-date="<?= $unavailable_datetime["datetime"] ?>"><?= date_format(date_create($unavailable_datetime["datetime"]), "d/m/Y H:i:s") ?></td>
-                                <td>
-                                    <div class="actions">
-                                        <button data-edit-table="unavailable_datetime" data-id="<?= $unavailable_datetime["id"] ?>"><i class="bi bi-pencil"></i></button>
-                                        <button data-delete-url="<?= BASE_URL . "unavailable_datetime/delete/{$unavailable_datetime["id"]}" ?>"><i class="bi bi-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach ?>
-                    </tbody>
+                    <tbody data-table-unavailable-datetime></tbody>
                 </table>
             </div>
         </section>
+
+        <section class="admin__item__section">
+            <div class="container">
+                <table data-aos="fade-left" data-aos-duration="1000">
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Telefone</th>
+                            <th>Serviço</th>
+                            <th>Data</th>
+                            <th>Mensagem</th>
+                        </tr>
+                    </thead>
+                    <tbody data-table-schedules></tbody>
+                </table>
+            </div>
+        <section>
     </main>
 
     <?php include_once "templates/footer.php"; ?>

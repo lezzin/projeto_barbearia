@@ -6,6 +6,7 @@ CREATE TABLE `user` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
     `password` TEXT NOT NULL,
+    `type` INT NOT DEFAULT 1,
     PRIMARY KEY(`id`)
 );
 

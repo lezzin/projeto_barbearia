@@ -14,13 +14,6 @@ class ScheduleController extends RenderView {
         ]);
     }
 
-    public function get_unavailable_datetime() {
-        $unavailableDatetime = new UnavailableDatetimeModel();
-        $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
-        
-        echo json_encode($allUnavailableDatetimes);
-    }
-
     public function create() {
         $msg = [];
         
@@ -41,5 +34,12 @@ class ScheduleController extends RenderView {
         }
 
         echo json_encode($msg);
+    }
+
+    public function getAllSchedules(){
+        $schedule = new ScheduleModel();
+        $allSchedules = $schedule->allSchedules();
+
+        echo json_encode($allSchedules);
     }
 }
