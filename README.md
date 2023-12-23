@@ -18,9 +18,9 @@ Localmente:<br>
 
 Certifique-se de ter um software que permita a execução de projetos localmente, como o XAMPP instalado em seu sistema.
 
-- Adicione a pasta do projeto ao diretório htdocs do seu servidor local.
-- Execute os comandos DML e DDL contidos no arquivo database.sql para configurar a base de dados necessária.
-- Se necessário, faça ajustes nas variáveis presentes no arquivo config.php para personalizar as configurações conforme suas necessidades.
+- Adicione a pasta do projeto ao diretório ```htdocs``` do seu servidor local.
+- Execute os comandos DML e DDL contidos no arquivo ```database.sql``` para configurar a base de dados necessária.
+- Se necessário, faça ajustes nas variáveis presentes no arquivo ```config.php``` para personalizar as configurações conforme suas necessidades.
 - Agora, abra seu navegador web e acesse o projeto digitando o endereço ```localhost/projeto_barbearia``` (caso o nome da pasta não tenha sido alterado).
 
 Hospedagem:<br>
