@@ -60,6 +60,7 @@ h2 {
     max-width: 1080px;
     margin: 0 auto;
     width: calc(100% - 1.5rem);
+    overflow-x: hidden;
 }
 
 .container.container__centered {
