@@ -88,6 +88,20 @@ body {
     padding-left: 1.5rem;
 }
 
+@media (max-width: 768px) {
+    .hero__section {
+        padding-bottom: 8rem;
+    }
+
+    .hero__section .hero__section__info h1 {
+        font-size: 2.6rem;
+    }
+    
+    .hero__section .hero__section__info {
+        width: 100%;
+    }
+}
+
 .services__section {
     background-color: var(--bg-secondary);
     text-align: center;
@@ -149,6 +163,12 @@ body {
 .informations__section .contact__container p {
     display: flex;
     gap: .6rem;
+}
+
+@media (max-width: 768px) {
+    .hero__section .container {
+        padding-top: 10vh;
+    }
 }
 
 .service__type__section {

@@ -16,7 +16,7 @@ class ScheduleController extends RenderView {
             'services' => $allServices,
             'isAuth' => isset($_SESSION['user']),
             'isAdm' => isset($_SESSION['user']) and $_SESSION['adm'],
-            'userData' => $_SESSION['user'],
+            'userData' => $_SESSION['user'] ?? [],
         ]);
     }
 

@@ -80,12 +80,12 @@
                     <form>
                         <div class="form__group" data-aos="fade-left" data-aos-duration="1300">
                             <label for="username">Nome </label>
-                            <input type="text" id="username_message" placeholder="José da Silva" value="<?= $userData["name"] ?>">
+                            <input type="text" id="username_message" placeholder="José da Silva" value="<?= $userData["name"] ?? "" ?>">
                         </div>
 
                         <div class="form__group" data-aos="fade-left" data-aos-duration="1600">
                             <label for="telephone">Telefone para contato </label>
-                            <input type="tel" id="telephone_message" placeholder="35 99999-9999" value="<?= $userData["tel"] ?>">
+                            <input type="tel" id="telephone_message" placeholder="35 99999-9999" value="<?= $userData["tel"] ?? "" ?>">
                         </div>
 
                         <div class="form__group" data-aos="fade-left" data-aos-duration="1900">
@@ -94,7 +94,7 @@
                         </div>
                     </form>
 
-                    <button class="btn__primary schedule__confirm" type="button" data-aos="fade-up" data-aos-duration="1000">Confirmar agendamento</button>
+                    <button class="btn__primary schedule__confirm" type="button" data-aos="fade-left" data-aos-duration="2000">Confirmar agendamento</button>
                 </article>
             </div>
         </section>

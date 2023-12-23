@@ -25,7 +25,7 @@
 
         <section class="services__section">
             <div class="container">
-                <h2 data-aos="fade-down" data-aos-duration="1000">Serviços</h2>
+                <h2 data-aos="zoom-in" data-aos-duration="1000">Serviços</h2>
 
                 <div class="services__container">
                     <?php foreach ($services as $service) : ?>
@@ -40,7 +40,7 @@
 
         <section class="informations__section bg-up">
             <div class="container">
-                <h2 data-aos="fade-down" data-aos-duration="1000">Contato</h2>
+                <h2 data-aos="zoom-in" data-aos-duration="1000">Contato</h2>
 
                 <div class="contact__container">
                     <p data-aos="fade-left" data-aos-duration="1300">

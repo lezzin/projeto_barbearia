@@ -2,6 +2,7 @@
 .bg-down,
 .container {
     position: relative;
+    overflow-x: hidden;
 }
 
 .bg-up::after,
@@ -29,6 +30,12 @@
     width: 100%;
     text-align: left;
     transition: transform linear;
+}
+
+@media (max-width: 768px)  {
+    .title__background {
+        display: none;
+    }
 }
 
 .service__title__background {
@@ -60,7 +67,6 @@ h2 {
     max-width: 1080px;
     margin: 0 auto;
     width: calc(100% - 1.5rem);
-    overflow-x: hidden;
 }
 
 .container.container__centered {
@@ -142,6 +148,7 @@ form {
     gap: 1rem;
     width: 100%;
     max-width: 400px;
+    text-align: left;
 }
 
 form h2 {
