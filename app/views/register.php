@@ -19,6 +19,11 @@
                         <input type="text" id="username" name="username">
                     </div>
 
+                    <div class="form__group" data-aos="fade-right" data-aos-duration="1000">
+                        <label for="tel">Telefone</label>
+                        <input type="tel" id="tel" name="tel">
+                    </div>
+
                     <div class="form__group" data-aos="fade-right" data-aos-duration="1300">
                         <label for="password">Senha</label>
                         <input type="password" id="password" name="password">

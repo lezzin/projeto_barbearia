@@ -1,8 +1,7 @@
 
 <?php
 
-class ServiceModel extends Database
-{
+class ServiceModel extends Database {
     private $pdo;
 
     public function __construct() {
@@ -25,25 +24,9 @@ class ServiceModel extends Database
         }
     }
 
-    public function getTotalServices()
-    {
+    public function allServices() {
         try {
-            $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM service");
-
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-            } else {
-                return [];
-            }
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
-
-    public function allServices()
-    {
-        try {
-            $stmt = $this->pdo->query("SELECT * FROM service");
+            $stmt = $this->pdo->query("SELECT * FROM `service` ORDER BY `name`");
 
             if ($stmt->rowCount() > 0) {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -58,7 +41,7 @@ class ServiceModel extends Database
     public function fetchService($id)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM service WHERE id = ?");
+            $stmt = $this->pdo->prepare("SELECT * FROM `service` WHERE id = ?");
             $stmt->execute([$id]);
 
             if ($stmt->rowCount() > 0) {
@@ -74,7 +57,7 @@ class ServiceModel extends Database
     public function update($name, $price, $id)
     {
         try {
-            $stmt = $this->pdo->prepare("UPDATE service SET name = ?, price = ? WHERE id = ?");
+            $stmt = $this->pdo->prepare("UPDATE `service` SET `name` = ?, `price` = ? WHERE id = ?");
             $stmt->execute([$name, $price, $id]);
             return true;
         } catch (PDOException $e) {
@@ -82,8 +65,7 @@ class ServiceModel extends Database
         }
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM `service` WHERE id = ?");
             $stmt->execute([$id]);

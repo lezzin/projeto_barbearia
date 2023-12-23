@@ -1,6 +1,6 @@
 <?php
 
-class UnavailableDatetimeModel extends Database {
+class ContactInfoModel extends Database {
     private $pdo;
 
     public function __construct() {
@@ -8,10 +8,10 @@ class UnavailableDatetimeModel extends Database {
         $this->pdo = $conn;
     }
 
-    public function create($datetime) {
+    public function create($email, $address, $tel, $whatsapp) {
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO `unavailable_datetime` (`datetime`) VALUES (?)");
-            $stmt->execute([$datetime]);
+            $stmt = $this->pdo->prepare("INSERT INTO `contact_info` (`email`, `address`, `tel`, `whatsapp`) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$email, $address, $tel, $whatsapp]);
 
             if ($this->pdo->lastInsertId() > 0) {
                 return true;
@@ -23,9 +23,9 @@ class UnavailableDatetimeModel extends Database {
         }
     }
 
-    public function allUnavailableDatetimes() {
+    public function allContactInfos() {
         try {
-            $stmt = $this->pdo->query("SELECT * FROM `unavailable_datetime`");
+            $stmt = $this->pdo->query("SELECT * FROM `contact_info`");
 
             if ($stmt->rowCount() > 0) {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,10 +37,10 @@ class UnavailableDatetimeModel extends Database {
         }
     }
 
-    public function update($price, $id) {
+    public function update($email, $address, $tel, $whatsapp, $id) {
         try {
-            $stmt = $this->pdo->prepare("UPDATE `unavailable_datetime` SET `datetime` = ? WHERE id = ?");
-            $stmt->execute([$price, $id]);
+            $stmt = $this->pdo->prepare("UPDATE `contact_info` SET `email` = ?, `address` = ?, `tel` = ?, `whatsapp` = ? WHERE id = ?");
+            $stmt->execute([$email, $address, $tel, $whatsapp, $id]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -50,7 +50,7 @@ class UnavailableDatetimeModel extends Database {
     public function delete($id)
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM `unavailable_datetime` WHERE id = ?");
+            $stmt = $this->pdo->prepare("DELETE FROM `contact_info` WHERE id = ?");
             $stmt->execute([$id]);
             if ($stmt->rowCount() > 0) {
                 return true;

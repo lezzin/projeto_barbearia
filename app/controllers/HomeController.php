@@ -6,12 +6,17 @@ class HomeController extends RenderView
 {
     public function index() {
         $service = new ServiceModel();
+        $contactInfo = new ContactInfoModel();
+
         $allServices = $service->allServices();
+        $allContactInfos = $contactInfo->allContactInfos()[0];
 
         $this->loadView('home', [
             'title' => 'Home',
+            'contact_info' => $allContactInfos,
             'services' => $allServices,
             'isAuth' => isset($_SESSION['user']),
+            'isAdm' => isset($_SESSION['user']) and $_SESSION['adm'],
         ]);
     }
 
@@ -53,6 +58,7 @@ class HomeController extends RenderView
             $msg['success'] = "Usuário autenticado com sucesso!";
             $msg['url'] = BASE_URL;
             $_SESSION['user'] = $user;
+            $_SESSION['adm'] = $user["type"] == 2;
         } else {
             $msg['error'] = "Usuário não autenticado!";
         }

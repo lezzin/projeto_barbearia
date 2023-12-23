@@ -1,8 +1,7 @@
 
 <?php
 
-class ScheduleModel extends Database
-{
+class ScheduleModel extends Database {
     private $pdo;
 
     public function __construct() {
@@ -25,25 +24,9 @@ class ScheduleModel extends Database
         }
     }
 
-    public function getTotalSchedules()
-    {
+    public function allSchedules() {
         try {
-            $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM `schedule`");
-
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-            } else {
-                return [];
-            }
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
-
-    public function allSchedules()
-    {
-        try {
-            $stmt = $this->pdo->query("SELECT * FROM `schedule`");
+            $stmt = $this->pdo->query("SELECT `schedule`.*, `service`.`name` as `service`, `service`.`price` as `service_price` FROM `schedule`  inner join `service` on `service`.`id` = `schedule`.`service_id` WHERE `service`.`id` = `schedule`.`service_id` order by `datetime`");
 
             if ($stmt->rowCount() > 0) {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -55,24 +38,7 @@ class ScheduleModel extends Database
         }
     }
 
-    public function fetchSchedule($id)
-    {
-        try {
-            $stmt = $this->pdo->prepare("SELECT * FROM `schedule` WHERE id = ?");
-            $stmt->execute([$id]);
-
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return false;
-            }
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-
-    public function update($user, $tel, $service_id, $datetime, $message, $id)
-    {
+    public function update($user, $tel, $service_id, $datetime, $message, $id) {
         try {
             $stmt = $this->pdo->prepare("UPDATE `schedule` SET `user` = ?, `tel` = ?, `service_id` = ?, `datetime` = ?, `message` = ? WHERE id = ?");
             $stmt->execute([$user, $tel, $service_id, $datetime, $message, $id]);
@@ -82,8 +48,7 @@ class ScheduleModel extends Database
         }
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM `schedule` WHERE id = ?");
             $stmt->execute([$id]);

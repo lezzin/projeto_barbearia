@@ -20,7 +20,7 @@ class UserModel extends Database {
       }
 
       if (password_verify($password, $user['password'])) {
-        return $user['id'];
+        return $user;
       } else {
         return false;
       }
@@ -29,10 +29,10 @@ class UserModel extends Database {
     }
   }
 
-  public function create($username, $password) {
+  public function create($username, $tel, $password) {
     try {
-        $stmt = $this->pdo->prepare("INSERT INTO `user` (`name`, `password`) VALUES (?, ?)");
-        $stmt->execute([$username, $password]);
+        $stmt = $this->pdo->prepare("INSERT INTO `user` (`name`, `tel`, `password`) VALUES (?, ?, ?)");
+        $stmt->execute([$username, $tel, $password]);
 
         if ($this->pdo->lastInsertId() > 0) {
             return true;

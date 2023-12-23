@@ -1,5 +1,18 @@
 $(document).ready(function () {    
     const url =  $("span#url").text();
+    
+    function formatDate(dateToFormat) {
+        const datetime =  new Date(dateToFormat);
+        const date = datetime.toLocaleDateString();
+        const time = datetime.toLocaleTimeString();
+        
+        return `${date} ${time}`;
+    }
+
+    function formatToPrice(number) {
+        const price = String(number).replace(".", ",");
+        return `R$${price}`;
+    }
 
     async function getServices() {
         const data = await fetch(`${url}service/get_all`);
@@ -10,7 +23,7 @@ $(document).ready(function () {
             $("[data-table-services]").append(`
                 <tr>
                     <td data-name>${service.name}</td>
-                    <td data-price>${service.price}</td>
+                    <td data-price>${formatToPrice(service.price)}</td>
                     <td>
                         <div class="actions">
                             <button data-edit-table="service" data-id="${service.id}"><i class="bi bi-pencil"></i></button>
@@ -22,6 +35,27 @@ $(document).ready(function () {
         })
     }
 
+    async function getContact() {
+        const data = await fetch(`${url}contact/get_all`);
+        const contact = await data.json();
+        $("[data-table-contact]").empty();
+
+        $("[data-table-contact]").append(`
+            <tr>
+                <td data-email>${contact.email}</td>
+                <td data-address>${contact.address}</td>
+                <td data-tel>${contact.tel}</td>
+                <td data-whatsapp>${contact.whatsapp}</td>
+                <td>
+                    <div class="actions">
+                        <button data-edit-table="contact" data-id="${contact.id}"><i class="bi bi-pencil"></i></button>
+                        <button data-delete-url="${url}contact/delete/${contact.id}"" type="button"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        `);
+    }
+
     async function getUnavailableDatetimes() {
         const data = await fetch(`${url}unavailable_datetime/get_all`);
         const unavailableDatetimes = await data.json();
@@ -30,7 +64,7 @@ $(document).ready(function () {
         unavailableDatetimes.forEach(unavailable_datetime => {
             $("[data-table-unavailable-datetime]").append(`
                 <tr>
-                    <td data-date="${unavailable_datetime.datetime}">${unavailable_datetime.datetime}</td>
+                    <td data-date="${unavailable_datetime.datetime}">${formatDate(unavailable_datetime.datetime)}</td>
                     <td>
                         <div class="actions">
                             <button data-edit-table="unavailable_datetime" data-id="${unavailable_datetime.id}"><i class="bi bi-pencil"></i></button>
@@ -53,14 +87,15 @@ $(document).ready(function () {
                     <td>${schedule.user}</td>
                     <td>${schedule.tel}</td>
                     <td>${schedule.service}</td>
-                    <td>${schedule.message}</td>
-                    <td>${schedule.message}</td>
+                    <td>${formatToPrice(schedule.service_price)}</td>
+                    <td>${formatDate(schedule.datetime)}</td>
+                    <td>${schedule.message ? schedule.message : "---"}</td>
                 </tr>
             `);
         })
     }
 
-    $('#form-service').submit(function(e) {
+    $('#form-contact-info').submit(function(e) {
         e.preventDefault();
     
         const formData = $(this).serialize();
@@ -79,7 +114,30 @@ $(document).ready(function () {
                 }
 
                 $(this).trigger("reset");
-                getServices();
+            getContact();
+            })
+    });
+
+    $('#form-service').submit(function(e) {
+        e.preventDefault();
+    
+        const formData = $(this).serialize();
+        const action = $(this).attr('action');
+        const alert = $(this).children(".form__alert");
+    
+        $.post(action, formData)
+            .done(data => {
+                const response = JSON.parse(data);
+                alert.empty();
+                
+                if(response.success) {
+                    alert.append(`<div class="success"><p>${response.success}</p></div>`);
+                    getServices();
+                } else {
+                    alert.append(`<div class="error"><p>${response.error}</p></div>`);
+                }
+
+                $(this).trigger("reset");
             })
     });
 
@@ -97,12 +155,12 @@ $(document).ready(function () {
                 
                 if(response.success) {
                     alert.append(`<div class="success"><p>${response.success}</p></div> `);
+                    getUnavailableDatetimes();
                 } else {
                     alert.append(`<div class="error"><p>${response.error}</p></div>`);
                 }
 
                 $(this).trigger("reset");
-                getUnavailableDatetimes();
             })
     });
 
@@ -118,12 +176,13 @@ $(document).ready(function () {
     
                 if(response.success) {
                     alert.append(`<div class="success"><p>${response.success}</p></div>`);
+                    getServices();
+                    getUnavailableDatetimes();
+                    getContact();
                 } else {
                     alert.append(`<div class="error"><p>${response.error}</p></div>`);
                 }
-
-                getServices();
-                getUnavailableDatetimes();
+                
             });
     });
 
@@ -152,6 +211,20 @@ $(document).ready(function () {
                 $("#unavailable_datetime_id").val(id);
                 break;
 
+            case 'contact': 
+                const tdEmail = $(this).parents(".actions").parents("td").siblings("td[data-email]").text();
+                const tdAddress = $(this).parents(".actions").parents("td").siblings("td[data-address]").text();
+                const tdTel = $(this).parents(".actions").parents("td").siblings("td[data-tel]").text();
+                const tdWhatsapp = $(this).parents(".actions").parents("td").siblings("td[data-whatsapp]").text();
+
+                $("#contact_info_email").val(tdEmail);
+                $("#contact_info_address").val(tdAddress);
+                $("#contact_info_tel").val(tdTel);
+                $("#contact_info_whatsapp").val(tdWhatsapp);
+                $("#contact_info_id").val(id);
+
+                break;
+                
             default:
                 break;
         }
@@ -159,5 +232,6 @@ $(document).ready(function () {
 
     getServices();
     getUnavailableDatetimes();
+    getContact();
     getSchedules();
 });

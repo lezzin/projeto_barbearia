@@ -5,12 +5,13 @@ USE `barbearia`;
 CREATE TABLE `user` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
+    `tel` VARCHAR(45),
     `password` TEXT NOT NULL,
-    `type` INT NOT DEFAULT 1,
+    `type` INT NOT NULL DEFAULT 1,
     PRIMARY KEY(`id`)
 );
 
-INSERT INTO `user` (`name`, `password`) VALUES ("adm", "$2y$10$34zXSGF5yVuDp/Q09rCZnu2FtBNZF.4bZectqBLvM4BGGqFhScXXq");
+INSERT INTO `user` (`name`, `password`, `type`) VALUES ("adm", "$2y$10$34zXSGF5yVuDp/Q09rCZnu2FtBNZF.4bZectqBLvM4BGGqFhScXXq", 2);
 
 CREATE TABLE `service` (
     `id` INT NOT NULL AUTO_INCREMENT,
@@ -35,5 +36,13 @@ CREATE TABLE `schedule` (
     PRIMARY KEY(`id`)
 );
 
-ALTER TABLE `schedule` ADD CONSTRAINT `fk_schedule_service_id` FOREIGN KEY ( `service_id` ) REFERENCES `service` ( `id` ) ON DELETE CASCADE;
+CREATE TABLE `contact_info` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(45) NOT NULL,
+    `address` VARCHAR(45) NOT NULL,
+    `tel` VARCHAR(45) NOT NULL,
+    `whatsapp` VARCHAR(45) NOT NULL,
+    PRIMARY KEY(`id`)
+)
 
+ALTER TABLE `schedule` ADD CONSTRAINT `fk_schedule_service_id` FOREIGN KEY ( `service_id` ) REFERENCES `service` ( `id` ) ON DELETE CASCADE;

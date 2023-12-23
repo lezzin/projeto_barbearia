@@ -4,6 +4,10 @@ session_start();
 
 class ScheduleController extends RenderView {
     public function index() {
+        if ((isset($_SESSION['adm'])) and $_SESSION['adm']) {
+            header('Location: ' . BASE_URL . 'admin') ;
+        }
+
         $service = new ServiceModel();
         $allServices = $service->allServices();
         
@@ -11,6 +15,8 @@ class ScheduleController extends RenderView {
             'title' => 'Agendamento',
             'services' => $allServices,
             'isAuth' => isset($_SESSION['user']),
+            'isAdm' => isset($_SESSION['user']) and $_SESSION['adm'],
+            'userData' => $_SESSION['user'],
         ]);
     }
 

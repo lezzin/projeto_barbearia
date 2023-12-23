@@ -7,11 +7,19 @@
         <nav data-aos="fade-down" data-aos-duration="1000">
             <a href="<?= BASE_URL ?>">Home</a>
             <?php if (isset($isAuth) and $isAuth): ?>
-                <a href="<?= BASE_URL . "admin"  ?>">Admin</a>
+
+                <?php if ($isAdm): ?>
+                    <a href="<?= BASE_URL . "admin"  ?>">Admin</a>
+                <?php else: ?>
+                    <a class="btn__primary" role="button" href="<?= BASE_URL . "schedule" ?>">Agende já seu horário!</a>
+                <?php endif; ?>
+
                 <a href="<?= BASE_URL . "logout"  ?>"><i class="bi bi-box-arrow-right"></i></a>
-                <a class="btn__primary" role="button" href="<?= BASE_URL . "schedule" ?>">Agende já seu horário!</a>
+
             <?php else: ?>
+
                 <a href="<?= BASE_URL . "login"  ?>">Login</a>
+                
             <?php endif; ?>
         </nav>
     </div>

@@ -10,9 +10,10 @@ class UserController extends RenderView
         $user = new UserModel();
 
         $username = $_POST["username"];
+        $tel = $_POST["tel"];
         $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
-        if ($user->create($username, $password)) {
+        if ($user->create($username, $tel, $password)) {
             $msg['success'] = "Usuário criado com sucesso!";
             $msg['url'] = BASE_URL . 'login';
         } else {

@@ -143,6 +143,10 @@ form {
     max-width: 400px;
 }
 
+form h2 {
+    text-align: center;
+}
+
 input,
 textarea {
     background-color: var(--bg-secondary);
@@ -191,6 +195,10 @@ th {
 
 th {
     background-color: var(--bg-secondary);
+}
+
+th[colspan] {
+    font-size: 1.2rem;
 }
 
 table .actions {

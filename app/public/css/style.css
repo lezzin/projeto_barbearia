@@ -285,13 +285,25 @@ article {
     width: max-content;
 }
 
+.admin__item__section:first-of-type {
+    margin-top: calc(10vh + 1rem);
+} 
+
+.admin__item__section:last-of-type {
+    margin-bottom: 10vh;
+} 
+
 .admin__item__section .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: start;
     place-content: center;
-    min-height: 100vh;
+    padding: 1rem 0;
     gap: 1rem;
+}
+
+.admin__item__section.admin__item__section__rows .container {
+    grid-template-columns: 1fr;
 }
 
 @media (max-width: 768px) {

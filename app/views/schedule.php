@@ -80,12 +80,12 @@
                     <form>
                         <div class="form__group" data-aos="fade-left" data-aos-duration="1300">
                             <label for="username">Nome </label>
-                            <input type="text" id="username_message" placeholder="José da Silva">
+                            <input type="text" id="username_message" placeholder="José da Silva" value="<?= $userData["name"] ?>">
                         </div>
 
                         <div class="form__group" data-aos="fade-left" data-aos-duration="1600">
                             <label for="telephone">Telefone para contato </label>
-                            <input type="tel" id="telephone_message" placeholder="35 99999-9999">
+                            <input type="tel" id="telephone_message" placeholder="35 99999-9999" value="<?= $userData["tel"] ?>">
                         </div>
 
                         <div class="form__group" data-aos="fade-left" data-aos-duration="1900">
