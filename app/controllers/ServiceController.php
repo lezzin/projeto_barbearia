@@ -22,13 +22,18 @@ class ServiceController extends RenderView
 
         $service = new ServiceModel();
 
-        $name = $_POST['name'];
-        $price = $_POST['price'];
+        $name = $_POST['name']; 
 
-        if ($service->create($name, $price)) {
-            $msg['success'] = "Serviço criado com sucesso!";
+        if ($service->fetchByName($name)) {
+            $msg['error'] = "Serviço já cadastrado!";
         } else {
-            $msg['error'] = "Erro ao criar serviço.";
+            $price = $_POST['price'];
+
+            if ($service->create($name, $price)) {
+                $msg['success'] = "Serviço criado com sucesso!";
+            } else {
+                $msg['error'] = "Erro ao criar serviço.";
+            }
         }
 
         echo json_encode($msg);

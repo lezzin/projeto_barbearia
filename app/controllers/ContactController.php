@@ -22,7 +22,7 @@ class ContactController extends RenderView
 
         $contactInfo = new ContactInfoModel();
 
-        if (sizeof($contactInfo->allContactInfos()[0]) > 0) {
+        if (sizeof($contactInfo->allContactInfos()) > 0) {
             $msg['error'] = "Você pode ter somente uma informação de contato";
         } else {
             $email = $_POST['email'];
@@ -84,7 +84,7 @@ class ContactController extends RenderView
 
     public function getContactInfo() {
         $contactInfo = new ContactInfoModel();
-        $allContactInfos = $contactInfo->allContactInfos()[0];
+        $allContactInfos = $contactInfo->allContactInfos();
 
         echo json_encode($allContactInfos);
     }

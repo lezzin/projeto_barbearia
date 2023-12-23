@@ -30,7 +30,7 @@
                     </div>
 
                     <button class="btn__primary" type="submit" data-aos="fade-right" data-aos-duration="1600">Registrar</button>
-                    <a href="<?= BASE_URL . "login" ?>" data-aos="fade-right" data-aos-duration="1900">LJá tenho conta</a>
+                    <a href="<?= BASE_URL . "login" ?>" data-aos="fade-right" data-aos-duration="1900">Já tenho conta</a>
                 </form>
             </div>
         </section>

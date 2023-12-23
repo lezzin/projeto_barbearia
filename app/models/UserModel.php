@@ -43,4 +43,19 @@ class UserModel extends Database {
         return false;
     }
   }
+
+  public function fetchByName($name) {
+    try {
+        $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `name` = ?");
+        $stmt->execute([$name]);
+
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        return false;
+    }           
+  }
 }

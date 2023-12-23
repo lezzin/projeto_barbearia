@@ -47,8 +47,7 @@ class UnavailableDatetimeModel extends Database {
         }
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM `unavailable_datetime` WHERE id = ?");
             $stmt->execute([$id]);
@@ -60,5 +59,20 @@ class UnavailableDatetimeModel extends Database {
         } catch (PDOException $e) {
             return false;
         }
+    }
+
+    public function fetchByDatetime($datetime) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM `unavailable_datetime` WHERE `datetime` = ?");
+            $stmt->execute([$datetime]);
+
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            return false;
+        }           
     }
 }

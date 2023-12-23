@@ -5,8 +5,8 @@ session_start();
 class AdminController extends RenderView
 {
     public function index() {
-        if ((isset($_SESSION['adm'])) and !$_SESSION['adm']) {
-            header('Location: ' . BASE_URL);
+        if ((!isset($_SESSION['user'])) || !$_SESSION['adm']) {
+            header('Location: ' . BASE_URL) ;
         }
 
         $this->loadView('admin', [

@@ -25,10 +25,14 @@ class UnavailableDatetimeController extends RenderView  {
         $time = $_POST['time'];
         $datetime = $date . ' ' . $time;
 
-        if ($unavailableDatetime->create($datetime)) {
-            $msg['success'] = "Data adicionada com sucesso!";
+        if ($unavailableDatetime->fetchByDatetime($datetime)) {
+            $msg['error'] = "Data já cadastrada!";
         } else {
-            $msg['error'] = "Erro ao adicionar data.";
+            if ($unavailableDatetime->create($datetime)) {
+                $msg['success'] = "Data adicionada com sucesso!";
+            } else {
+                $msg['error'] = "Erro ao adicionar data.";
+            }
         }
 
         echo json_encode($msg);

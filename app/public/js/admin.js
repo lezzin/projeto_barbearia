@@ -1,11 +1,10 @@
-$(document).ready(function () {    
-    const url =  $("span#url").text();
-    
+$(document).ready(function () {
+    const url = $("span#url").text();
+
     function formatDate(dateToFormat) {
-        const datetime =  new Date(dateToFormat);
+        const datetime = new Date(dateToFormat);
         const date = datetime.toLocaleDateString();
         const time = datetime.toLocaleTimeString();
-        
         return `${date} ${time}`;
     }
 
@@ -14,33 +13,35 @@ $(document).ready(function () {
         return `R$${price}`;
     }
 
-    async function getServices() {
-        const data = await fetch(`${url}service/get_all`);
-        const services = await data.json();
-        $("[data-table-services]").empty();
-        
-        services.forEach(service => {
-            $("[data-table-services]").append(`
-                <tr>
-                    <td data-name>${service.name}</td>
-                    <td data-price>${formatToPrice(service.price)}</td>
-                    <td>
-                        <div class="actions">
-                            <button data-edit-table="service" data-id="${service.id}"><i class="bi bi-pencil"></i></button>
-                            <button data-delete-url="${url}service/delete/${service.id}"" type="button"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-            `);
-        })
+    async function fetchData(endpoint) {
+        const data = await fetch(`${url}${endpoint}`);
+        return data.json();
     }
 
-    async function getContact() {
-        const data = await fetch(`${url}contact/get_all`);
-        const contact = await data.json();
-        $("[data-table-contact]").empty();
+    function populateTable($table, data, template) {
+        $table.empty();
 
-        $("[data-table-contact]").append(`
+        data.forEach(item => {
+            $table.append(template(item));
+        });
+    }
+
+    function getServiceRowTemplate(service) {
+        return `
+            <tr>
+                <td data-name>${service.name}</td>
+                <td data-price>${formatToPrice(service.price)}</td>
+                <td>
+                    <div class="actions">
+                        <button data-edit-table="service" data-id="${service.id}"><i class="bi bi-pencil"></i></button>
+                        <button data-delete-url="${url}service/delete/${service.id}" type="button"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>
+            </tr>`;
+    }
+
+    function getContactRowTemplate(contact) {
+        return `
             <tr>
                 <td data-email>${contact.email}</td>
                 <td data-address>${contact.address}</td>
@@ -49,169 +50,125 @@ $(document).ready(function () {
                 <td>
                     <div class="actions">
                         <button data-edit-table="contact" data-id="${contact.id}"><i class="bi bi-pencil"></i></button>
-                        <button data-delete-url="${url}contact/delete/${contact.id}"" type="button"><i class="bi bi-trash"></i></button>
+                        <button data-delete-url="${url}contact/delete/${contact.id}" type="button"><i class="bi bi-trash"></i></button>
                     </div>
                 </td>
-            </tr>
-        `);
+            </tr>`;
     }
 
-    async function getUnavailableDatetimes() {
-        const data = await fetch(`${url}unavailable_datetime/get_all`);
-        const unavailableDatetimes = await data.json();
-        $("[data-table-unavailable-datetime]").empty();
-        
-        unavailableDatetimes.forEach(unavailable_datetime => {
-            $("[data-table-unavailable-datetime]").append(`
-                <tr>
-                    <td data-date="${unavailable_datetime.datetime}">${formatDate(unavailable_datetime.datetime)}</td>
-                    <td>
-                        <div class="actions">
-                            <button data-edit-table="unavailable_datetime" data-id="${unavailable_datetime.id}"><i class="bi bi-pencil"></i></button>
-                            <button data-delete-url="${url}unavailable_datetime/delete/${unavailable_datetime.id}"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-            `);
-        })
+    function getUnavailableDatetimeRowTemplate(unavailableDatetime) {
+        return `
+            <tr>
+                <td data-date="${unavailableDatetime.datetime}">${formatDate(unavailableDatetime.datetime)}</td>
+                <td>
+                    <div class="actions">
+                        <button data-edit-table="unavailable_datetime" data-id="${unavailableDatetime.id}"><i class="bi bi-pencil"></i></button>
+                        <button data-delete-url="${url}unavailable_datetime/delete/${unavailableDatetime.id}"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>
+            </tr>`;
     }
 
-    async function getSchedules() {
-        const data = await fetch(`${url}schedule/get_all`);
-        const schedules = await data.json();
-        $("[data-table-schedules]").empty();
-        
-        schedules.forEach(schedule => {
-            $("[data-table-schedules]").append(`
-                <tr>
-                    <td>${schedule.user}</td>
-                    <td>${schedule.tel}</td>
-                    <td>${schedule.service}</td>
-                    <td>${formatToPrice(schedule.service_price)}</td>
-                    <td>${formatDate(schedule.datetime)}</td>
-                    <td>${schedule.message ? schedule.message : "---"}</td>
-                </tr>
-            `);
-        })
+    function getScheduleRowTemplate(schedule) {
+        return `
+            <tr>
+                <td>${schedule.user}</td>
+                <td>${schedule.tel}</td>
+                <td>${schedule.service}</td>
+                <td>${formatToPrice(schedule.service_price)}</td>
+                <td>${formatDate(schedule.datetime)}</td>
+                <td>${schedule.message ? schedule.message : "---"}</td>
+            </tr>`;
     }
 
-    $('#form-contact-info').submit(function(e) {
+    async function updateTable($table, endpoint, rowTemplate) {
+        const data = await fetchData(endpoint);
+        populateTable($table, data, rowTemplate);
+    }
+
+    $('#form-contact-info, #form-service, #form-unavailable-datetime').submit(async function (e) {
         e.preventDefault();
-    
-        const formData = $(this).serialize();
-        const action = $(this).attr('action');
-        const alert = $(this).children(".form__alert");
-    
-        $.post(action, formData)
-            .done(data => {
-                const response = JSON.parse(data);
-                alert.empty();
-                
-                if(response.success) {
-                    alert.append(`<div class="success"><p>${response.success}</p></div>`);
-                } else {
-                    alert.append(`<div class="error"><p>${response.error}</p></div>`);
-                }
 
-                $(this).trigger("reset");
-            getContact();
-            })
-    });
-
-    $('#form-service').submit(function(e) {
-        e.preventDefault();
-    
-        const formData = $(this).serialize();
-        const action = $(this).attr('action');
-        const alert = $(this).children(".form__alert");
-    
-        $.post(action, formData)
-            .done(data => {
-                const response = JSON.parse(data);
-                alert.empty();
-                
-                if(response.success) {
-                    alert.append(`<div class="success"><p>${response.success}</p></div>`);
-                    getServices();
-                } else {
-                    alert.append(`<div class="error"><p>${response.error}</p></div>`);
-                }
-
-                $(this).trigger("reset");
-            })
-    });
-
-    $('#form-unavailable-datetime').submit(function(e) {
-        e.preventDefault();
-    
         const formData = $(this).serialize();
         const action = $(this).attr('action');
         const alert = $(this).children(".form__alert");
 
-        $.post(action, formData)
-            .done(data => {
-                const response = JSON.parse(data);
-                alert.empty();
-                
-                if(response.success) {
-                    alert.append(`<div class="success"><p>${response.success}</p></div> `);
-                    getUnavailableDatetimes();
-                } else {
-                    alert.append(`<div class="error"><p>${response.error}</p></div>`);
-                }
+        try {
+            const response = await $.post(action, formData);
+            const jsonResponse = JSON.parse(response);
+            alert.empty();
 
-                $(this).trigger("reset");
-            })
+            if (jsonResponse.success) {
+                alert.append(`<div class="success"><p>${jsonResponse.success}</p></div>`);
+
+                switch ($(this).attr('id')) {
+                    case 'form-contact-info':
+                        updateTable($("[data-table-contact]"), 'contact/get_all', getContactRowTemplate);
+                        break;
+                    case 'form-service':
+                        updateTable($("[data-table-services]"), 'service/get_all', getServiceRowTemplate);
+                        break;
+                    case 'form-unavailable-datetime':
+                        updateTable($("[data-table-unavailable-datetime]"), 'unavailable_datetime/get_all', getUnavailableDatetimeRowTemplate);
+                        break;
+                }
+            } else {
+                alert.append(`<div class="error"><p>${jsonResponse.error}</p></div>`);
+            }
+
+            $(this).trigger("reset");
+        } catch (error) {
+            console.error("Error:", error);
+        }
     });
 
-
-    $('.admin__item__section').on('click', '[data-delete-url]', function() {
+    $('.admin__item__section').on('click', '[data-delete-url]', async function () {
         const action = $(this).attr('data-delete-url');
         const alert = $(this).parents(".container").children("form").children(".form__alert");
-    
-        $.post(action)
-            .done(data => {
-                const response = JSON.parse(data);
-                alert.empty();
-    
-                if(response.success) {
-                    alert.append(`<div class="success"><p>${response.success}</p></div>`);
-                    getServices();
-                    getUnavailableDatetimes();
-                    getContact();
-                } else {
-                    alert.append(`<div class="error"><p>${response.error}</p></div>`);
-                }
-                
-            });
+
+        try {
+            const response = await $.post(action);
+            const jsonResponse = JSON.parse(response);
+            alert.empty();
+
+            if (jsonResponse.success) {
+                alert.append(`<div class="success"><p>${jsonResponse.success}</p></div>`);
+                updateTable($("[data-table-services]"), 'service/get_all', getServiceRowTemplate);
+                updateTable($("[data-table-unavailable-datetime]"), 'unavailable_datetime/get_all', getUnavailableDatetimeRowTemplate);
+                updateTable($("[data-table-contact]"), 'contact/get_all', getContactRowTemplate);
+            } else {
+                alert.append(`<div class="error"><p>${jsonResponse.error}</p></div>`);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
     });
 
-    $('.admin__item__section').on('click', '[data-edit-table]', function() {
+    $('.admin__item__section').on('click', '[data-edit-table]', function () {
         const table = $(this).attr('data-edit-table');
         const id = $(this).attr('data-id');
 
         switch (table) {
             case 'service':
                 const tdName = $(this).parents(".actions").parents("td").siblings("td[data-name]").text();
-                const tdPrice = $(this).parents(".actions").parents("td").siblings("td[data-price]").text();
-                
+                const tdPrice = String($(this).parents(".actions").parents("td").siblings("td[data-price]").text()).replace("R$", "");
+
                 $("#service_name").val(tdName);
                 $("#service_price").val(tdPrice);
                 $("#service_id").val(id);
-
                 break;
 
-            case 'unavailable_datetime': 
+            case 'unavailable_datetime':
                 const tdDate = $(this).parents(".actions").parents("td").siblings("td[data-date]").attr("data-date").split(" ");
                 const date = tdDate[0];
                 const time = tdDate[1];
-                
+
                 $("#unavailable_datetime_date").val(date);
                 $("#unavailable_datetime_time").val(time);
                 $("#unavailable_datetime_id").val(id);
                 break;
 
-            case 'contact': 
+            case 'contact':
                 const tdEmail = $(this).parents(".actions").parents("td").siblings("td[data-email]").text();
                 const tdAddress = $(this).parents(".actions").parents("td").siblings("td[data-address]").text();
                 const tdTel = $(this).parents(".actions").parents("td").siblings("td[data-tel]").text();
@@ -222,16 +179,15 @@ $(document).ready(function () {
                 $("#contact_info_tel").val(tdTel);
                 $("#contact_info_whatsapp").val(tdWhatsapp);
                 $("#contact_info_id").val(id);
-
                 break;
-                
+
             default:
                 break;
         }
     });
 
-    getServices();
-    getUnavailableDatetimes();
-    getContact();
-    getSchedules();
+    updateTable($("[data-table-services]"), 'service/get_all', getServiceRowTemplate);
+    updateTable($("[data-table-unavailable-datetime]"), 'unavailable_datetime/get_all', getUnavailableDatetimeRowTemplate);
+    updateTable($("[data-table-contact]"), 'contact/get_all', getContactRowTemplate);
+    updateTable($("[data-table-schedules]"), 'schedule/get_all', getScheduleRowTemplate);
 });
