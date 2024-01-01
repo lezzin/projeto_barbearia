@@ -1,8 +1,11 @@
 .bg-up,
-.bg-down,
-.container {
+.bg-down {
     position: relative;
     overflow-x: hidden;
+}
+
+.container {
+    position: relative;
 }
 
 .bg-up::after,
@@ -33,6 +36,10 @@
 }
 
 @media (max-width: 768px)  {
+    .container {
+        overflow-x: hidden;
+    }
+    
     .title__background {
         display: none;
     }
