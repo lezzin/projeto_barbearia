@@ -35,6 +35,7 @@ Para acessar as funcionalidades de administrador, acesse a página de login ```l
 * HTML
 * CSS
 * JavaScript
+* PHP
 
 ## Minhas redes sociais para contato
 
