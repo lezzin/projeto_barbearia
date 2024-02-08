@@ -1,20 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 @import './reset.css';
 @import './components.css';
 
 :root {
-    --bg-primary: #111;
-    --bg-secondary: #181818;
+    --bg-primary: #050505;
+    --bg-secondary: #0d0d0d;
     --border-color: #333;
 
     --font-color: #FFF;
-    --details-color: #f02b2b;
+    --details-color: #f84141;
 }
 
 body {
     background-color: var(--bg-primary);
     color: var(--font-color);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', system-ui, sans-serif;
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
@@ -51,7 +51,7 @@ body {
 }
 
 .hero__section {
-    background: url(../images/wallpaper.jpg) no-repeat;
+    background: url(../images/hero_wallpaper.jpg) no-repeat;
     background-size: cover;
 }
 
@@ -62,11 +62,6 @@ body {
     gap: 1.8rem;
 }
 
-.hero__section.schedule__hero__section .container {
-    justify-content: center;
-    text-align: center;
-}
-
 .hero__section .hero__section__info {
     width: 60%;
 }
@@ -75,17 +70,21 @@ body {
     font-size: 3rem;
     text-transform: uppercase;
     font-weight: 600;
-
     margin-bottom: 1rem;
 }
 
+.hero__section .hero__section__info .phrase {
+    margin-bottom: 5rem;
+    font-size: 2rem;
+}
+
 .hero__section .hero__section__info p {
-    line-height: 125%;
-    margin-bottom: 2.2rem;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
 }
 
 .hero__section .hero__section__info a:hover {
-    padding-left: 1.5rem;
+    padding-left: 2rem;
 }
 
 @media (max-width: 768px) {
@@ -96,7 +95,7 @@ body {
     .hero__section .hero__section__info h1 {
         font-size: 2.6rem;
     }
-    
+
     .hero__section .hero__section__info {
         width: 100%;
     }
@@ -114,6 +113,7 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 1.6rem;
+    margin-top: 3rem;
 }
 
 .services__container .service {
@@ -141,10 +141,12 @@ body {
 }
 
 .service h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .service p {
+    font-weight: 600;
+    font-size: 1.8rem;
     color: var(--details-color);
 }
 
@@ -172,8 +174,8 @@ body {
 }
 
 .service__type__section {
-    background-color: var(--bg-secondary);
-}
+    background: url(../images/service_wallpaper.jpg) no-repeat;
+    background-size: cover;}
 
 .service__type__section .service {
     cursor: pointer !important;
@@ -193,7 +195,7 @@ article {
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    min-height: 90vh;
+    min-height: 100vh;
     width: 100%;
     gap: 1rem;
 }
@@ -213,7 +215,7 @@ article {
 }
 
 @media (max-width: 768px) {
-    .article__columns{
+    .article__columns {
         grid-template-columns: 1fr;
     }
 
@@ -292,8 +294,13 @@ article {
     font-weight: 500;
 }
 
-.time__buttons button:not(.active):hover {
+.time__buttons button:not(.active, :disabled):hover {
     border-color: var(--details-color);
+}
+
+.time__buttons button:disabled {
+    opacity: .25 !important;
+    cursor: default;
 }
 
 .message__section form {
@@ -307,19 +314,21 @@ article {
 
 .admin__item__section:first-of-type {
     margin-top: calc(10vh + 1rem);
-} 
+}
 
 .admin__item__section:last-of-type {
     margin-bottom: 10vh;
-} 
+}
 
 .admin__item__section .container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: start;
-    place-content: center;
-    padding: 1rem 0;
+    grid-template-columns: 1fr 2fr;
     gap: 1rem;
+    margin-block: 1rem;
+}
+
+.admin__item__section .container form {
+    max-width: unset;
 }
 
 .admin__item__section.admin__item__section__rows .container {
@@ -331,15 +340,17 @@ article {
         grid-template-columns: 1fr;
     }
 
-    .admin__item__section .container form {
-        max-width: unset;
+    .admin__item__section .table__container {
+        overflow-x: auto;
     }
 }
 
-.admin__item__section form {
+.admin__item__section form,
+.admin__item__section .table__container {
     border: 1px solid var(--border-color);
     padding: 2rem 1rem;
     border-radius: .5rem;
+    flex:1;
 }
 
 footer {

@@ -13,8 +13,8 @@
                 <div class="hero__section__info">
                     <h1 data-aos="fade-right" data-aos-duration="1000">Agendamento</h1>
                     <p data-aos="fade-right" data-aos-duration="1300">
-                        Em apenas 3 simples passos, você conseguirá rapidamente o seu agendamento.
-                        Selecione o tipo de serviço, a data e o horário e pronto, está concluido!
+                        Em apenas <span class="text__detail">4 simples passos</span>, você conseguirá o seu agendamento.<br>
+                        Preencha o <span class="text__detail">tipo de serviço, a data, o horário, seus dados pessoais </span> e pronto, está concluido!
                     </p>
 
                     <button class="btn__primary start__btn" data-aos="fade-right" data-aos-duration="1600">Começar agora</button>

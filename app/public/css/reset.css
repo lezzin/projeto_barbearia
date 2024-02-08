@@ -35,7 +35,7 @@ button {
 }
 
 a:not(.active):hover,
-button:not(.active):hover {
+button:not(.active, :disabled):hover {
     filter: brightness(90%);
 }
 

@@ -30,19 +30,21 @@
                     <button class="btn__primary" type="submit">Adicionar serviço</button>
                 </form>
 
-                <table data-aos="fade-left" data-aos-duration="1000">
-                    <thead>
-                        <tr>
-                            <th colspan="3">Serviços</th>
-                        </tr>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Preço</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody data-table-services></tbody>
-                </table>
+                <div class="table__container" data-aos="fade-left" data-aos-duration="1000">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Serviços</th>
+                            </tr>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Preço</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody data-table-services></tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
@@ -68,18 +70,20 @@
                     <button class="btn__primary" type="submit">Adicionar data</button>
                 </form>
 
-                <table data-aos="fade-left" data-aos-duration="1000">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Datas indisponiveis</th>
-                        </tr>
-                        <tr>
-                            <th>Data</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody data-table-unavailable-datetime></tbody>
-                </table>
+                <div class="table__container" data-aos="fade-left" data-aos-duration="1000">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="2">Datas indisponiveis</th>
+                            </tr>
+                            <tr>
+                                <th>Data</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody data-table-unavailable-datetime></tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
@@ -115,42 +119,46 @@
                     <button class="btn__primary" type="submit">Adicionar contato</button>
                 </form>
 
-                <table data-aos="fade-left" data-aos-duration="1000">
-                    <thead>
-                        <tr>
-                            <th colspan="5">Contato</th>
-                        </tr>
-                        <tr>
-                            <th>Email</th>
-                            <th>Endereço</th>
-                            <th>Telefone</th>
-                            <th>Whatsapp</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody data-table-contact></tbody>
-                </table>
+                <div class="table__container" data-aos="fade-left" data-aos-duration="1000">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="5">Contato</th>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <th>Endereço</th>
+                                <th>Telefone</th>
+                                <th>Whatsapp</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody data-table-contact></tbody>
+                    </table>
+                </div>
             </div>
         <section>
 
         <section class="admin__item__section admin__item__section__rows">
             <div class="container">
-                <table data-aos="fade-left" data-aos-duration="1000">
-                    <thead>
-                        <tr>
-                            <th colspan="7">Agendamentos</th>
-                        </tr>
-                        <tr>
-                            <th>Usuário</th>
-                            <th>Telefone</th>
-                            <th>Serviço</th>
-                            <th>Preço</th>
-                            <th>Data</th>
-                            <th>Mensagem</th>
-                        </tr>
-                    </thead>
-                    <tbody data-table-schedules></tbody>
-                </table>
+                <div class="table__container" data-aos="fade-left" data-aos-duration="1000">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="7">Agendamentos</th>
+                            </tr>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Telefone</th>
+                                <th>Serviço</th>
+                                <th>Preço</th>
+                                <th>Data</th>
+                                <th>Mensagem</th>
+                            </tr>
+                        </thead>
+                        <tbody data-table-schedules></tbody>
+                    </table>
+                </div>
             </div>
         <section>
     </main>

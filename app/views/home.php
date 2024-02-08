@@ -12,7 +12,7 @@
             <div class="container">
                 <div class="hero__section__info">
                     <h1 data-aos="fade-right" data-aos-duration="1000">Barber Shop</h1>
-                    <p data-aos="fade-right" data-aos-duration="1300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores dicta ab assumenda molestiae illo veniam, blanditiis laborum? Quibusdam, esse nam laboriosam harum, quae molestiae obcaecati expedita veritatis officia iure impedit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt rerum corporis harum eius sed? Harum ex accusamus, necessitatibus reprehenderit quo sint exercitationem asperiores autem enim ipsam architecto voluptas rem? Natus!</p>
+                    <p data-aos="fade-right" data-aos-duration="1300" class="phrase">Construindo confiança, <br>um corte de cada vez...</p>
 
                     <?php if (!$isAdm): ?>
                         <div data-aos="fade-right" data-aos-duration="1600">

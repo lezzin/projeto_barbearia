@@ -68,12 +68,19 @@ $(document).ready(function () {
     }
 
     function isDatetimeUnavailable(time, unavailableTimes) {
+        const currentTime = new Date(time);
+        const currentDate = new Date();
+
+        if (currentTime < currentDate) {
+            return true; 
+        }
+
         return unavailableTimes.some(unavailableTime => unavailableTime.datetime == time);
     }
 
     async function fillTimeChoices(datetime) {
         const fetchData = await fetch(`${url}unavailable_datetime/get_all`);
-        const indisponibleTimes = await fetchData.json();
+        const unavailableTimes = await fetchData.json();
 
         const disponibleTimes = [
             "07:00", "07:30",
@@ -96,9 +103,7 @@ $(document).ready(function () {
             const currentTime = disponibleTimes[index];
             const check = `${datetime} ${currentTime}:00`;
             
-            if (!isDatetimeUnavailable(check, indisponibleTimes)) {
-                timesContent.append(`<button data-aos="fade-right" data-aos-duration="1000">${currentTime}</button>`);
-            }
+            timesContent.append(`<button type="button" data-aos="fade-right" data-aos-duration="1000" ${isDatetimeUnavailable(check, unavailableTimes) ? "disabled" : "" }>${currentTime}</button>`);
         }
     }
 
@@ -172,6 +177,7 @@ $(document).ready(function () {
 
                 if(response.success) {
                     $('.modal__body').append(`<p class="modal__alert">${response.success}</p>`);
+                    $('#confirm_modal_btn').hide();
                     $('.modal__footer').children("#modal_close").html("Fechar");
                 } else {
                     $('.modal__body').append(`<p class="modal__alert">${response.error}</p>`);
@@ -223,6 +229,8 @@ $(document).ready(function () {
             <p>Data: ${formattedDate}</p>
             <p>Horário: ${time}</p>
         `);
+
+        $('#confirm_modal_btn').show();
     }
 
     initializeCalendar();
