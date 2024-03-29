@@ -8,6 +8,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 );
 
+INSERT INTO `user` (`id`, `name`, `email`, `tel`, `password`, `type`) VALUES
+(null, 'adm', 'teste@gmail.com', '1313', '$2y$10$/BUNPbo/Pp9JSV.cdwznt.LS3Tvs.tyRldXnN2KWj6iH9a895Ds0y', 2);
+
 CREATE TABLE IF NOT EXISTS `service` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
