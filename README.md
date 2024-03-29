@@ -20,7 +20,8 @@ Para usar o aplicativo de barbearia localmente, siga estas etapas:
 2. Adicione a pasta do projeto ao diretório `htdocs` do seu servidor local.
 3. Execute os comandos DML e DDL contidos no arquivo `database.sql` para configurar a base de dados necessária.
 4. Se necessário, faça ajustes nas variáveis presentes no arquivo `config.php` para personalizar as configurações conforme suas necessidades.
-5. Abra seu navegador web e acesse o projeto digitando o endereço `localhost/projeto_barbearia` (caso o nome da pasta não tenha sido alterado).
+5. Adicione um ponto (.) no início do nome do arquivo htaccess.
+6. Abra seu navegador web e acesse o projeto digitando o endereço `localhost/projeto_barbearia` (caso o nome da pasta não tenha sido alterado).
 
 ### Hospedagem:
 
