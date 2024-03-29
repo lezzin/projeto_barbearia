@@ -1,3 +1,5 @@
+# adicione um ponto "." no início do nome do arquivo
+
 RewriteEngine On 
 
 RewriteCond %{REQUEST_FILENAME} !-d
