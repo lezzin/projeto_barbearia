@@ -1,11 +1,10 @@
-![Foto do projeto](https://github.com/lezzin/projeto_barbearia/assets/103830032/8fb1f9b2-d087-4c81-b505-120977f5fa53)
-
-# Barbearia
+# Barbershop
 
 Um aplicativo web para barbearia construído com PHP e jQuery.
 
 ## Recursos
 
+- Sistema de login
 - Gerenciamento de serviços prestados
 - Gerenciamento de horários indisponíveis
 - Agendamento de horários
