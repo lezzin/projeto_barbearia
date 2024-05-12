@@ -1,0 +1,871 @@
+@import url("https://fonts.googleapis.com/css2?family=Urban:wght@100;400;500;600;700&display=swap");
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: inherit;
+}
+
+html,
+body {
+  background-color: #b29893;
+  scroll-behavior: smooth;
+  color: #000;
+  overflow-x: hidden;
+  font-family: "Urban", system-ui, sans-serif;
+  font-weight: 500;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+button,
+textarea,
+input {
+  border: none;
+  background: none;
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+a,
+button {
+  transition: all 0.6s ease;
+}
+
+a:not(.active):hover,
+button:not(.active, :disabled):hover {
+  filter: brightness(85%);
+}
+
+input,
+textarea,
+select {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 0.8rem;
+}
+
+textarea {
+  resize: none;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator,
+input[type=time]::-webkit-calendar-picker-indicator,
+::-ms-reveal {
+  cursor: pointer;
+  filter: invert(0.8) brightness(100%);
+}
+
+.container {
+  position: relative;
+}
+
+.text-detail {
+  color: #000;
+}
+.text-detail--secondary {
+  color: #fff;
+}
+
+.btn-float {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+.btn-float:hover {
+  transform: translate(-0.5rem, -0.5rem) scale(1.1);
+}
+
+.btn-primary {
+  font-size: 1rem;
+  border-radius: 3px;
+  padding: 0.6rem 1.2rem;
+  color: #fff;
+  background-color: #ff4242;
+}
+.btn-primary--dark {
+  background-color: #532520;
+}
+.btn-primary.btn-sm {
+  padding: 0.3rem 0.6rem;
+}
+
+.link-secondary {
+  color: #fff;
+}
+
+h2 {
+  font-size: 2.6rem;
+  text-transform: uppercase;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  width: calc(100% - 1.5rem);
+}
+.container.container-centered {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.container.vh-100 {
+  min-height: 100vh;
+}
+
+.notification-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 120%);
+  width: 100%;
+  padding: 1rem 0;
+  text-align: center;
+  background: #9f7f7a;
+  color: #fff;
+  border: 1px solid #836f6b;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.notification-overlay.notification-active {
+  opacity: 1;
+  transform: translate(-50%, 0%);
+}
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background-color: #b29893;
+  display: grid;
+  place-items: center;
+}
+.loader img {
+  animation: pulse 2s infinite linear;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  z-index: 999;
+  display: grid;
+  place-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.modal-overlay.modal-active {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-overlay .modal {
+  background-color: #9f7f7a;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+  color: #fff;
+  border-radius: 5px;
+  padding: 1.5rem;
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.modal-overlay .modal-body {
+  display: grid;
+  gap: 0.3rem;
+}
+.modal-overlay .modal-body h3 {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+}
+.modal-overlay .modal-body hr {
+  margin: 0.6rem 0;
+}
+.modal-overlay .modal-body .modal-alert {
+  margin-top: 1.2rem;
+  text-align: center;
+}
+.modal-overlay .modal-footer {
+  margin-top: 3rem;
+  display: grid;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  text-align: left;
+}
+form.card-form {
+  padding: 2rem 1rem;
+  background-color: #8c6862;
+  border-radius: 5px;
+}
+form.card-form h2,
+form.card-form h3,
+form.card-form h4,
+form.card-form label {
+  color: #fff;
+}
+form h2,
+form h3 {
+  text-align: center;
+}
+form a {
+  color: #ff4242;
+  text-align: center;
+}
+form .form-group {
+  display: grid;
+  gap: 0.3rem;
+}
+form .form-alert div {
+  border-radius: 5px;
+  border: 1px solid transparent;
+  padding: 0.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+form .form-alert div.mt {
+  margin-top: 2rem;
+}
+form .form-alert div.success {
+  border-color: rgb(0, 65, 0);
+  background-color: rgb(0, 165, 0);
+}
+form .form-alert div.error {
+  border-color: rgb(65, 0, 0);
+  background-color: rgb(165, 0, 0);
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+.table-container table {
+  width: inherit;
+}
+
+table {
+  border-collapse: collapse;
+}
+table td.user-message {
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: unset;
+}
+table td,
+table th {
+  border-bottom: 1px solid #836f6b;
+  text-align: left;
+  padding: 0.3rem;
+  white-space: nowrap;
+}
+table th {
+  background-color: #94716b;
+}
+table th[colspan] {
+  font-size: 1.2rem;
+}
+table .actions {
+  display: flex;
+  gap: 0.3rem;
+}
+table .actions > * {
+  background-color: #8c6862;
+  color: #fff;
+  border-radius: 0.25rem;
+  width: 1.8rem;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  display: grid;
+  gap: 0.3rem;
+  border-radius: 3px;
+  border: 1px solid #836f6b;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+  background-color: #9f7f7a;
+  padding: 1rem;
+}
+.card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.main-header {
+  color: #fff;
+  position: absolute;
+  z-index: 990;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.main-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+}
+.main-header .container nav a {
+  margin-inline: 0.3rem;
+}
+.main-header .container nav a.btn-primary {
+  padding: 0.4rem 0.8rem;
+}
+
+#admin-page .main-header,
+#profile-page .main-header,
+#login-page .main-header,
+#register-page .main-header {
+  background-color: #532520;
+}
+
+#login-page .container,
+#register-page .container {
+  margin-top: 10vh;
+  padding: 5rem 0;
+  min-height: 90vh;
+}
+
+#home-page {
+  background: url(../images/home_wallpaper.jpg) no-repeat fixed;
+  background-size: cover;
+}
+#home-page .hero-section {
+  color: #fff;
+}
+#home-page .hero-section .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+#home-page .hero-section .hero-section-info {
+  max-width: 50%;
+}
+#home-page .hero-section .hero-section-info h1 {
+  font-size: 4rem;
+  text-transform: uppercase;
+  font-weight: 100;
+  margin-bottom: 0.5rem;
+}
+#home-page .hero-section .hero-section-info .phrase {
+  margin-bottom: 5rem;
+  font-size: 1.6rem;
+}
+#home-page .hero-section .hero-section-info p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+}
+#home-page .hero-section .hero-section-info span {
+  color: #ff4242;
+}
+#home-page .hero-section .hero-section-info a:hover {
+  padding-left: 2rem;
+}
+#home-page .hero-section .hero-section-images {
+  display: flex;
+  gap: 0.6rem;
+}
+@media (max-width: 768px) {
+  #home-page .hero-section {
+    padding: calc(10vh + 1rem) 2rem;
+  }
+  #home-page .hero-section .container {
+    justify-content: center;
+    text-align: center;
+  }
+  #home-page .hero-section .container,
+  #home-page .hero-section .hero-section-images {
+    flex-direction: column;
+  }
+  #home-page .hero-section .hero-section-info {
+    margin-bottom: 3rem;
+    max-width: unset;
+  }
+  #home-page .hero-section .hero-section-info h1 {
+    font-size: 2.6rem;
+  }
+}
+#home-page .rates-section {
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  padding: 6rem 0 7.6rem;
+  text-align: center;
+}
+#home-page .rates-section h2 {
+  margin-bottom: 1rem;
+}
+#home-page .rates-section .rates-container {
+  display: grid;
+  place-items: center;
+  text-align: left;
+  margin-top: 5rem;
+  gap: 0.8rem;
+}
+#home-page .rates-section .rates-container .service {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#home-page .rates-section .rates-container .service .divider {
+  width: 10rem;
+  background-color: #fff;
+  height: 1px;
+}
+#home-page .rates-section .rates-container .service p {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  #home-page .rates-section .container {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  #home-page .rates-section .rates-container .service .divider {
+    display: none;
+  }
+}
+#home-page .about-section {
+  background-color: #b29893;
+}
+#home-page .about-section .container {
+  display: flex;
+  justify-content: space-around;
+  padding: 6rem 0;
+  min-height: 90vh;
+  gap: 5rem;
+}
+#home-page .about-section .container img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 0;
+}
+#home-page .about-section .container .about-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+#home-page .about-section .container .about-text .social {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 0.3rem;
+}
+#home-page .about-section .container .about-text .social a {
+  background-color: #8c6862;
+  color: #fff;
+  border-radius: 5px;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.4rem;
+}
+@media (max-width: 768px) {
+  #home-page .about-section .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+}
+#home-page .gallery-section {
+  background-color: #b29893;
+}
+#home-page .gallery-section .container {
+  padding: 6rem 0;
+}
+#home-page .gallery-section .container h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+#home-page .gallery-section .container .swiper {
+  padding: 2.5rem 0;
+}
+#home-page .gallery-section .container .swiper .swiper-pagination-bullet-active {
+  background: #532520 !important;
+}
+#home-page .gallery-section .container .swiper img {
+  filter: saturate(50%);
+}
+#home-page .localization-section .container {
+  padding: 6rem 0;
+}
+#home-page .localization-section .container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#schedule-page {
+  background: url(../images/schedule_wallpaper.jpg) no-repeat fixed;
+  background-size: cover;
+}
+#schedule-page .hero-section {
+  color: #fff;
+}
+#schedule-page .hero-section .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+}
+#schedule-page .hero-section .hero-section-info h1 {
+  font-size: 4rem;
+  text-transform: uppercase;
+  font-weight: 100;
+  margin-bottom: 0.5rem;
+}
+#schedule-page .hero-section .hero-section-info .phrase {
+  margin-bottom: 5rem;
+  font-size: 1.6rem;
+}
+#schedule-page .hero-section .hero-section-info p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+}
+#schedule-page .hero-section .hero-section-info span {
+  color: #ff4242;
+}
+#schedule-page .hero-section .hero-section-info a:hover {
+  padding-left: 2rem;
+}
+@media (max-width: 768px) {
+  #schedule-page .hero-section {
+    padding-top: calc(10vh + 1rem) 2rem;
+  }
+  #schedule-page .hero-section .container {
+    justify-content: center;
+    text-align: center;
+  }
+  #schedule-page .hero-section .container {
+    flex-direction: column;
+  }
+  #schedule-page .hero-section .hero-section-info h1 {
+    font-size: 2.6rem;
+  }
+}
+#schedule-page .schedule-option-selected {
+  filter: brightness(80%) grayscale(40%);
+  border-radius: 3px;
+}
+#schedule-page .main-header .btn-primary {
+  display: none;
+}
+#schedule-page article {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  width: 100%;
+  gap: 1rem;
+}
+#schedule-page article h3 {
+  font-size: 1.6rem;
+}
+#schedule-page article.article-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-content: center;
+  padding-top: 6rem;
+}
+@media (max-width: 768px) {
+  #schedule-page article.article-columns {
+    grid-template-columns: 1fr;
+  }
+}
+#schedule-page article.article-columns .column {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+@media (max-width: 768px) {
+  #schedule-page article.article-columns .column:last-child {
+    padding-top: 5rem;
+  }
+}
+#schedule-page .service-type-section,
+#schedule-page .datetime-section,
+#schedule-page .message-section {
+  background-color: #b29893;
+}
+#schedule-page .service-type-section {
+  background-color: #b29893;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  #schedule-page .service-type-section {
+    padding-top: 3rem;
+  }
+}
+#schedule-page .service-type-section .services-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 1.6rem;
+}
+#schedule-page .service-type-section .services-container .service {
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1;
+  border-radius: 5px;
+  background-color: #532520;
+  border: 1px solid #836f6b;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+#schedule-page .service-type-section .services-container .service h3 {
+  font-size: 1.2rem;
+  color: #fff;
+}
+#schedule-page .service-type-section .services-container .service p {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #ff4242;
+}
+#schedule-page .service-type-section .services-container .service:not(.schedule-option-selected):hover {
+  border-color: #ff4242;
+}
+#schedule-page .datetime-section {
+  padding-bottom: 6rem;
+}
+#schedule-page .datetime-section .calendar {
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+#schedule-page .datetime-section .calendar .calendar-header {
+  margin-bottom: 0.6rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#schedule-page .datetime-section .calendar .calendar-body {
+  border: 1px solid #836f6b;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+  background-color: #a78a84;
+  border-radius: 3px;
+  overflow: hidden;
+}
+#schedule-page .datetime-section .calendar .calendar-body .calendar-weekdays {
+  color: #fff;
+  background-color: #532520;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem;
+}
+#schedule-page .datetime-section .calendar .calendar-body .calendar-content {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+#schedule-page .datetime-section .calendar .calendar-body .calendar-content button {
+  border: 1px solid transparent;
+  transition: all 0.6s ease;
+  cursor: default;
+}
+#schedule-page .datetime-section .calendar .calendar-body .calendar-content button.schedule-option-selected {
+  background-color: #a78a84;
+}
+#schedule-page .datetime-section .calendar .calendar-body .calendar-content button.passed {
+  cursor: default;
+  opacity: 0.25;
+}
+#schedule-page .datetime-section .calendar .calendar-body .calendar-content button:not(.blank, .active, .passed):hover {
+  background-color: #a78a84;
+  filter: brightness(90%);
+  cursor: pointer;
+}
+#schedule-page .datetime-section .calendar .calendar-body .calendar-weekdays div,
+#schedule-page .datetime-section .calendar .calendar-body .calendar-content button {
+  display: grid;
+  place-content: center;
+  padding: 0.3rem;
+  aspect-ratio: 1;
+}
+#schedule-page .datetime-section .time-buttons-container {
+  display: flex;
+  justify-content: center;
+}
+#schedule-page .datetime-section .time-buttons-container .time-buttons {
+  display: flex;
+  margin-top: 2.6rem;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+@media (max-width: 768px) {
+  #schedule-page .datetime-section .time-buttons-container .time-buttons {
+    justify-content: center;
+  }
+}
+#schedule-page .datetime-section .time-buttons-container .time-buttons button {
+  background-color: #532520;
+  color: #fff;
+  min-width: 60px;
+  border-radius: 3px;
+  aspect-ratio: 16/9;
+  box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.15);
+  border: 1px solid #836f6b;
+  font-weight: 500;
+}
+#schedule-page .datetime-section .time-buttons-container .time-buttons button:disabled {
+  opacity: 0.25 !important;
+  cursor: default;
+}
+#schedule-page .message-section article {
+  align-items: center;
+}
+#schedule-page .schedule-confirm {
+  display: flex;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+#admin-page .admin-item-section:first-of-type {
+  margin-top: calc(10vh + 3rem);
+}
+#admin-page .admin-item-section:last-of-type {
+  margin-bottom: 10vh;
+}
+#admin-page .admin-item-section .container {
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+#admin-page .admin-item-section .container form {
+  max-width: unset;
+}
+#admin-page .admin-item-section .container form h2,
+#admin-page .admin-item-section .container form label {
+  color: #fff;
+}
+#admin-page .admin-item-section .container form h2 {
+  font-size: 1.6rem;
+}
+#admin-page .admin-item-section.admin-item-section-rows .container {
+  grid-template-columns: 1fr;
+}
+#admin-page .admin-item-section form,
+#admin-page .admin-item-section .table-container {
+  border: 1px solid #836f6b;
+  background-color: #9f7f7a;
+  padding: 2rem 1rem;
+  border-radius: 0.5rem;
+  flex: 1;
+}
+#admin-page .admin-item-section .table-container {
+  color: #fff;
+}
+#admin-page .admin-item-section .table-container h3 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
+#admin-page .admin-item-section .table-container td.status-select select {
+  color: #000;
+  padding: 0;
+}
+@media (max-width: 768px) {
+  #admin-page .admin-item-section .container {
+    grid-template-columns: 1fr;
+  }
+  #admin-page .table-container {
+    overflow-x: auto;
+  }
+}
+
+#profile-page .profile-section .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 100vh;
+  padding: calc(10vh + 1rem) 0 3rem 0;
+}
+#profile-page .profile-section .container h2 {
+  font-size: 1.6rem;
+  text-transform: none;
+}
+#profile-page .profile-section .container .card {
+  margin-top: 2rem;
+}
+
+footer {
+  background-color: #b29893;
+  color: #000;
+  padding: 5rem 0 2rem;
+}
+footer .container .footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+@media (width <= 768px) {
+  footer .container .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+footer .container .footer-grid .column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+footer .container .footer-grid .column nav,
+footer .container .footer-grid .column .contact-elements {
+  display: grid;
+  gap: 0.3rem;
+}
+footer .container .footer-grid h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+footer .container .creator {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 0.8rem;
+}
