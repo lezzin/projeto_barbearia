@@ -1,6 +1,10 @@
+<h1 align="center"> 🚀 <br> Barbershop</h1>
+
 ![BarberShop](https://github.com/lezzin/projeto_barbearia/assets/103830032/61a45155-64e5-4d7a-a230-350c4c4722b2)
 
-# Barbershop
+<h4 align="center"><a href="https://lzzn-barber.000webhostapp.com">Acessar projeto</a></h4>
+
+---
 
 Um aplicativo web para barbearia construído com PHP e jQuery.
 
@@ -13,8 +17,6 @@ Um aplicativo web para barbearia construído com PHP e jQuery.
 
 ## Guia de Instalação
 
-### Acesso Local:
-
 Para usar o aplicativo de barbearia localmente, siga estas etapas:
 
 1. Certifique-se de ter um software que permita a execução de projetos localmente, como o XAMPP, instalado em seu sistema.
@@ -23,10 +25,6 @@ Para usar o aplicativo de barbearia localmente, siga estas etapas:
 4. Se necessário, faça ajustes nas variáveis presentes no arquivo `config.php` para personalizar as configurações conforme suas necessidades.
 5. Adicione um ponto (.) no início do nome do arquivo htaccess.
 6. Abra seu navegador web e acesse o projeto digitando o endereço `localhost/projeto_barbearia` (caso o nome da pasta não tenha sido alterado).
-
-### Hospedagem:
-
-Você pode acessar o aplicativo de barbearia hospedado no seguinte link: [Clique aqui para acessar](https://lzzn-barber.000webhostapp.com/)
 
 ## Uso
 
@@ -43,6 +41,6 @@ Para acessar as funcionalidades de administrador, acesse a página de login `loc
 
 Você pode me encontrar nas seguintes redes sociais:
 
-[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/leandroadrian_/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/leandro-adrian)
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/LeandroAdrian)
+[![Instagram](https://img.shields.io/badge/Instagram-0E6212?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/leandroadrian_/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0E6212?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/leandro-adrian)
+[![Telegram](https://img.shields.io/badge/Telegram-0E6212?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/LeandroAdrian)
