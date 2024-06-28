@@ -4,7 +4,8 @@ session_start();
 
 class UserController extends RenderView
 {
-    public function login() {
+    public function login()
+    {
         if ((isset($_SESSION['user']))) {
             header('Location: ' . BASE_URL);
         }
@@ -15,94 +16,120 @@ class UserController extends RenderView
         $this->loadView('templates/head', [
             'title' => 'Login',
             'scripts' => [
-                BASE_URL . "app/public/js/login.js"
+                BASE_URL . "public/js/pages/login.js"
             ]
         ]);
         $this->loadView('templates/header', [
             'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'class' => true
         ]);
         $this->loadView('login');
         $this->loadView('templates/footer', [
             'contact_info' => $allContactInfos,
             'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
         ]);
     }
 
-    public function register() {
+    public function register()
+    {
         $contactInfo = new ContactInfoModel();
         $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
 
         $this->loadView('templates/head', [
             'title' => 'Registro',
             'scripts' => [
-                BASE_URL . "app/public/js/register.js"
+                BASE_URL . "public/js/pages/register.js"
             ]
         ]);
         $this->loadView('templates/header', [
             'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'class' => true
         ]);
         $this->loadView('register');
         $this->loadView('templates/footer', [
             'contact_info' => $allContactInfos,
             'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
         ]);
     }
 
-    public function logout() {
-      unset($_SESSION['user']);
-      unset($_SESSION['adm']);
-      header("Location: " . BASE_URL . "login");
+    public function logout()
+    {
+        unset($_SESSION['user']);
+        unset($_SESSION['isAdmin']);
+        header("Location: " . BASE_URL . "login");
     }
 
-    public function verify() {
+    public function verify()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             header('Location: ' . BASE_URL . 'login');
+            exit;
         }
-    
-        $msg = [];
-        $userModel = new UserModel();
-    
+
         $username = $_POST['username'];
-        $passwd = $_POST['password'];
+        $password = $_POST['password'];
 
-        $user = $userModel->login($username, $passwd);
+        $userModel = new UserModel();
+        $user = $userModel->login($username, $password);
 
-        if ($user) {
-            $msg['success'] = "Usuário autenticado com sucesso!";
-            $msg['url'] = BASE_URL;
-            $_SESSION['user'] = $user;
-            $_SESSION['adm'] = $user["type"] == 2;
-        } else {
-            $msg['error'] = "Usuário não autenticado!";
+        if (!$user) {
+            echo json_encode([
+                "status" => 401,
+                "message" => "Usuário não encontrado"
+            ]);
+
+            exit;
         }
-    
-        echo json_encode($msg);
+
+        $_SESSION['user'] = $user;
+        $_SESSION['isAdmin'] = $user["type"] == 2;
+
+        echo json_encode([
+            "status" => 200,
+            "message" => "Usuário autenticado com sucesso!",
+            "data" => [
+                "url" => BASE_URL
+            ]
+        ]);
     }
-    
-    public function create() {
-        $msg = [];
+
+    public function create()
+    {
         $user = new UserModel();
         $email = $_POST["email"];
         $username = $_POST["username"];
 
         if ($user->fetchByEmail($email) || $user->fetchByName($username)) {
-            $msg['error'] = "Usuário já cadastrado!";
-        } else {
-            $tel = $_POST["tel"];
-            $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+            echo json_encode([
+                "status" => 401,
+                "message" => "Usuário já cadastrado!",
+            ]);
 
-            if ($user->create($username, $email, $tel, $password)) {
-                $msg['success'] = "Usuário criado com sucesso!";
-                $msg['url'] = BASE_URL . 'login';
-            } else {
-                $msg['error'] = "Erro ao realizar cadastro. Tente novamente.";
-            }
+            exit;
         }
 
-        echo json_encode($msg);
+        $telephone = $_POST["tel"];
+        $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+
+        if (!$user->create($username, $email, $telephone, $password)) {
+            echo json_encode([
+                "status" => 500,
+                "message" => "Erro ao realizar cadastro. Tente novamente.!",
+            ]);
+            
+            exit;
+        }
+        
+        echo json_encode([
+            "status" => 200,
+            "message" => "Usuário criado com sucesso",
+            "data" => [
+                "url" =>  BASE_URL . 'login'
+            ]
+        ]);
     }
 }

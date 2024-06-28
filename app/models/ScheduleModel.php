@@ -1,15 +1,18 @@
 
 <?php
 
-class ScheduleModel extends Database {
+class ScheduleModel extends Model
+{
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $conn = $this->getConnection();
         $this->pdo = $conn;
     }
 
-    public function create($user, $tel, $email, $service_id, $datetime, $message, $user_id) {
+    public function create($user, $tel, $email, $service_id, $datetime, $message, $user_id)
+    {
         try {
             $stmt = $this->pdo->prepare("INSERT INTO `schedule` (`user`, `tel`, `email`, `service_id`, `datetime`, `message`, `fk_user`) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$user, $tel, $email, $service_id, $datetime, $message, $user_id]);
@@ -24,7 +27,8 @@ class ScheduleModel extends Database {
         }
     }
 
-    public function allSchedules() {
+    public function allSchedules()
+    {
         try {
             $stmt = $this->pdo->query("SELECT `schedule`.*, `service`.`name` as `service`, `service`.`price` as `service_price` FROM `schedule`  inner join `service` on `service`.`id` = `schedule`.`service_id` WHERE `service`.`id` = `schedule`.`service_id` order by `datetime`");
 
@@ -38,7 +42,8 @@ class ScheduleModel extends Database {
         }
     }
 
-    public function update($user, $tel, $service_id, $datetime, $message, $id) {
+    public function update($user, $tel, $service_id, $datetime, $message, $id)
+    {
         try {
             $stmt = $this->pdo->prepare("UPDATE `schedule` SET `user` = ?, `tel` = ?, `service_id` = ?, `datetime` = ?, `message` = ? WHERE id = ?");
             $stmt->execute([$user, $tel, $service_id, $datetime, $message, $id]);
@@ -48,7 +53,8 @@ class ScheduleModel extends Database {
         }
     }
 
-    public function updateStatus($status, $id) {
+    public function updateStatus($status, $id)
+    {
         try {
             $stmt = $this->pdo->prepare("UPDATE `schedule` SET `status` = ? WHERE id = ?");
             $stmt->execute([$status, $id]);
@@ -58,7 +64,8 @@ class ScheduleModel extends Database {
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM `schedule` WHERE id = ?");
             $stmt->execute([$id]);
@@ -72,11 +79,12 @@ class ScheduleModel extends Database {
         }
     }
 
-    public function fetchByUser($user) {
+    public function fetchByUser($user)
+    {
         try {
             $stmt = $this->pdo->prepare("SELECT `schedule`.*, `service`.`name`, `service`.`price` FROM `schedule` INNER JOIN service ON `service`.`id` = `schedule`.`service_id` WHERE `fk_user` = ?");
             $stmt->execute([$user]);
-            
+
             if ($stmt->rowCount() > 0) {
                 $data = [];
 
@@ -90,6 +98,6 @@ class ScheduleModel extends Database {
             }
         } catch (PDOException $e) {
             return false;
-        }           
-      }
+        }
+    }
 }

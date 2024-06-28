@@ -1,15 +1,18 @@
 
 <?php
 
-class ServiceModel extends Database {
+class ServiceModel extends Model
+{
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $conn = $this->getConnection();
         $this->pdo = $conn;
     }
 
-    public function create($name, $price) {
+    public function create($name, $price)
+    {
         try {
             $stmt = $this->pdo->prepare("INSERT INTO `service` (`name`, `price`) VALUES (?, ?)");
             $stmt->execute([$name, $price]);
@@ -24,7 +27,8 @@ class ServiceModel extends Database {
         }
     }
 
-    public function allServices() {
+    public function allServices()
+    {
         try {
             $stmt = $this->pdo->query("SELECT * FROM `service` ORDER BY `name`");
 
@@ -38,7 +42,8 @@ class ServiceModel extends Database {
         }
     }
 
-    public function update($name, $price, $id) {
+    public function update($name, $price, $id)
+    {
         try {
             $stmt = $this->pdo->prepare("UPDATE `service` SET `name` = ?, `price` = ? WHERE id = ?");
             $stmt->execute([$name, $price, $id]);
@@ -48,7 +53,8 @@ class ServiceModel extends Database {
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM `service` WHERE id = ?");
             $stmt->execute([$id]);
@@ -63,7 +69,8 @@ class ServiceModel extends Database {
         }
     }
 
-    public function fetchByName($name) {
+    public function fetchByName($name)
+    {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM `service` WHERE `name` = ?");
             $stmt->execute([$name]);
@@ -75,6 +82,6 @@ class ServiceModel extends Database {
             }
         } catch (PDOException $e) {
             return false;
-        }           
+        }
     }
 }

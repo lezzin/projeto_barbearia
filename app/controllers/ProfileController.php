@@ -4,23 +4,25 @@ session_start();
 
 class ProfileController extends RenderView
 {
-    public function index() {
-        if ((isset($_SESSION['adm'])) and $_SESSION['adm']) {
-            header('Location: ' . BASE_URL . 'admin') ;
+    public function index()
+    {
+        if ((isset($_SESSION['isAdmin'])) and $_SESSION['isAdmin']) {
+            header('Location: ' . BASE_URL . 'admin');
         }
-        
+
         $contactInfo = new ContactInfoModel();
         $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
 
         $this->loadView('templates/head', [
             'title' => 'Perfil',
             'scripts' => [
-                BASE_URL . "app/public/js/profile.js"
+                BASE_URL . "public/js/pages/profile.js"
             ]
-        ]);   
+        ]);
         $this->loadView('templates/header', [
             'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'class' => true
         ]);
         $this->loadView('profile', [
             'userData' => $_SESSION['user'] ?? [],
@@ -28,7 +30,7 @@ class ProfileController extends RenderView
         $this->loadView('templates/footer', [
             'contact_info' => $allContactInfos,
             'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
         ]);
     }
 }

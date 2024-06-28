@@ -1,14 +1,17 @@
 <?php
 
-class ContactInfoModel extends Database {
+class ContactInfoModel extends Model
+{
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $conn = $this->getConnection();
         $this->pdo = $conn;
     }
 
-    public function create($email, $address, $tel, $whatsapp) {
+    public function create($email, $address, $tel, $whatsapp)
+    {
         try {
             $stmt = $this->pdo->prepare("INSERT INTO `contact_info` (`email`, `address`, `tel`, `whatsapp`) VALUES (?, ?, ?, ?)");
             $stmt->execute([$email, $address, $tel, $whatsapp]);
@@ -23,7 +26,8 @@ class ContactInfoModel extends Database {
         }
     }
 
-    public function allContactInfos() {
+    public function allContactInfos()
+    {
         try {
             $stmt = $this->pdo->query("SELECT * FROM `contact_info`");
 
@@ -37,7 +41,8 @@ class ContactInfoModel extends Database {
         }
     }
 
-    public function update($email, $address, $tel, $whatsapp, $id) {
+    public function update($email, $address, $tel, $whatsapp, $id)
+    {
         try {
             $stmt = $this->pdo->prepare("UPDATE `contact_info` SET `email` = ?, `address` = ?, `tel` = ?, `whatsapp` = ? WHERE id = ?");
             $stmt->execute([$email, $address, $tel, $whatsapp, $id]);

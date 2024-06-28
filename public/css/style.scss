@@ -8,6 +8,10 @@
     left: 0;
     width: 100%;
 
+    &.secondary {
+        color: $font-color;
+    }
+
     .container {
         display: flex;
         justify-content: space-between;
@@ -611,6 +615,10 @@ footer {
     background-color: $bg-primary-light;
     color: $font-color;
     padding: 5rem 0 2rem;
+
+    &.secondary {
+        color: $font-color-secondary;
+    }
 
     .container {
         .footer-grid {

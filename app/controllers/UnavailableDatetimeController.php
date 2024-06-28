@@ -2,23 +2,23 @@
 
 session_start();
 
-class UnavailableDatetimeController extends RenderView  {
-    public function save() {
-        if(isset($_POST['id']) and !empty($_POST['id']) ) {
+class UnavailableDatetimeController extends RenderView
+{
+    public function save()
+    {
+        if (isset($_POST['id']) and !empty($_POST['id'])) {
             $this->edit();
             return;
-        } 
-        
+        }
+
         $this->create();
     }
 
-    public function create() {
+    public function create()
+    {
         if ((!isset($_SESSION['user']))) {
             header('Location: ' . BASE_URL . 'login');
         }
-
-        $msg = [];
-
         $unavailableDatetime = new UnavailableDatetimeModel();
 
         $date = $_POST['date'];
@@ -26,39 +26,55 @@ class UnavailableDatetimeController extends RenderView  {
         $datetime = $date . ' ' . $time;
 
         if ($unavailableDatetime->fetchByDatetime($datetime)) {
-            $msg['error'] = "Data já cadastrada!";
-        } else {
-            if ($unavailableDatetime->create($datetime)) {
-                $msg['success'] = "Data adicionada com sucesso!";
-            } else {
-                $msg['error'] = "Erro ao adicionar data.";
-            }
+            echo json_encode([
+                "status" => 401,
+                "message" => "Data já cadastrada!",
+            ]);
+
+            return;
         }
 
-        echo json_encode($msg);
+        if (!$unavailableDatetime->create($datetime)) {
+            echo json_encode([
+                "status" => 500,
+                "message" => "Erro ao adicionar data",
+            ]);
+
+            return;
+        }
+
+        echo json_encode([
+            "status" => 200,
+            "message" => "Data adicionada com sucesso",
+        ]);
     }
 
-    public function edit() {
+    public function edit()
+    {
         if ((!isset($_SESSION['user']))) {
             header('Location: ' . BASE_URL . 'login');
         }
-        
-        $msg = [];
 
         $unavailableDatetime = new UnavailableDatetimeModel();
 
         $date = $_POST['date'];
         $time = $_POST['time'];
-        $datetime = $date . ' ' . $time;        
+        $datetime = $date . ' ' . $time;
         $id = $_POST['id'];
 
-        if ($unavailableDatetime->update($datetime, $id)) {
-            $msg['success'] = "Data atualizada com sucesso!";
-        } else {
-            $msg['error'] = "Desculpa, algo deu errado, tente mais tarde!";
+        if (!$unavailableDatetime->update($datetime, $id)) {
+            echo json_encode([
+                "status" => 500,
+                "message" => "Desculpa, algo deu errado, tente mais tarde!",
+            ]);
+
+            return;
         }
 
-        echo json_encode($msg);
+        echo json_encode([
+            "status" => 200,
+            "message" => "Data editada com sucesso",
+        ]);
     }
 
     public function delete($id)
@@ -68,19 +84,24 @@ class UnavailableDatetimeController extends RenderView  {
         }
 
         $unavailableDatetime = new UnavailableDatetimeModel();
-        
-        $msg = [];
 
-        if ($unavailableDatetime->delete($id[0])) {
-            $msg['success'] = "Data deletada com sucesso!";
-        } else {
-            $msg['error'] = "Erro ao deletar a data!";
+        if (!$unavailableDatetime->delete($id[0])) {
+            echo json_encode([
+                "status" => 500,
+                "message" => "Desculpa, algo deu errado, tente mais tarde!",
+            ]);
+            
+            return;
         }
-
-        echo json_encode($msg);
+        
+        echo json_encode([
+            "status" => 200,
+            "message" => "Data deletada com sucesso!",
+        ]);
     }
 
-    public function getAllUnavailableDatetimes() {
+    public function getAllUnavailableDatetimes()
+    {
         $unavailableDatetime = new UnavailableDatetimeModel();
         $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
 

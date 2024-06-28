@@ -4,7 +4,7 @@
             <form method="post" action="<?= BASE_URL . "user/create" ?>" class="delay-small card-form register-form">
                 <h2 class="delay-small">Registro</h2>
 
-                <div class="form-alert"></div>
+                <div class="form-alert" style="display: none"></div>
 
                 <div class="form-group interval-medium">
                     <label for="username">Nome</label>

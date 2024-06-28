@@ -4,9 +4,13 @@ session_start();
 
 class AdminController extends RenderView
 {
-    public function index() {
-        if ((!isset($_SESSION['user'])) || !$_SESSION['adm']) {
-            header('Location: ' . BASE_URL) ;
+    public function index(): void
+    {
+        $isLogged = isset($_SESSION['user']);
+        $isAdmin = isset($_SESSION['isAdmin']);
+
+        if (!$isLogged || !$isAdmin) {
+            header('Location: ' . BASE_URL);
         }
 
         $contactInfo = new ContactInfoModel();
@@ -15,18 +19,18 @@ class AdminController extends RenderView
         $this->loadView('templates/head', [
             'title' => 'Admin',
             'scripts' => [
-                BASE_URL . "app/public/js/admin.js"
+                BASE_URL . "public/js/pages/admin.js"
             ]
         ]);
         $this->loadView('templates/header', [
-            'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAuth' => $isLogged,
+            'isAdm'  => $isLogged and $isAdmin,
         ]);
         $this->loadView('admin');
         $this->loadView('templates/footer', [
             'contact_info' => $allContactInfos,
-            'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['adm'],
+            'isAuth' => $isLogged,
+            'isAdm'  => $isLogged and $isAdmin,
         ]);
     }
 }

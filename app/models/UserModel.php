@@ -1,83 +1,78 @@
 <?php
 
-class UserModel extends Database {
-  private $pdo;
+class UserModel extends Model
+{
+    private $pdo;
 
-  public function __construct() {
-      $conn = $this->getConnection();
-      $this->pdo = $conn;
-  }
+    public function __construct()
+    {
+        $conn = $this->getConnection();
+        $this->pdo = $conn;
+    }
 
-  public function login($user, $password) {
-    try {
-      $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `name` = ?");
-      $stmt->execute([$user]);
-
-      if ($stmt->rowCount() > 0) {
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-      } else {
-        $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `email` = ?");
-        $stmt->execute([$user]);
+    public function login($user, $password)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `name` = ? OR `email` = ?");
+        $stmt->execute([$user, $user]);
 
         if ($stmt->rowCount() > 0) {
-          $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        } else{
-          return false;
-        }
-      }
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      if (password_verify($password, $user['password'])) {
-        return $user;
-      } else {
-        return false;
-      }
-    } catch (PDOException $e) {
-      return false;
-    }
-  }
+            if (password_verify($password, $user['password'])) {
+                return $user;
+            }
 
-  public function create($username, $email, $tel, $password) {
-    try {
-        $stmt = $this->pdo->prepare("INSERT INTO `user` (`name`, `email`, `tel`, `password`) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$username, $email, $tel, $password]);
-
-        if ($this->pdo->lastInsertId() > 0) {
-            return true;
-        } else {
             return false;
         }
-    } catch (PDOException $e) {
+
         return false;
     }
-  }
 
-  public function fetchByEmail($email) {
-    try {
-        $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `email` = ?");
-        $stmt->execute([$email]);
+    public function create($username, $email, $tel, $password)
+    {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO `user` (`name`, `email`, `tel`, `password`) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$username, $email, $tel, $password]);
 
-        if ($stmt->rowCount() > 0) {
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
+            if ($this->pdo->lastInsertId() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
             return false;
         }
-    } catch (PDOException $e) {
-        return false;
-    }           
-  }
+    }
 
-  public function fetchByName($name) {
-    try {
-        $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `name` = ?");
-        $stmt->execute([$name]);
+    public function fetchByEmail($email)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `email` = ?");
+            $stmt->execute([$email]);
 
-        if ($stmt->rowCount() > 0) {
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
             return false;
         }
-    } catch (PDOException $e) {
-        return false;
-    }           
-  }
+    }
+
+    public function fetchByName($name)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM `user` WHERE `name` = ?");
+            $stmt->execute([$name]);
+
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }

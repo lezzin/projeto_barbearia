@@ -1,14 +1,17 @@
 <?php
 
-class UnavailableDatetimeModel extends Database {
+class UnavailableDatetimeModel extends Model
+{
     private $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $conn = $this->getConnection();
         $this->pdo = $conn;
     }
 
-    public function create($datetime) {
+    public function create($datetime)
+    {
         try {
             $stmt = $this->pdo->prepare("INSERT INTO `unavailable_datetime` (`datetime`) VALUES (?)");
             $stmt->execute([$datetime]);
@@ -23,7 +26,8 @@ class UnavailableDatetimeModel extends Database {
         }
     }
 
-    public function allUnavailableDatetimes() {
+    public function allUnavailableDatetimes()
+    {
         try {
             $stmt = $this->pdo->query("SELECT * FROM `unavailable_datetime`");
 
@@ -37,7 +41,8 @@ class UnavailableDatetimeModel extends Database {
         }
     }
 
-    public function update($price, $id) {
+    public function update($price, $id)
+    {
         try {
             $stmt = $this->pdo->prepare("UPDATE `unavailable_datetime` SET `datetime` = ? WHERE id = ?");
             $stmt->execute([$price, $id]);
@@ -47,7 +52,8 @@ class UnavailableDatetimeModel extends Database {
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM `unavailable_datetime` WHERE id = ?");
             $stmt->execute([$id]);
@@ -61,7 +67,8 @@ class UnavailableDatetimeModel extends Database {
         }
     }
 
-    public function fetchByDatetime($datetime) {
+    public function fetchByDatetime($datetime)
+    {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM `unavailable_datetime` WHERE `datetime` = ?");
             $stmt->execute([$datetime]);
@@ -73,6 +80,6 @@ class UnavailableDatetimeModel extends Database {
             }
         } catch (PDOException $e) {
             return false;
-        }           
+        }
     }
 }

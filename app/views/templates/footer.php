@@ -11,7 +11,7 @@
 
                     <?php if (isset($isAuth) and $isAuth) : ?>
                         <?php if ($isAdm) : ?>
-                        <a href="<?= BASE_URL . "admin" ?>" title="Acessar administração">Admin</a>
+                            <a href="<?= BASE_URL . "admin" ?>" title="Acessar administração">Admin</a>
                         <?php endif; ?>
 
                         <?php if (!$isAdm) : ?>
@@ -24,7 +24,7 @@
                     <?php else : ?>
 
                         <a href="<?= BASE_URL . "login"  ?>" title="Acessar conta">Fazer login</a>
-                        
+
                     <?php endif; ?>
                 </nav>
             </section>

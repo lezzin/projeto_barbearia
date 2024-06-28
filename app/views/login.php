@@ -4,7 +4,7 @@
             <form method="post" action="<?= BASE_URL . "verify" ?>" class="delay-small card-form">
                 <h2 class="delay-small">Login</h2>
 
-                <div class="form-alert"></div>
+                <div class="form-alert" style="display: none"></div>
 
                 <div class="form-group interval-medium">
                     <label for="username">Usuário</label>
