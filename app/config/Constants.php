@@ -1,9 +1,9 @@
 <?php
 
-define('DB_HOST', '127.0.0.1');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'barbershop');
-define('BASE_URL', 'http://localhost/projetos/projeto_barbearia/');
+defined('DB_HOST') || define('DB_HOST', '127.0.0.1');
+defined('DB_USER') || define('DB_USER', 'root');
+defined('DB_PASS') || define('DB_PASS', '');
+defined('DB_NAME') || define('DB_NAME', 'barbershop');
+defined('BASE_URL') || define('BASE_URL', 'http://localhost/projetos/projeto_barbearia/');
 
-define('PAGE_TITLE', 'Barbearia');
+defined('PAGE_TITLE') || define('PAGE_TITLE', 'Barbearia');

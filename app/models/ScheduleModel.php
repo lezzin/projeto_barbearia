@@ -1,4 +1,3 @@
-
 <?php
 
 class ScheduleModel extends Model
@@ -7,21 +6,26 @@ class ScheduleModel extends Model
 
     public function __construct()
     {
-        $conn = $this->getConnection();
-        $this->pdo = $conn;
+        $this->pdo = $this->getConnection();
     }
 
     public function create($user, $tel, $email, $service_id, $datetime, $message, $user_id)
     {
-        try {
-            $stmt = $this->pdo->prepare("INSERT INTO `schedule` (`user`, `tel`, `email`, `service_id`, `datetime`, `message`, `fk_user`) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$user, $tel, $email, $service_id, $datetime, $message, $user_id]);
+        $sql = "INSERT INTO `schedule` (`user`, `tel`, `email`, `service_id`, `datetime`, `message`, `fk_user`) VALUES (:user, :tel, :email, :service_id, :datetime, :message, :user_id)";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            ':user' => $user,
+            ':tel' => $tel,
+            ':email' => $email,
+            ':service_id' => $service_id,
+            ':datetime' => $datetime,
+            ':message' => $message,
+            ':user_id' => $user_id
+        ];
 
-            if ($this->pdo->lastInsertId() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+        try {
+            $stmt->execute($params);
+            return $this->pdo->lastInsertId() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -29,25 +33,35 @@ class ScheduleModel extends Model
 
     public function allSchedules()
     {
-        try {
-            $stmt = $this->pdo->query("SELECT `schedule`.*, `service`.`name` as `service`, `service`.`price` as `service_price` FROM `schedule`  inner join `service` on `service`.`id` = `schedule`.`service_id` WHERE `service`.`id` = `schedule`.`service_id` order by `datetime`");
+        $sql = "SELECT `schedule`.*, `service`.`name` as `service`, `service`.`price` as `service_price` 
+                FROM `schedule` 
+                INNER JOIN `service` ON `service`.`id` = `schedule`.`service_id` 
+                ORDER BY `datetime`";
 
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                return [];
-            }
-        } catch (PDOException $err) {
+        try {
+            $stmt = $this->pdo->query($sql);
+            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        } catch (PDOException $e) {
             return [];
         }
     }
 
     public function update($user, $tel, $service_id, $datetime, $message, $id)
     {
+        $sql = "UPDATE `schedule` SET `user` = :user, `tel` = :tel, `service_id` = :service_id, `datetime` = :datetime, `message` = :message WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            ':user' => $user,
+            ':tel' => $tel,
+            ':service_id' => $service_id,
+            ':datetime' => $datetime,
+            ':message' => $message,
+            ':id' => $id
+        ];
+
         try {
-            $stmt = $this->pdo->prepare("UPDATE `schedule` SET `user` = ?, `tel` = ?, `service_id` = ?, `datetime` = ?, `message` = ? WHERE id = ?");
-            $stmt->execute([$user, $tel, $service_id, $datetime, $message, $id]);
-            return true;
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -55,10 +69,16 @@ class ScheduleModel extends Model
 
     public function updateStatus($status, $id)
     {
+        $sql = "UPDATE `schedule` SET `status` = :status WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            ':status' => $status,
+            ':id' => $id
+        ];
+
         try {
-            $stmt = $this->pdo->prepare("UPDATE `schedule` SET `status` = ? WHERE id = ?");
-            $stmt->execute([$status, $id]);
-            return true;
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -66,14 +86,13 @@ class ScheduleModel extends Model
 
     public function delete($id)
     {
+        $sql = "DELETE FROM `schedule` WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [':id' => $id];   
+
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM `schedule` WHERE id = ?");
-            $stmt->execute([$id]);
-            if ($stmt->rowCount() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -81,21 +100,16 @@ class ScheduleModel extends Model
 
     public function fetchByUser($user)
     {
+        $sql = "SELECT `schedule`.*, `service`.`name`, `service`.`price` 
+                FROM `schedule` 
+                INNER JOIN `service` ON `service`.`id` = `schedule`.`service_id` 
+                WHERE `fk_user` = :user";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [':user' => $user];
+
         try {
-            $stmt = $this->pdo->prepare("SELECT `schedule`.*, `service`.`name`, `service`.`price` FROM `schedule` INNER JOIN service ON `service`.`id` = `schedule`.`service_id` WHERE `fk_user` = ?");
-            $stmt->execute([$user]);
-
-            if ($stmt->rowCount() > 0) {
-                $data = [];
-
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $data[] = $row;
-                }
-
-                return $data;
-            } else {
-                return false;
-            }
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : false;
         } catch (PDOException $e) {
             return false;
         }

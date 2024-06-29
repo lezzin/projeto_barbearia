@@ -6,21 +6,23 @@ class ContactInfoModel extends Model
 
     public function __construct()
     {
-        $conn = $this->getConnection();
-        $this->pdo = $conn;
+        $this->pdo = $this->getConnection();
     }
 
     public function create($email, $address, $tel, $whatsapp)
     {
-        try {
-            $stmt = $this->pdo->prepare("INSERT INTO `contact_info` (`email`, `address`, `tel`, `whatsapp`) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$email, $address, $tel, $whatsapp]);
+        $sql = "INSERT INTO `contact_info` (`email`, `address`, `tel`, `whatsapp`) VALUES (:email, :address, :tel, :whatsapp)";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            ':email' => $email,
+            ':address' => $address,
+            ':tel' => $tel,
+            ':whatsapp' => $whatsapp,
+        ];
 
-            if ($this->pdo->lastInsertId() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+        try {
+            $stmt->execute($params);
+            return $this->pdo->lastInsertId() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -28,25 +30,31 @@ class ContactInfoModel extends Model
 
     public function allContactInfos()
     {
-        try {
-            $stmt = $this->pdo->query("SELECT * FROM `contact_info`");
+        $sql = "SELECT * FROM `contact_info`";
+        $stmt = $this->pdo->query($sql);
 
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                return [];
-            }
-        } catch (PDOException $err) {
+        try {
+            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        } catch (PDOException $e) {
             return [];
         }
     }
 
     public function update($email, $address, $tel, $whatsapp, $id)
     {
+        $sql = "UPDATE `contact_info` SET `email` = :email, `address` = :address, `tel` = :tel, `whatsapp` = :whatsapp WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            ':email' => $email,
+            ':address' => $address,
+            ':tel' => $tel,
+            ':whatsapp' => $whatsapp,
+            ':id' => $id,
+        ];
+
         try {
-            $stmt = $this->pdo->prepare("UPDATE `contact_info` SET `email` = ?, `address` = ?, `tel` = ?, `whatsapp` = ? WHERE id = ?");
-            $stmt->execute([$email, $address, $tel, $whatsapp, $id]);
-            return true;
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -54,14 +62,13 @@ class ContactInfoModel extends Model
 
     public function delete($id)
     {
+        $sql = "DELETE FROM `contact_info` WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [':id' => $id];
+
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM `contact_info` WHERE id = ?");
-            $stmt->execute([$id]);
-            if ($stmt->rowCount() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
         }

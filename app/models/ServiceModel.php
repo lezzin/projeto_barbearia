@@ -13,15 +13,16 @@ class ServiceModel extends Model
 
     public function create($name, $price)
     {
-        try {
-            $stmt = $this->pdo->prepare("INSERT INTO `service` (`name`, `price`) VALUES (?, ?)");
-            $stmt->execute([$name, $price]);
+        $sql = "INSERT INTO `service` (`name`, `price`) VALUES (:name, :price)";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            ":name" => $name,
+            ":price" => $price,
+        ];
 
-            if ($this->pdo->lastInsertId() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+        try {
+            $stmt->execute($params);
+            return $this->pdo->lastInsertId() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -29,25 +30,29 @@ class ServiceModel extends Model
 
     public function allServices()
     {
-        try {
-            $stmt = $this->pdo->query("SELECT * FROM `service` ORDER BY `name`");
+        $sql = "SELECT * FROM `service` ORDER BY `name`";
 
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                return [];
-            }
-        } catch (PDOException $err) {
+        try {
+            $stmt = $this->pdo->query($sql);
+            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        } catch (PDOException $e) {
             return [];
         }
     }
 
     public function update($name, $price, $id)
     {
+        $sql = "UPDATE `service` SET `name` = :name, `price` = :price WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            ":name" => $name,
+            ":price" => $price,
+            ":id" => $id,
+        ];
+
         try {
-            $stmt = $this->pdo->prepare("UPDATE `service` SET `name` = ?, `price` = ? WHERE id = ?");
-            $stmt->execute([$name, $price, $id]);
-            return true;
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -55,15 +60,13 @@ class ServiceModel extends Model
 
     public function delete($id)
     {
-        try {
-            $stmt = $this->pdo->prepare("DELETE FROM `service` WHERE id = ?");
-            $stmt->execute([$id]);
+        $sql = "DELETE FROM `service` WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [":id" => $id];
 
-            if ($stmt->rowCount() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+        try {
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
         }
@@ -71,17 +74,15 @@ class ServiceModel extends Model
 
     public function fetchByName($name)
     {
-        try {
-            $stmt = $this->pdo->prepare("SELECT * FROM `service` WHERE `name` = ?");
-            $stmt->execute([$name]);
+        $sql = "SELECT * FROM `service` WHERE `name` = :name";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [":name" => $name];
 
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return false;
-            }
+        try {
+            $stmt->execute($params);
+            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
-            return false;
+            return [];
         }
     }
 }
