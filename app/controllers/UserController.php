@@ -6,10 +6,6 @@ class UserController extends RenderView
 {
     public function login()
     {
-        if ((isset($_SESSION['user']))) {
-            header('Location: ' . BASE_URL);
-        }
-
         $contactInfo = new ContactInfoModel();
         $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
 
@@ -74,27 +70,35 @@ class UserController extends RenderView
         $password = $_POST['password'];
 
         $userModel = new UserModel();
-        $user = $userModel->login($username, $password);
 
-        if (!$user) {
+        try {
+            $user = $userModel->login($username, $password);
+
+            if (!$user) {
+                echo json_encode([
+                    "status" => 401,
+                    "message" => "Usuário não encontrado"
+                ]);
+
+                exit;
+            }
+
+            $_SESSION['user'] = $user;
+            $_SESSION['isAdmin'] = $user["type"] == 2;
+
             echo json_encode([
-                "status" => 401,
-                "message" => "Usuário não encontrado"
+                "status" => 200,
+                "message" => "Usuário autenticado com sucesso!",
+                "data" => [
+                    "url" => BASE_URL
+                ]
             ]);
-
-            exit;
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "status" => 500,
+                "message" => $th->getMessage(),
+            ]);
         }
-
-        $_SESSION['user'] = $user;
-        $_SESSION['isAdmin'] = $user["type"] == 2;
-
-        echo json_encode([
-            "status" => 200,
-            "message" => "Usuário autenticado com sucesso!",
-            "data" => [
-                "url" => BASE_URL
-            ]
-        ]);
     }
 
     public function create()
@@ -115,21 +119,20 @@ class UserController extends RenderView
         $telephone = $_POST["tel"];
         $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
-        if (!$user->create($username, $email, $telephone, $password)) {
+        try {
+            $user->create($username, $email, $telephone, $password);
+            echo json_encode([
+                "status" => 200,
+                "message" => "Usuário cadastrado com sucesso",
+                "data" => [
+                    "url" =>  BASE_URL . 'login'
+                ]
+            ]);
+        } catch (\Throwable $th) {
             echo json_encode([
                 "status" => 500,
-                "message" => "Erro ao realizar cadastro. Tente novamente.!",
+                "message" => $th->getMessage(),
             ]);
-            
-            exit;
         }
-        
-        echo json_encode([
-            "status" => 200,
-            "message" => "Usuário criado com sucesso",
-            "data" => [
-                "url" =>  BASE_URL . 'login'
-            ]
-        ]);
     }
 }

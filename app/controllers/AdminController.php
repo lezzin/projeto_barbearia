@@ -11,6 +11,7 @@ class AdminController extends RenderView
 
         if (!$isLogged || !$isAdmin) {
             header('Location: ' . BASE_URL);
+            exit;
         }
 
         $contactInfo = new ContactInfoModel();
@@ -25,6 +26,7 @@ class AdminController extends RenderView
         $this->loadView('templates/header', [
             'isAuth' => $isLogged,
             'isAdm'  => $isLogged and $isAdmin,
+            'class' => true
         ]);
         $this->loadView('admin');
         $this->loadView('templates/footer', [

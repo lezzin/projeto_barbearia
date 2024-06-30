@@ -1,5 +1,14 @@
 @import './base';
 
+img {
+    opacity: 0;
+    transition: opacity .6s ease-in;
+}
+
+img.loaded {
+    opacity: 1;
+}
+
 .main-header {
     color: $font-color-secondary;
     position: absolute;
@@ -523,16 +532,13 @@
     .admin-item-section {
         &:first-of-type {
             margin-top: calc(10vh + 3rem);
-        }
-
-        &:last-of-type {
             margin-bottom: 10vh;
         }
 
         .container {
             display: grid;
             align-items: flex-start;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 40% 1fr;
             gap: 1rem;
             margin-block: 1rem;
 
@@ -560,17 +566,12 @@
             background-color: $bg-overlay;
             padding: 2rem 1rem;
             border-radius: .5rem;
+            height: 100%;
             flex: 1;
         }
 
         .table-container {
             color: $font-color-secondary;
-
-            h3 {
-                margin-bottom: 1rem;
-                font-size: 1.4rem;
-                text-transform: uppercase;
-            }
 
             td.status-select {
                 select {

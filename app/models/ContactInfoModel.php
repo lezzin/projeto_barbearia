@@ -24,7 +24,7 @@ class ContactInfoModel extends Model
             $stmt->execute($params);
             return $this->pdo->lastInsertId() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 

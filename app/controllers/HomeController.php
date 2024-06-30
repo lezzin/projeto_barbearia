@@ -6,6 +6,9 @@ class HomeController extends RenderView
 {
     public function index()
     {
+        $isLogged = isset($_SESSION['user']);
+        $isAdmin = isset($_SESSION['isAdmin']);
+
         $service = new ServiceModel();
         $allServices = $service->allServices();
 
@@ -23,17 +26,17 @@ class HomeController extends RenderView
             ]
         ]);
         $this->loadView('templates/header', [
-            'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'isAuth' => $isLogged,
+            'isAdm'  => $isLogged and $isAdmin,
         ]);
         $this->loadView('home', [
             'services' => $allServices,
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'isAdm'  => $isLogged and $isAdmin,
         ]);
         $this->loadView('templates/footer', [
             'contact_info' => $allContactInfos,
-            'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'isAuth' => $isLogged,
+            'isAdm'  => $isLogged and $isAdmin,
         ]);
     }
 }

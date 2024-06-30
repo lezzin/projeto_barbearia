@@ -8,7 +8,7 @@ class UnavailableDatetimeController extends RenderView
     {
         if (isset($_POST['id']) and !empty($_POST['id'])) {
             $this->edit();
-            return;
+            exit;
         }
 
         $this->create();
@@ -16,9 +16,6 @@ class UnavailableDatetimeController extends RenderView
 
     public function create()
     {
-        if ((!isset($_SESSION['user']))) {
-            header('Location: ' . BASE_URL . 'login');
-        }
         $unavailableDatetime = new UnavailableDatetimeModel();
 
         $date = $_POST['date'];
@@ -31,30 +28,25 @@ class UnavailableDatetimeController extends RenderView
                 "message" => "Data já cadastrada!",
             ]);
 
-            return;
+            exit;
         }
 
-        if (!$unavailableDatetime->create($datetime)) {
+        try {
+            $unavailableDatetime->create($datetime);
+            echo json_encode([
+                "status" => 200,
+                "message" => "Data adicionada com sucesso",
+            ]);
+        } catch (\Throwable $th) {
             echo json_encode([
                 "status" => 500,
-                "message" => "Erro ao adicionar data",
+                "message" => $th->getMessage(),
             ]);
-
-            return;
         }
-
-        echo json_encode([
-            "status" => 200,
-            "message" => "Data adicionada com sucesso",
-        ]);
     }
 
     public function edit()
     {
-        if ((!isset($_SESSION['user']))) {
-            header('Location: ' . BASE_URL . 'login');
-        }
-
         $unavailableDatetime = new UnavailableDatetimeModel();
 
         $date = $_POST['date'];
@@ -62,49 +54,54 @@ class UnavailableDatetimeController extends RenderView
         $datetime = $date . ' ' . $time;
         $id = $_POST['id'];
 
-        if (!$unavailableDatetime->update($datetime, $id)) {
+        try {
+            $unavailableDatetime->update($datetime, $id);
+            echo json_encode([
+                "status" => 200,
+                "message" => "Data editada com sucesso",
+            ]);
+        } catch (\Throwable $th) {
             echo json_encode([
                 "status" => 500,
-                "message" => "Desculpa, algo deu errado, tente mais tarde!",
+                "message" => $th->getMessage(),
             ]);
-
-            return;
         }
-
-        echo json_encode([
-            "status" => 200,
-            "message" => "Data editada com sucesso",
-        ]);
     }
 
     public function delete($id)
     {
-        if ((!isset($_SESSION['user']))) {
-            header('Location: ' . BASE_URL . 'login');
-        }
-
         $unavailableDatetime = new UnavailableDatetimeModel();
 
-        if (!$unavailableDatetime->delete($id[0])) {
+        try {
+            $unavailableDatetime->delete($id[0]);
+            echo json_encode([
+                "status" => 200,
+                "message" => "Data deletada com sucesso",
+            ]);
+        } catch (\Throwable $th) {
             echo json_encode([
                 "status" => 500,
-                "message" => "Desculpa, algo deu errado, tente mais tarde!",
+                "message" => $th->getMessage(),
             ]);
-            
-            return;
         }
-        
-        echo json_encode([
-            "status" => 200,
-            "message" => "Data deletada com sucesso!",
-        ]);
     }
 
     public function getAllUnavailableDatetimes()
     {
         $unavailableDatetime = new UnavailableDatetimeModel();
-        $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
 
-        echo json_encode($allUnavailableDatetimes);
+        try {
+            $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
+            echo json_encode([
+                "status" => 200,
+                "message" => "Busca de horários concluída com sucesso",
+                "data" => $allUnavailableDatetimes
+            ]);
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "status" => 500,
+                "message" => $th->getMessage()
+            ]);
+        }
     }
 }

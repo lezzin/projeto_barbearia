@@ -1,17 +1,24 @@
 <?php
 
+use function PHPSTORM_META\map;
+
 session_start();
 
 class ScheduleController extends RenderView
 {
     public function index()
     {
-        if ((isset($_SESSION['isAdmin'])) and $_SESSION['isAdmin']) {
-            header('Location: ' . BASE_URL . 'admin');
+        $isLogged = isset($_SESSION['user']);
+        $isAdmin = isset($_SESSION['isAdmin']);
+
+        if (!$isLogged) {
+            header('Location: ' . BASE_URL . 'login?redirect=schedule');
+            exit;
         }
 
-        if (!isset($_SESSION['user'])) {
-            header('Location: ' . BASE_URL . 'login?redirect=schedule');
+        if ($isAdmin) {
+            header('Location: ' . BASE_URL . 'admin');
+            exit;
         }
 
         $contactInfo = new ContactInfoModel();
@@ -44,7 +51,7 @@ class ScheduleController extends RenderView
     public function create()
     {
         $schedule = new ScheduleModel();
-        $unavailableDatetime = new UnavailableDatetimeModel();
+        // $unavailableDatetime = new UnavailableDatetimeModel();
 
         $user = $_POST["username"];
         $tel = $_POST["tel"];
@@ -54,20 +61,19 @@ class ScheduleController extends RenderView
         $message = $_POST["message"];
         $user_id = $_POST["user_id"];
 
-        if ($schedule->create($user, $tel, $email, $service_id, $datetime, $message, $user_id)) {
+        try {
+            $schedule->create($user, $tel, $email, $service_id, $datetime, $message, $user_id);
+            // $unavailableDatetime->create($datetime);
             echo json_encode([
                 "status" => 200,
                 "message" => "Agendamento realizado com sucesso!",
             ]);
-
-            // $unavailableDatetime->create($datetime);
-            return;
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "status" => 500,
+                "message" => $th->getMessage()
+            ]);
         }
-
-        echo json_encode([
-            "status" => 500,
-            "message" => "Erro ao realizar agendamento. Tente novamente.",
-        ]);
     }
 
     public function updateStatus()
@@ -77,34 +83,55 @@ class ScheduleController extends RenderView
 
         $schedule = new ScheduleModel();
 
-        if ($schedule->updateStatus($status, $id)) {
+        try {
+            $schedule->updateStatus($status, $id);
             echo json_encode([
                 "status" => 200,
                 "message" => "Status atualizado com sucesso!",
             ]);
-
-            return;
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "status" => 500,
+                "message" => $th->getMessage()
+            ]);
         }
-        
-        echo json_encode([
-            "status" => 500,
-            "message" => "Erro ao atualizar status. Tente novamente.",
-        ]);
     }
 
     public function getAllSchedules()
     {
         $schedule = new ScheduleModel();
-        $allSchedules = $schedule->allSchedules();
 
-        echo json_encode($allSchedules);
+        try {
+            $allSchedules = $schedule->allSchedules();
+            echo json_encode([
+                "status" => 200,
+                "message" => "Busca de agendamentos concluída com sucesso",
+                "data" => $allSchedules
+            ]);
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "status" => 500,
+                "message" => $th->getMessage()
+            ]);
+        }
     }
 
     public function getSchedulesByUser()
     {
         $schedule = new ScheduleModel();
-        $userSchedules = $schedule->fetchByUser($_SESSION['user']['id']);
 
-        echo json_encode($userSchedules);
+        try {
+            $userSchedules = $schedule->fetchByUser($_SESSION['user']['id']);
+            echo json_encode([
+                "status" => 200,
+                "message" => "Busca de agendamentos concluída com sucesso",
+                "data" => $userSchedules
+            ]);
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "status" => 500,
+                "message" => $th->getMessage()
+            ]);
+        }
     }
 }

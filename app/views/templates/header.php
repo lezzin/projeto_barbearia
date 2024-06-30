@@ -1,7 +1,7 @@
 <header class="main-header <?= isset($class) ? 'secondary' : '' ?>">
     <div class="container">
         <a href="<?= BASE_URL ?>" title="Acessar página inicial">
-            <img class="navbar_brand" src="<?= BASE_URL . "public//logo.jpg" ?>" alt="Logo da página" width="40">
+            <img class="navbar_brand" src="<?= BASE_URL . "public/logo.jpg" ?>" alt="Logo da página" width="40">
         </a>
 
         <nav>

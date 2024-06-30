@@ -24,7 +24,7 @@ class ServiceModel extends Model
             $stmt->execute($params);
             return $this->pdo->lastInsertId() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -36,7 +36,7 @@ class ServiceModel extends Model
             $stmt = $this->pdo->query($sql);
             return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
-            return [];
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -54,7 +54,7 @@ class ServiceModel extends Model
             $stmt->execute($params);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ class ServiceModel extends Model
             $stmt->execute($params);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -82,7 +82,7 @@ class ServiceModel extends Model
             $stmt->execute($params);
             return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
-            return [];
+            throw new PDOException($e->getMessage());
         }
     }
 }

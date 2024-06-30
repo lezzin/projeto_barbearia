@@ -1,4 +1,28 @@
 <main id="admin-page">
+    <section class="admin-item-section admin-item-section-rows">
+        <div class="container">
+            <div class="table-container delay-medium">
+                <h3>Agendamentos</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Serviço</th>
+                            <th>Preço</th>
+                            <th>Data</th>
+                            <th>Mensagem</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody data-table-schedules></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <section class="admin-item-section">
         <div class="container">
             <form method="post" action="<?= BASE_URL . "service/save" ?>" id="form-service" class="delay-medium">
@@ -22,8 +46,6 @@
             </form>
 
             <div class="table-container delay-medium">
-                <h3>Serviços</h3>
-
                 <table>
                     <thead>
                         <tr>
@@ -61,8 +83,6 @@
             </form>
 
             <div class="table-container delay-medium">
-                <h3>Datas indisponiveis</h3>
-
                 <table>
                     <thead>
                         <tr>
@@ -109,8 +129,6 @@
             </form>
 
             <div class="table-container delay-medium">
-                <h3>Contato</h3>
-
                 <table>
                     <thead>
                         <tr>
@@ -125,29 +143,5 @@
                 </table>
             </div>
         </div>
-    <section>
-
-    <section class="admin-item-section admin-item-section-rows">
-        <div class="container">
-            <div class="table-container delay-medium">
-                <h3>Agendamentos</h3>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Usuário</th>
-                            <th>Telefone</th>
-                            <th>Email</th>
-                            <th>Serviço</th>
-                            <th>Preço</th>
-                            <th>Data</th>
-                            <th>Mensagem</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody data-table-schedules></tbody>
-                </table>
-            </div>
-        </div>
-    <section>
+        <section>
 </main>

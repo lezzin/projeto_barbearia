@@ -315,6 +315,15 @@ table .actions > * {
   font-size: 1.3rem;
 }
 
+img {
+  opacity: 0;
+  transition: opacity 0.6s ease-in;
+}
+
+img.loaded {
+  opacity: 1;
+}
+
 .main-header {
   color: #fff;
   position: absolute;
@@ -756,14 +765,12 @@ table .actions > * {
 
 #admin-page .admin-item-section:first-of-type {
   margin-top: calc(10vh + 3rem);
-}
-#admin-page .admin-item-section:last-of-type {
   margin-bottom: 10vh;
 }
 #admin-page .admin-item-section .container {
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 40% 1fr;
   gap: 1rem;
   margin-block: 1rem;
 }
@@ -786,15 +793,11 @@ table .actions > * {
   background-color: #9f7f7a;
   padding: 2rem 1rem;
   border-radius: 0.5rem;
+  height: 100%;
   flex: 1;
 }
 #admin-page .admin-item-section .table-container {
   color: #fff;
-}
-#admin-page .admin-item-section .table-container h3 {
-  margin-bottom: 1rem;
-  font-size: 1.4rem;
-  text-transform: uppercase;
 }
 #admin-page .admin-item-section .table-container td.status-select select {
   color: #000;

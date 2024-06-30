@@ -27,7 +27,7 @@ class ScheduleModel extends Model
             $stmt->execute($params);
             return $this->pdo->lastInsertId() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -42,7 +42,7 @@ class ScheduleModel extends Model
             $stmt = $this->pdo->query($sql);
             return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
-            return [];
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ class ScheduleModel extends Model
             $stmt->execute($params);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ class ScheduleModel extends Model
             $stmt->execute($params);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -88,13 +88,13 @@ class ScheduleModel extends Model
     {
         $sql = "DELETE FROM `schedule` WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
-        $params = [':id' => $id];   
+        $params = [':id' => $id];
 
         try {
             $stmt->execute($params);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -109,9 +109,9 @@ class ScheduleModel extends Model
 
         try {
             $stmt->execute($params);
-            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : false;
+            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [false];
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 }

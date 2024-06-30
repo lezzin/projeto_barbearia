@@ -34,7 +34,7 @@ class UserModel extends Model
 
             return false;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ class UserModel extends Model
             $stmt->execute($params);
             return $this->pdo->lastInsertId() > 0;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ class UserModel extends Model
             $stmt->execute($params);
             return ($stmt->rowCount() > 0) ? $stmt->fetch(PDO::FETCH_ASSOC) : false;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ class UserModel extends Model
             $stmt->execute($params);
             return ($stmt->rowCount() > 0) ? $stmt->fetch(PDO::FETCH_ASSOC) : false;
         } catch (PDOException $e) {
-            return false;
+            throw new PDOException($e->getMessage());
         }
     }
 }

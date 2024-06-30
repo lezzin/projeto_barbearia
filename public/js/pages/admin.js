@@ -14,22 +14,29 @@ $(function () {
     }
 
     async function fetchData(endpoint) {
-        const data = await fetch(`${url}${endpoint}`);
-        return data.json();
+        const response = await fetch(`${url}${endpoint}`);
+        const data = await response.json();
+        return data;
     }
 
-    function populateTable($table, data, template) {
+    function populateTable($table, response, template) {
         $table.empty();
 
         const $colspanNumber = $table.siblings("thead").children("tr").children("th").length;
+        const { status, data, message } = response;
+
+        if (status !== 200) {
+            $table.append(`<td style="text-align: center" colspan="${$colspanNumber}">Erro ao buscar conteúdo</td>`);
+            console.error(message);
+            return;
+        }
+
         if (data.length <= 0) {
             $table.append(`<td style="text-align: center" colspan="${$colspanNumber}">Nenhum conteúdo cadastrado</td>`)
             return;
         }
 
-        data.forEach(item => {
-            $table.append(template(item));
-        });
+        data.forEach(item => $table.append(template(item)));
     }
 
     function getServiceRowTemplate(service) {
@@ -116,7 +123,6 @@ $(function () {
         $tr.append($td1, $td2, $td3, $td4, $td5, $td6, $td7, $td8);
         return $tr;
     }
-
 
     async function updateTable($table, endpoint, rowTemplate) {
         const data = await fetchData(endpoint);
@@ -232,7 +238,6 @@ $(function () {
 
     async function handleUpdateSchedule(schedule, status) {
         const action = `${url}schedule/update_status`;
-
         try {
             const response = await $.post(action, {
                 id: schedule,

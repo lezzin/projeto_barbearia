@@ -16,13 +16,10 @@ class ContactController extends RenderView
 
     public function create()
     {
-        if ((!isset($_SESSION['user']))) {
-            header('Location: ' . BASE_URL . 'login');
-        }
-
         $contactInfo = new ContactInfoModel();
+        $isAlreadyCountainsInfo = sizeof($contactInfo->allContactInfos()) > 0;
 
-        if (sizeof($contactInfo->allContactInfos()) > 0) {
+        if ($isAlreadyCountainsInfo) {
             echo json_encode([
                 "status" => 401,
                 "message" => "Você pode ter somente uma informação de contato"
@@ -36,27 +33,22 @@ class ContactController extends RenderView
         $tel = $_POST['tel'];
         $whatsapp = $_POST['whatsapp'];
 
-        if (!$contactInfo->create($email, $address, $tel, $whatsapp)) {
+        try {
+            $contactInfo->create($email, $address, $tel, $whatsapp);
+            echo json_encode([
+                "status" => 200,
+                "message" => "Contato criado com sucesso!"
+            ]);
+        } catch (\Throwable $th) {
             echo json_encode([
                 "status" => 500,
-                "message" => "Erro ao criar contato"
+                "message" => $th->getMessage()
             ]);
-
-            exit;
         }
-
-        echo json_encode([
-            "status" => 200,
-            "message" => "Contato criado com sucesso!"
-        ]);
     }
 
     public function edit()
     {
-        if ((!isset($_SESSION['user']))) {
-            header('Location: ' . BASE_URL . 'login');
-        }
-
         $contactInfo = new ContactInfoModel();
 
         $email = $_POST['email'];
@@ -65,49 +57,55 @@ class ContactController extends RenderView
         $whatsapp = $_POST['whatsapp'];
         $id = $_POST['id'];
 
-        if (!$contactInfo->update($email, $address, $tel, $whatsapp, $id)) {
+        try {
+            $contactInfo->update($email, $address, $tel, $whatsapp, $id);
+            echo json_encode([
+                "status" => 200,
+                "message" => "Contato atualizado com sucesso!"
+            ]);
+        } catch (\Throwable $th) {
             echo json_encode([
                 "status" => 500,
-                "message" => "Desculpa, algo deu errado, tente mais tarde!"
+                "message" => $th->getMessage()
             ]);
-
-            exit;
         }
-
-        echo json_encode([
-            "status" => 200,
-            "message" => "Contato atualizado com sucesso!"
-        ]);
     }
 
     public function delete($id)
     {
-        if ((!isset($_SESSION['user']))) {
-            header('Location: ' . BASE_URL . 'login');
-        }
-
         $contactInfo = new ContactInfoModel();
 
-        if (!$contactInfo->delete($id[0])) {
+        try {
+            $contactInfo->delete($id[0]);
+
+            echo json_encode([
+                "status" => 200,
+                "message" => "Contato deletado com sucesso!"
+            ]);
+        } catch (\Throwable $th) {
             echo json_encode([
                 "status" => 500,
-                "message" => "Erro ao deletar o contato"
+                "message" => $th->getMessage()
             ]);
-
-            exit;
         }
-
-        echo json_encode([
-            "status" => 200,
-            "message" => "Contato deletado com sucesso!"
-        ]);
     }
 
     public function getContactInfo()
     {
         $contactInfo = new ContactInfoModel();
-        $allContactInfos = $contactInfo->allContactInfos();
 
-        echo json_encode($allContactInfos);
+        try {
+            $allContactInfos = $contactInfo->allContactInfos();
+            echo json_encode([
+                "status" => 200,
+                "message" => "Busca de informações de contato concluída com sucesso",
+                "data" => $allContactInfos
+            ]);
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "status" => 500,
+                "message" => $th->getMessage()
+            ]);
+        }
     }
 }

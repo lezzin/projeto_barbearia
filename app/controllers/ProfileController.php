@@ -6,8 +6,12 @@ class ProfileController extends RenderView
 {
     public function index()
     {
-        if ((isset($_SESSION['isAdmin'])) and $_SESSION['isAdmin']) {
+        $isLogged = isset($_SESSION['user']);
+        $isAdmin = isset($_SESSION['isAdmin']);
+
+        if ($isAdmin) {
             header('Location: ' . BASE_URL . 'admin');
+            exit;
         }
 
         $contactInfo = new ContactInfoModel();
@@ -20,8 +24,8 @@ class ProfileController extends RenderView
             ]
         ]);
         $this->loadView('templates/header', [
-            'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'isAuth' => $isLogged,
+            'isAdm'  => $isLogged and $isAdmin,
             'class' => true
         ]);
         $this->loadView('profile', [
@@ -29,8 +33,8 @@ class ProfileController extends RenderView
         ]);
         $this->loadView('templates/footer', [
             'contact_info' => $allContactInfos,
-            'isAuth' => isset($_SESSION['user']),
-            'isAdm'  => isset($_SESSION['user']) and $_SESSION['isAdmin'],
+            'isAuth' => $isLogged,
+            'isAdm'  => $isLogged and $isAdmin,
         ]);
     }
 }

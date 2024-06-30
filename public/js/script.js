@@ -1,3 +1,21 @@
+const allImages = $("img");
+
+allImages.each(function () {
+    const image = $(this); 
+    
+    const src = image.attr("src");
+    const loader = new Image();
+    loader.src = src; 
+
+    if (loader.complete) {
+        image.addClass("loaded");
+    } else {
+        loader.onload = function () {
+            image.addClass("loaded");
+        };
+    }
+});
+
 const sr = ScrollReveal({
     origin: "top",
     distance: "50px",
