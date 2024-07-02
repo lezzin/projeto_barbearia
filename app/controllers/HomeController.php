@@ -7,7 +7,7 @@ class HomeController extends RenderView
     public function index()
     {
         $isLogged = isset($_SESSION['user']);
-        $isAdmin = isset($_SESSION['isAdmin']);
+        $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
         $service = new ServiceModel();
         $allServices = $service->allServices();

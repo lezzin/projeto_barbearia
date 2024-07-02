@@ -7,7 +7,7 @@ class ProfileController extends RenderView
     public function index()
     {
         $isLogged = isset($_SESSION['user']);
-        $isAdmin = isset($_SESSION['isAdmin']);
+        $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
         if ($isAdmin) {
             header('Location: ' . BASE_URL . 'admin');

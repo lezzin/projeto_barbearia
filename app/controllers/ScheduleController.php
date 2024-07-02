@@ -9,7 +9,7 @@ class ScheduleController extends RenderView
     public function index()
     {
         $isLogged = isset($_SESSION['user']);
-        $isAdmin = isset($_SESSION['isAdmin']);
+        $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
         if (!$isLogged) {
             header('Location: ' . BASE_URL . 'login?redirect=schedule');
