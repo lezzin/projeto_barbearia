@@ -1,4 +1,4 @@
-<h1 align="center"> 🚀 <br> Barbershop</h1>
+<h1 align="center"> ✂ <br> Barbershop</h1>
 
 ![BarberShop](https://github.com/lezzin/projeto_barbearia/assets/103830032/61a45155-64e5-4d7a-a230-350c4c4722b2)
 
