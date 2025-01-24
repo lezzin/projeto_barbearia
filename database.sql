@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS `barbershop`;
-USE `barbershop`.
+USE `barbershop`;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
