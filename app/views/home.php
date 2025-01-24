@@ -94,7 +94,7 @@
                         <img src="<?= BASE_URL . "public/images/gallery_9.jpg" ?>" alt="Gallery image">
                     </div>
                 </div>
-                
+
                 <div class="swiper-pagination"></div>
             </div>
 
@@ -107,14 +107,14 @@
             <h2 class="delay-small text-detail--secondary">Nossa localização</h2>
 
             <iframe
-                width="100%" 
-                height="600" 
-                frameborder="0" 
-                scrolling="no" 
-                marginheight="0" 
-                marginwidth="0" 
+                width="100%"
+                height="600"
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
                 style="border:0"
-                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Muzambinho,%20State%20of%20Minas%20Gerais,%20Brazil,%2037890-000+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
                 <a href="https://www.gps.ie/">gps tracker sport</a>
             </iframe>
         </div>
