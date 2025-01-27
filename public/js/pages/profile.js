@@ -31,7 +31,7 @@ $(function () {
             return;
         }
 
-        data.forEach(item => {
+        data.forEach((item) => {
             $table.append(template(item));
         });
     }
@@ -53,9 +53,9 @@ $(function () {
     }
 
     async function updateTable($table, endpoint, rowTemplate) {
-        const data = await fetchData(endpoint);
+        const { data } = await fetchData(endpoint);
         populateTable($table, data, rowTemplate);
     }
 
-    updateTable($("[data-schedules-card]"), 'schedule/get_by_user', getScheduleRowTemplate);
+    updateTable($("[data-schedules-card]"), "schedule/get_by_user", getScheduleRowTemplate);
 });
