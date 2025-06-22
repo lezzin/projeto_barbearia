@@ -11,16 +11,13 @@ class Core
 
     public function run()
     {
-        $url = '/';
-
-        isset($_GET['url']) ? $url .= $_GET['url'] : '';
-
-        $url = ($url != '/') ? rtrim($url, '/') : $url;
+        $parser = new UrlParser();
+        $url = $parser->parse();
 
         $routerFound = false;
 
         foreach ($this->getRoutes() as $path => $controllerAndAction) {
-            $pattern = '#^' . preg_replace('/{id}/', '([\w-]+|\d+)', $path) . '$#';
+            $pattern = '#^' . preg_replace('/{id}/', '([\w-]+)', $path) . '$#';
 
             if (preg_match($pattern, $url, $matches)) {
                 array_shift($matches);
@@ -29,13 +26,18 @@ class Core
 
                 [$currentController, $action] = explode('@', $controllerAndAction);
 
-                $controller = "\\App\Controllers\\" . $currentController;
-                (new $controller())->$action($matches);
+                $controllerClass = "\\App\\Controllers\\{$currentController}";
+                $controller = new $controllerClass();
+
+                call_user_func_array([$controller, $action], $matches);
+
+                break;
             }
         }
 
         if (!$routerFound) {
             http_response_code(404);
+            echo "404 Not Found: {$url}";
         }
     }
 

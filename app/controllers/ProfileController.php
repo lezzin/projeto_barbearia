@@ -13,7 +13,7 @@ class ProfileController extends Controller
         $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
         if ($isAdmin) {
-            header('Location: ' . BASE_URL . 'admin');
+            header('Location: ' . config('app.base_url') . 'admin');
             exit;
         }
 
@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $this->loadView('templates/head', [
             'title' => 'Perfil',
             'scripts' => [
-                BASE_URL . "public/js/pages/profile.js"
+                config('app.base_url') . "public/js/pages/profile.js"
             ]
         ]);
         $this->loadView('templates/header', [

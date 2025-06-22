@@ -7,11 +7,6 @@ use PDOException;
 
 class Model
 {
-    protected string $db_host = DB_HOST;
-    protected string $db_user = DB_USER;
-    protected string $db_pass = DB_PASS;
-    protected string $db_name = DB_NAME;
-
     protected static ?PDO $pdo = null;
 
     public function __construct()
@@ -23,11 +18,16 @@ class Model
 
     protected function getConnection(): PDO
     {
+        $dbHost = config('database.host');
+        $dbUser = config('database.user');
+        $dbPass = config('database.pass');
+        $dbName = config('database.name');
+
         try {
             return new PDO(
-                "mysql:dbname=$this->db_name;host=$this->db_host",
-                $this->db_user,
-                $this->db_pass,
+                "mysql:dbname=$dbName;host=$dbHost",
+                $dbUser,
+                $dbPass,
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $e) {

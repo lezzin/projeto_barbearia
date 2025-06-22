@@ -13,7 +13,7 @@ class AdminController extends Controller
         $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
         if (!$isLogged || !$isAdmin) {
-            header('Location: ' . BASE_URL);
+            header('Location: ' . config('app.base_url'));
             exit;
         }
 
@@ -22,7 +22,7 @@ class AdminController extends Controller
         $this->loadView('templates/head', [
             'title' => 'Admin',
             'scripts' => [
-                BASE_URL . "public/js/pages/admin.js"
+                config('app.base_url') . "public/js/pages/admin.js"
             ]
         ]);
         $this->loadView('templates/header', [

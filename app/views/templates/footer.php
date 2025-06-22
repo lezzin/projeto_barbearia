@@ -1,5 +1,5 @@
 <footer>
-    <span id="url" style="display: none;"><?= BASE_URL ?></span>
+    <span id="url" style="display: none;"><?= config('app.base_url') ?></span>
 
     <div class="container">
         <div class="footer-grid">
@@ -7,23 +7,23 @@
                 <h2>Menu principal</h2>
 
                 <nav>
-                    <a href="<?= BASE_URL ?>">Início</a>
+                    <a href="<?= config('app.base_url') ?>">Início</a>
 
                     <?php if (isset($isAuth) and $isAuth) : ?>
                         <?php if ($isAdm) : ?>
-                            <a href="<?= BASE_URL . "admin" ?>" title="Acessar administração">Admin</a>
+                            <a href="<?= config('app.base_url') . "admin" ?>" title="Acessar administração">Admin</a>
                         <?php endif; ?>
 
                         <?php if (!$isAdm) : ?>
-                            <a href="<?= BASE_URL . "profile" ?>" title="Acessar perfil">Perfil</i></a>
-                            <a href="<?= BASE_URL . "schedule" ?>" title="Acessar agendamento">Agendar horário</a>
+                            <a href="<?= config('app.base_url') . "profile" ?>" title="Acessar perfil">Perfil</i></a>
+                            <a href="<?= config('app.base_url') . "schedule" ?>" title="Acessar agendamento">Agendar horário</a>
                         <?php endif; ?>
 
-                        <a href="<?= BASE_URL . "logout"  ?>" title="Sair da conta">Sair</i></a>
+                        <a href="<?= config('app.base_url') . "logout"  ?>" title="Sair da conta">Sair</i></a>
 
                     <?php else : ?>
 
-                        <a href="<?= BASE_URL . "login"  ?>" title="Acessar conta">Fazer login</a>
+                        <a href="<?= config('app.base_url') . "login"  ?>" title="Acessar conta">Fazer login</a>
 
                     <?php endif; ?>
                 </nav>

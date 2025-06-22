@@ -1,7 +1,7 @@
 <main id="register-page">
     <section>
         <div class="container container-centered delay-small">
-            <form method="post" action="<?= BASE_URL . "user/create" ?>" class="delay-small card-form register-form">
+            <form method="post" action="<?= config('app.base_url') . "user/create" ?>" class="delay-small card-form register-form">
                 <h2 class="delay-small">Registro</h2>
 
                 <div class="form-alert" style="display: none"></div>
@@ -27,7 +27,7 @@
                 </div>
 
                 <button class="btn-primary interval-medium" type="submit" title="Criar conta">Registrar</button>
-                <a href="<?= BASE_URL . "login" ?>" class="interval-medium link-secondary" title="Acessar conta">Já tenho conta</a>
+                <a href="<?= config('app.base_url') . "login" ?>" class="interval-medium link-secondary" title="Acessar conta">Já tenho conta</a>
             </form>
         </div>
     </section>

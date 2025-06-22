@@ -16,7 +16,7 @@ class UserController extends Controller
         $this->loadView('templates/head', [
             'title' => 'Login',
             'scripts' => [
-                BASE_URL . "public/js/pages/login.js"
+                config('app.base_url') . "public/js/pages/login.js"
             ]
         ]);
         $this->loadView('templates/header', [
@@ -39,7 +39,7 @@ class UserController extends Controller
         $this->loadView('templates/head', [
             'title' => 'Registro',
             'scripts' => [
-                BASE_URL . "public/js/pages/register.js"
+                config('app.base_url') . "public/js/pages/register.js"
             ]
         ]);
         $this->loadView('templates/header', [
@@ -59,13 +59,13 @@ class UserController extends Controller
     {
         unset($_SESSION['user']);
         unset($_SESSION['isAdmin']);
-        header("Location: " . BASE_URL . "login");
+        header("Location: " . config('app.base_url') . "login");
     }
 
     public function verify()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            header('Location: ' . BASE_URL . 'login');
+            header('Location: ' . config('app.base_url') . 'login');
             exit;
         }
 
@@ -91,7 +91,7 @@ class UserController extends Controller
                 "status" => 200,
                 "message" => "Usuário autenticado com sucesso!",
                 "data" => [
-                    "url" => BASE_URL
+                    "url" => config('app.base_url')
                 ]
             ]);
         } catch (Throwable $th) {
@@ -126,7 +126,7 @@ class UserController extends Controller
                 "status" => 200,
                 "message" => "Usuário cadastrado com sucesso",
                 "data" => [
-                    "url" =>  BASE_URL . 'login'
+                    "url" =>  config('app.base_url') . 'login'
                 ]
             ]);
         } catch (Throwable $th) {

@@ -25,7 +25,7 @@
 
     <section class="admin-item-section">
         <div class="container">
-            <form method="post" action="<?= BASE_URL . "service/save" ?>" id="form-service" class="delay-medium">
+            <form method="post" action="<?= config('app.base_url') . "service/save" ?>" id="form-service" class="delay-medium">
                 <h2>Serviços</h2>
 
                 <input type="text" name="id" id="service_id" hidden>
@@ -62,7 +62,7 @@
 
     <section class="admin-item-section">
         <div class="container">
-            <form method="post" action="<?= BASE_URL . "unavailable_datetime/save" ?>" id="form-unavailable-datetime" class="delay-medium">
+            <form method="post" action="<?= config('app.base_url') . "unavailable_datetime/save" ?>" id="form-unavailable-datetime" class="delay-medium">
                 <h2>Datas indisponiveis</h2>
 
                 <input type="text" id="unavailable_datetime_id" name="id" hidden>
@@ -98,7 +98,7 @@
 
     <section class="admin-item-section">
         <div class="container">
-            <form method="post" action="<?= BASE_URL . "contact/save" ?>" id="form-contact-info" class="delay-medium">
+            <form method="post" action="<?= config('app.base_url') . "contact/save" ?>" id="form-contact-info" class="delay-medium">
                 <h2>Informações de contato</h2>
 
                 <input type="text" id="contact_info_id" name="id" hidden>

@@ -7,21 +7,21 @@
 
                 <?php if (!$isAdm) : ?>
                     <div class="interval-small">
-                        <a class="btn-primary" href="<?= BASE_URL . "schedule" ?>" role="button">Agendar horário</a>
+                        <a class="btn-primary" href="<?= config('app.base_url') . "schedule" ?>" role="button">Agendar horário</a>
                     </div>
                 <?php endif; ?>
             </div>
 
             <div class="hero-section-images">
-                <img class="interval-medium" src="<?= BASE_URL . "public/images/hero_image_1.png" ?>" alt="Um homem cortando seu cabelo" width="280">
-                <img class="interval-medium" src="<?= BASE_URL . "public/images/hero_image_2.png" ?>" alt="Um homem cortando seu cabelo" width="280">
+                <img class="interval-medium" src="<?= config('app.base_url') . "public/images/hero_image_1.png" ?>" alt="Um homem cortando seu cabelo" width="280">
+                <img class="interval-medium" src="<?= config('app.base_url') . "public/images/hero_image_2.png" ?>" alt="Um homem cortando seu cabelo" width="280">
             </div>
         </div>
     </section>
 
     <section class="about-section">
         <div class="container">
-            <img class="delay-small" src="<?= BASE_URL . "public/images/about_wallpaper.png" ?>" alt="Dois homens cortando seus cabelos" width="500" loading="lazy">
+            <img class="delay-small" src="<?= config('app.base_url') . "public/images/about_wallpaper.png" ?>" alt="Dois homens cortando seus cabelos" width="500" loading="lazy">
 
             <div class="about-text">
                 <h2 class="delay-small text-detail">Sobre nós</h2>
@@ -67,31 +67,31 @@
             <div class="swiper interval-small">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_1.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_1.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_2.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_2.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_3.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_3.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_4.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_4.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_5.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_5.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_6.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_6.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_7.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_7.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_8.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_8.jpg" ?>" alt="Gallery image">
                     </div>
                     <div class="swiper-slide">
-                        <img src="<?= BASE_URL . "public/images/gallery_9.jpg" ?>" alt="Gallery image">
+                        <img src="<?= config('app.base_url') . "public/images/gallery_9.jpg" ?>" alt="Gallery image">
                     </div>
                 </div>
 
@@ -122,5 +122,5 @@
 </main>
 
 <button class="btn-float" title="Acessar Whatsapp">
-    <img class="delay-small" src="<?= BASE_URL . "public/images/whatsapp-symbol.svg" ?>" alt="Whatsapp logo" width="56">
+    <img class="delay-small" src="<?= config('app.base_url') . "public/images/whatsapp-symbol.svg" ?>" alt="Whatsapp logo" width="56">
 </button>

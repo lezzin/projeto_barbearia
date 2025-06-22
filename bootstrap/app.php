@@ -1,3 +1,3 @@
 <?php
 
-require "app/Config/Constants.php";
+require_once __DIR__ . '/helpers.php';

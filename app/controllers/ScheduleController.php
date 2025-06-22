@@ -15,12 +15,12 @@ class ScheduleController extends Controller
         $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
         if (!$isLogged) {
-            header('Location: ' . BASE_URL . 'login?redirect=schedule');
+            header('Location: ' . config('app.base_url') . 'login?redirect=schedule');
             exit;
         }
 
         if ($isAdmin) {
-            header('Location: ' . BASE_URL . 'admin');
+            header('Location: ' . config('app.base_url') . 'admin');
             exit;
         }
 
@@ -30,7 +30,7 @@ class ScheduleController extends Controller
         $this->loadView('templates/head', [
             'title' => 'Agendamento',
             'scripts' => [
-                BASE_URL . "public/js/pages/schedule.js"
+                config('app.base_url') . "public/js/pages/schedule.js"
             ]
         ]);
         $this->loadView('templates/header', [

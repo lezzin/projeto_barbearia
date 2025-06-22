@@ -23,7 +23,7 @@ class HomeController extends Controller
             ],
             'scripts' => [
                 "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js",
-                BASE_URL . "public/js/pages/home.js"
+                config('app.base_url') . "public/js/pages/home.js"
             ]
         ]);
         $this->loadView('templates/header', [
