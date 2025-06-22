@@ -4,9 +4,13 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\ContactInfoModel;
+use App\Traits\ResponseJson;
+use Throwable;
 
 class ContactController extends Controller
 {
+    use ResponseJson;
+
     public function save()
     {
         if (isset($_POST['id']) and !empty($_POST['id'])) {
@@ -22,12 +26,7 @@ class ContactController extends Controller
         $isAlreadyCountainsInfo = sizeof(ContactInfoModel::allContactInfos()) > 0;
 
         if ($isAlreadyCountainsInfo) {
-            echo json_encode([
-                "status" => 401,
-                "message" => "Você pode ter somente uma informação de contato"
-            ]);
-
-            exit;
+            return $this->jsonResponse(401, "Você pode ter somente uma informação de contato");
         }
 
         $email = $_POST['email'];
@@ -37,15 +36,9 @@ class ContactController extends Controller
 
         try {
             ContactInfoModel::create($email, $address, $tel, $whatsapp);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Contato criado com sucesso!"
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Contato criado com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao concluir solicitação.", $th);
         }
     }
 
@@ -59,15 +52,9 @@ class ContactController extends Controller
 
         try {
             ContactInfoModel::update($email, $address, $tel, $whatsapp, $id);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Contato atualizado com sucesso!"
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Contato atualizado com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao atualizar contato.", $th);
         }
     }
 
@@ -75,16 +62,9 @@ class ContactController extends Controller
     {
         try {
             ContactInfoModel::delete($id[0]);
-
-            echo json_encode([
-                "status" => 200,
-                "message" => "Contato deletado com sucesso!"
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Contato excluído com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao excluir contato.", $th);
         }
     }
 
@@ -92,16 +72,9 @@ class ContactController extends Controller
     {
         try {
             $allContactInfos = ContactInfoModel::allContactInfos();
-            echo json_encode([
-                "status" => 200,
-                "message" => "Busca de informações de contato concluída com sucesso",
-                "data" => $allContactInfos
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Busca de informações de contato concluída com sucesso", $allContactInfos);
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao buscar informações de contato.", $th);
         }
     }
 }

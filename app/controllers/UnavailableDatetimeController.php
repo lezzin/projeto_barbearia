@@ -3,9 +3,14 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Models\UnavailableDatetimeModel;
+use App\Traits\ResponseJson;
+use Throwable;
 
 class UnavailableDatetimeController extends Controller
 {
+    use ResponseJson;
+
     public function save()
     {
         if (isset($_POST['id']) and !empty($_POST['id'])) {
@@ -18,92 +23,54 @@ class UnavailableDatetimeController extends Controller
 
     public function create()
     {
-        $unavailableDatetime = new UnavailableDatetimeModel();
-
         $date = $_POST['date'];
         $time = $_POST['time'];
         $datetime = $date . ' ' . $time;
 
-        if ($unavailableDatetime->fetchByDatetime($datetime)) {
-            echo json_encode([
-                "status" => 401,
-                "message" => "Data já cadastrada!",
-            ]);
-
-            exit;
+        if (UnavailableDatetimeModel::fetchByDatetime($datetime)) {
+            return $this->jsonResponse(401, "Data já cadastrada!");
         }
 
         try {
-            $unavailableDatetime->create($datetime);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Data adicionada com sucesso",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            UnavailableDatetimeModel::create($datetime);
+            return $this->jsonResponse(200, "Data adicionada com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao criar nova data.", $th);
         }
     }
 
     public function edit()
     {
-        $unavailableDatetime = new UnavailableDatetimeModel();
-
         $date = $_POST['date'];
         $time = $_POST['time'];
         $datetime = $date . ' ' . $time;
         $id = $_POST['id'];
 
         try {
-            $unavailableDatetime->update($datetime, $id);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Data editada com sucesso",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            UnavailableDatetimeModel::update($datetime, $id);
+            return $this->jsonResponse(200, "Data editada com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao editar data.", $th);
         }
     }
 
     public function delete($id)
     {
-        $unavailableDatetime = new UnavailableDatetimeModel();
-
         try {
-            $unavailableDatetime->delete($id[0]);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Data deletada com sucesso",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            UnavailableDatetimeModel::delete($id[0]);
+            return $this->jsonResponse(200, "Data excluída com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao excluir data.", $th);
         }
     }
 
     public function getAllUnavailableDatetimes()
     {
-        $unavailableDatetime = new UnavailableDatetimeModel();
-
         try {
-            $allUnavailableDatetimes = $unavailableDatetime->allUnavailableDatetimes();
-            echo json_encode([
-                "status" => 200,
-                "message" => "Busca de horários concluída com sucesso",
-                "data" => $allUnavailableDatetimes
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            $allUnavailableDatetimes = UnavailableDatetimeModel::allUnavailableDatetimes();
+            return $this->jsonResponse(200, "Busca de horários concluída com sucesso!", $allUnavailableDatetimes);
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao buscar datas.", $th);
         }
     }
 }

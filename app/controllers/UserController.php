@@ -5,10 +5,13 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\ContactInfoModel;
 use App\Models\UserModel;
+use App\Traits\ResponseJson;
 use Throwable;
 
 class UserController extends Controller
 {
+    use ResponseJson;
+
     public function login()
     {
         $allContactInfos = ContactInfoModel::allContactInfos()[0] ?? null;
@@ -76,29 +79,16 @@ class UserController extends Controller
             $user = UserModel::login($username, $password);
 
             if (!$user) {
-                echo json_encode([
-                    "status" => 401,
-                    "message" => "Usuário não encontrado"
-                ]);
-
-                exit;
+                return $this->jsonResponse(401, "Usuário não encontrado.");
             }
 
             $_SESSION['user'] = $user;
             $_SESSION['isAdmin'] = $user["type"] == 2;
 
-            echo json_encode([
-                "status" => 200,
-                "message" => "Usuário autenticado com sucesso!",
-                "data" => [
-                    "url" => config('app.base_url')
-                ]
-            ]);
+            $data = ["url" => config('app.base_url')];
+            return $this->jsonResponse(200, "Usuário autenticado com sucesso.", $data);
         } catch (Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            return $this->internalErrorResponse("Erro ao autenticar usuário.", $th);
         }
     }
 
@@ -109,12 +99,7 @@ class UserController extends Controller
         $username = $_POST["username"];
 
         if ($user->fetchByEmail($email) || $user->fetchByName($username)) {
-            echo json_encode([
-                "status" => 401,
-                "message" => "Usuário já cadastrado!",
-            ]);
-
-            exit;
+            return $this->jsonResponse(200, "Usuário já cadastrado!");
         }
 
         $telephone = $_POST["tel"];
@@ -122,18 +107,11 @@ class UserController extends Controller
 
         try {
             $user->create($username, $email, $telephone, $password);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Usuário cadastrado com sucesso",
-                "data" => [
-                    "url" =>  config('app.base_url') . 'login'
-                ]
-            ]);
+
+            $data =  ["url" =>  config('app.base_url') . 'login'];
+            return $this->jsonResponse(200, "Usuário cadastrado com sucesso!", $data);
         } catch (Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            return $this->internalErrorResponse("Erro ao autenticar usuário.", $th);
         }
     }
 }

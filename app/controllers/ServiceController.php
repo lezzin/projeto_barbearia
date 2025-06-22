@@ -4,9 +4,13 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\ServiceModel;
+use App\Traits\ResponseJson;
+use Throwable;
 
 class ServiceController extends Controller
 {
+    use ResponseJson;
+
     public function save()
     {
         if (isset($_POST['id']) and !empty($_POST['id'])) {
@@ -33,18 +37,11 @@ class ServiceController extends Controller
 
         try {
             ServiceModel::create($name, $price);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Serviço criado com sucesso!",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            return $this->jsonResponse(200, "Serviço criado com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao criar novo serviço.", $th);
         }
     }
-
 
     public function edit()
     {
@@ -54,33 +51,19 @@ class ServiceController extends Controller
 
         try {
             ServiceModel::update($name, $price, $id);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Serviço atualizado com sucesso!",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            return $this->jsonResponse(200, "Serviço atualizado com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao atualizar serviço.", $th);
         }
     }
 
     public function delete($id)
     {
-        $service = new ServiceModel();
-
         try {
             ServiceModel::delete($id[0]);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Serviço deletado com sucesso!",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage(),
-            ]);
+            return $this->jsonResponse(200, "Serviço excluído com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao excluir serviço.", $th);
         }
     }
 
@@ -88,17 +71,9 @@ class ServiceController extends Controller
     {
         try {
             $allServices = ServiceModel::allServices();
-
-            echo json_encode([
-                "status" => 200,
-                "message" => "Busca de informações de contato concluída com sucesso",
-                "data" => $allServices
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Busca de serviços concluída com sucesso!", $allServices);
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao buscar serviços.", $th);
         }
     }
 }

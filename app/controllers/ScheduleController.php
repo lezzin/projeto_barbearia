@@ -6,9 +6,13 @@ use App\Core\Controller;
 use App\Models\ContactInfoModel;
 use App\Models\ScheduleModel;
 use App\Models\ServiceModel;
+use App\Traits\ResponseJson;
+use Throwable;
 
 class ScheduleController extends Controller
 {
+    use ResponseJson;
+
     public function index()
     {
         $isLogged = isset($_SESSION['user']);
@@ -63,15 +67,9 @@ class ScheduleController extends Controller
         try {
             ScheduleModel::create($user, $tel, $email, $service_id, $datetime, $message, $user_id);
             // $unavailableDatetime->create($datetime);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Agendamento realizado com sucesso!",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Agendamento realizado com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao criar agendamento", $th);
         }
     }
 
@@ -84,15 +82,9 @@ class ScheduleController extends Controller
 
         try {
             $schedule->updateStatus($status, $id);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Status atualizado com sucesso!",
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Status atualizado com sucesso!");
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao atualizar status.", $th);
         }
     }
 
@@ -102,16 +94,9 @@ class ScheduleController extends Controller
 
         try {
             $allSchedules = $schedule->allSchedules();
-            echo json_encode([
-                "status" => 200,
-                "message" => "Busca de agendamentos concluída com sucesso",
-                "data" => $allSchedules
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Busca de agendamentos concluída com sucesso", $allSchedules);
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao buscar agendamentos.", $th);
         }
     }
 
@@ -121,16 +106,9 @@ class ScheduleController extends Controller
 
         try {
             $userSchedules = $schedule->fetchByUser($_SESSION['user']['id']);
-            echo json_encode([
-                "status" => 200,
-                "message" => "Busca de agendamentos concluída com sucesso",
-                "data" => $userSchedules
-            ]);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                "status" => 500,
-                "message" => $th->getMessage()
-            ]);
+            return $this->jsonResponse(200, "Busca de agendamentos concluída com sucesso", $userSchedules);
+        } catch (Throwable $th) {
+            return $this->internalErrorResponse("Erro ao buscar agendamentos.", $th);
         }
     }
 }
