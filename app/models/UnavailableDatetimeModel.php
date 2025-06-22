@@ -1,45 +1,43 @@
 <?php
 
+namespace App\Models;
+
+use App\Core\Model;
+use PDO;
+use PDOException;
+
 class UnavailableDatetimeModel extends Model
 {
-    private $pdo;
-
-    public function __construct()
-    {
-        $conn = $this->getConnection();
-        $this->pdo = $conn;
-    }
-
-    public function create($datetime)
+    public static function create($datetime)
     {
         $sql = "INSERT INTO `unavailable_datetime` (`datetime`) VALUES (:datetime)";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [":datetime" => $datetime];
 
         try {
             $stmt->execute($params);
-            return $this->pdo->lastInsertId() > 0;
+            return self::lastInsertId() > 0;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
     }
 
-    public function allUnavailableDatetimes()
+    public static function allUnavailableDatetimes()
     {
         $sql = "SELECT * FROM `unavailable_datetime`";
 
         try {
-            $stmt = $this->pdo->query($sql);
+            $stmt = self::query($sql);
             return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
     }
 
-    public function update($datetime, $id)
+    public static function update($datetime, $id)
     {
         $sql = "UPDATE `unavailable_datetime` SET `datetime` = :datetime WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ":datetime" => $datetime,
             ":id" => $id,
@@ -53,10 +51,10 @@ class UnavailableDatetimeModel extends Model
         }
     }
 
-    public function delete($id)
+    public static function delete($id)
     {
         $sql = "DELETE FROM `unavailable_datetime` WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [":id" => $id];
 
         try {
@@ -67,10 +65,10 @@ class UnavailableDatetimeModel extends Model
         }
     }
 
-    public function fetchByDatetime($datetime)
+    public static function fetchByDatetime($datetime)
     {
         $sql = "SELECT * FROM `unavailable_datetime` WHERE `datetime` = :datetime";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [":datetime" => $datetime];
 
         try {

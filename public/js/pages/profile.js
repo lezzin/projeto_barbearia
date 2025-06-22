@@ -54,6 +54,9 @@ $(function () {
 
     async function updateTable($table, endpoint, rowTemplate) {
         const { data } = await fetchData(endpoint);
+
+        console.log(data);
+
         populateTable($table, data, rowTemplate);
     }
 

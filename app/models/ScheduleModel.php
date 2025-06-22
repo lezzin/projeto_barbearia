@@ -1,18 +1,17 @@
 <?php
 
+namespace App\Models;
+
+use App\Core\Model;
+use PDO;
+use PDOException;
+
 class ScheduleModel extends Model
 {
-    private $pdo;
-
-    public function __construct()
-    {
-        $this->pdo = $this->getConnection();
-    }
-
-    public function create($user, $tel, $email, $service_id, $datetime, $message, $user_id)
+    public static function create($user, $tel, $email, $service_id, $datetime, $message, $user_id)
     {
         $sql = "INSERT INTO `schedule` (`user`, `tel`, `email`, `service_id`, `datetime`, `message`, `fk_user`) VALUES (:user, :tel, :email, :service_id, :datetime, :message, :user_id)";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ':user' => $user,
             ':tel' => $tel,
@@ -25,13 +24,13 @@ class ScheduleModel extends Model
 
         try {
             $stmt->execute($params);
-            return $this->pdo->lastInsertId() > 0;
+            return self::lastInsertId() > 0;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
     }
 
-    public function allSchedules()
+    public static function allSchedules()
     {
         $sql = "SELECT `schedule`.*, `service`.`name` as `service`, `service`.`price` as `service_price` 
                 FROM `schedule` 
@@ -39,17 +38,17 @@ class ScheduleModel extends Model
                 ORDER BY `datetime`";
 
         try {
-            $stmt = $this->pdo->query($sql);
+            $stmt = self::query($sql);
             return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
     }
 
-    public function update($user, $tel, $service_id, $datetime, $message, $id)
+    public static function update($user, $tel, $service_id, $datetime, $message, $id)
     {
         $sql = "UPDATE `schedule` SET `user` = :user, `tel` = :tel, `service_id` = :service_id, `datetime` = :datetime, `message` = :message WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ':user' => $user,
             ':tel' => $tel,
@@ -67,10 +66,10 @@ class ScheduleModel extends Model
         }
     }
 
-    public function updateStatus($status, $id)
+    public static function updateStatus($status, $id)
     {
         $sql = "UPDATE `schedule` SET `status` = :status WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ':status' => $status,
             ':id' => $id
@@ -84,10 +83,10 @@ class ScheduleModel extends Model
         }
     }
 
-    public function delete($id)
+    public static function delete($id)
     {
         $sql = "DELETE FROM `schedule` WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [':id' => $id];
 
         try {
@@ -98,18 +97,18 @@ class ScheduleModel extends Model
         }
     }
 
-    public function fetchByUser($user)
+    public static function fetchByUser($user)
     {
         $sql = "SELECT `schedule`.*, `service`.`name`, `service`.`price` 
                 FROM `schedule` 
                 INNER JOIN `service` ON `service`.`id` = `schedule`.`service_id` 
                 WHERE `fk_user` = :user";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [':user' => $user];
 
         try {
             $stmt->execute($params);
-            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [false];
+            return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }

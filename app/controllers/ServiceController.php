@@ -1,8 +1,11 @@
 <?php
 
-session_start();
+namespace App\Controllers;
 
-class ServiceController extends RenderView
+use App\Core\Controller;
+use App\Models\ServiceModel;
+
+class ServiceController extends Controller
 {
     public function save()
     {
@@ -16,11 +19,10 @@ class ServiceController extends RenderView
 
     public function create()
     {
-        $service = new ServiceModel();
         $name = $_POST['name'];
         $price = $_POST['price'];
 
-        if ($service->fetchByName($name)) {
+        if (ServiceModel::fetchByName($name)) {
             echo json_encode([
                 "status" => 401,
                 "message" => "Serviço já cadastrado!",
@@ -30,7 +32,7 @@ class ServiceController extends RenderView
         }
 
         try {
-            $service->create($name, $price);
+            ServiceModel::create($name, $price);
             echo json_encode([
                 "status" => 200,
                 "message" => "Serviço criado com sucesso!",
@@ -46,14 +48,12 @@ class ServiceController extends RenderView
 
     public function edit()
     {
-        $service = new ServiceModel();
-
         $name = $_POST['name'];
         $price = $_POST['price'];
         $id = $_POST['id'];
 
         try {
-            $service->update($name, $price, $id);
+            ServiceModel::update($name, $price, $id);
             echo json_encode([
                 "status" => 200,
                 "message" => "Serviço atualizado com sucesso!",
@@ -71,7 +71,7 @@ class ServiceController extends RenderView
         $service = new ServiceModel();
 
         try {
-            $service->delete($id[0]);
+            ServiceModel::delete($id[0]);
             echo json_encode([
                 "status" => 200,
                 "message" => "Serviço deletado com sucesso!",
@@ -86,10 +86,9 @@ class ServiceController extends RenderView
 
     public function getAllServices()
     {
-        $service = new ServiceModel();
-
         try {
-            $allServices = $service->allServices();
+            $allServices = ServiceModel::allServices();
+
             echo json_encode([
                 "status" => 200,
                 "message" => "Busca de informações de contato concluída com sucesso",

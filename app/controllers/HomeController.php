@@ -1,19 +1,20 @@
 <?php
 
-session_start();
+namespace App\Controllers;
 
-class HomeController extends RenderView
+use App\Core\Controller;
+use App\Models\ContactInfoModel;
+use App\Models\ServiceModel;
+
+class HomeController extends Controller
 {
     public function index()
     {
         $isLogged = isset($_SESSION['user']);
         $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
-        $service = new ServiceModel();
-        $allServices = $service->allServices();
-
-        $contactInfo = new ContactInfoModel();
-        $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
+        $allServices = ServiceModel::allServices();
+        $allContactInfos = ContactInfoModel::allContactInfos()[0] ?? null;
 
         $this->loadView('templates/head', [
             'title' => 'Início',

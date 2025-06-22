@@ -1,8 +1,11 @@
 <?php
 
-session_start();
+namespace App\Controllers;
 
-class ProfileController extends RenderView
+use App\Core\Controller;
+use App\Models\ContactInfoModel;
+
+class ProfileController extends Controller
 {
     public function index()
     {
@@ -14,8 +17,7 @@ class ProfileController extends RenderView
             exit;
         }
 
-        $contactInfo = new ContactInfoModel();
-        $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
+        $allContactInfos = ContactInfoModel::allContactInfos()[0] ?? null;
 
         $this->loadView('templates/head', [
             'title' => 'Perfil',

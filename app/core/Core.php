@@ -1,10 +1,10 @@
 <?php
 
+namespace App\Core;
+
 class Core
 {
-    private $routes;
-
-    public function __construct($routes)
+    public function __construct(private array $routes)
     {
         $this->setRoutes($routes);
     }
@@ -29,10 +29,8 @@ class Core
 
                 [$currentController, $action] = explode('@', $controllerAndAction);
 
-                require_once __DIR__ . "/../controllers/$currentController.php";
-
-                $controller = new $currentController();
-                $controller->$action($matches);
+                $controller = "\\App\Controllers\\" . $currentController;
+                (new $controller())->$action($matches);
             }
         }
 
@@ -41,7 +39,7 @@ class Core
         }
     }
 
-    protected function getRoutes()
+    protected function getRoutes(): array
     {
         return $this->routes;
     }

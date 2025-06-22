@@ -1,20 +1,17 @@
-
 <?php
+
+namespace App\Models;
+
+use App\Core\Model;
+use PDO;
+use PDOException;
 
 class ServiceModel extends Model
 {
-    private $pdo;
-
-    public function __construct()
-    {
-        $conn = $this->getConnection();
-        $this->pdo = $conn;
-    }
-
-    public function create($name, $price)
+    public static function create($name, $price)
     {
         $sql = "INSERT INTO `service` (`name`, `price`) VALUES (:name, :price)";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ":name" => $name,
             ":price" => $price,
@@ -22,28 +19,30 @@ class ServiceModel extends Model
 
         try {
             $stmt->execute($params);
-            return $this->pdo->lastInsertId() > 0;
+            return self::lastInsertId() > 0;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
     }
 
-    public function allServices()
+    public static function allServices()
     {
         $sql = "SELECT * FROM `service` ORDER BY `name`";
 
         try {
-            $stmt = $this->pdo->query($sql);
+            $stmt = self::query($sql);
             return $stmt->rowCount() > 0 ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
     }
 
-    public function update($name, $price, $id)
+    public static function update($name, $price, $id)
     {
+        self::ensureConnection();
+
         $sql = "UPDATE `service` SET `name` = :name, `price` = :price WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ":name" => $name,
             ":price" => $price,
@@ -58,10 +57,12 @@ class ServiceModel extends Model
         }
     }
 
-    public function delete($id)
+    public static function delete($id)
     {
+        self::ensureConnection();
+
         $sql = "DELETE FROM `service` WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [":id" => $id];
 
         try {
@@ -72,10 +73,12 @@ class ServiceModel extends Model
         }
     }
 
-    public function fetchByName($name)
+    public static function fetchByName($name)
     {
+        self::ensureConnection();
+
         $sql = "SELECT * FROM `service` WHERE `name` = :name";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [":name" => $name];
 
         try {

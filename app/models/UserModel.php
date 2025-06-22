@@ -1,19 +1,17 @@
 <?php
 
+namespace App\Models;
+
+use App\Core\Model;
+use PDO;
+use PDOException;
+
 class UserModel extends Model
 {
-    private $pdo;
-
-    public function __construct()
-    {
-        $conn = $this->getConnection();
-        $this->pdo = $conn;
-    }
-
-    public function login($user, $password)
+    public static function login($user, $password)
     {
         $sql = "SELECT * FROM `user` WHERE `name` = :name OR `email` = :email";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ":name" => $user,
             ":email" => $user,
@@ -38,10 +36,10 @@ class UserModel extends Model
         }
     }
 
-    public function create($name, $email, $tel, $password)
+    public static function create($name, $email, $tel, $password)
     {
         $sql = "INSERT INTO `user` (`name`, `email`, `tel`, `password`) VALUES (:name, :email, :tel, :password)";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [
             ":name" => $name,
             ":email" => $email,
@@ -51,16 +49,16 @@ class UserModel extends Model
 
         try {
             $stmt->execute($params);
-            return $this->pdo->lastInsertId() > 0;
+            return self::lastInsertId() > 0;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
     }
 
-    public function fetchByEmail($email)
+    public static function fetchByEmail($email)
     {
         $sql = "SELECT * FROM `user` WHERE `email` = :email";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [":email" => $email];
 
         try {
@@ -71,10 +69,10 @@ class UserModel extends Model
         }
     }
 
-    public function fetchByName($name)
+    public static function fetchByName($name)
     {
         $sql = "SELECT * FROM `user` WHERE `name` = :name";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = self::prepare($sql);
         $params = [":name" => $name];
 
         try {

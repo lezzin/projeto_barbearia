@@ -1,16 +1,9 @@
 <?php
 
-require_once __DIR__."/app/config/Constants.php";
-require_once __DIR__."/app/router/routes.php";
-require_once __DIR__."/app/core/Core.php";
+require_once 'vendor/autoload.php';
+require_once 'routes/web.php';
 
-spl_autoload_register(function($file) {
-    if (file_exists(__DIR__."/app/utils/$file.php")) {
-        require_once __DIR__."/app/utils/$file.php";
-    } else if (file_exists(__DIR__."/app/models/$file.php")) {
-        require_once __DIR__."/app/models/$file.php";
-    }
-}); 
+session_start();
 
-$core = new Core($routes);
+$core = new \App\Core\Core($routes);
 $core->run();

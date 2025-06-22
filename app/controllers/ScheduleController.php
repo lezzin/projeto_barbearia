@@ -1,10 +1,13 @@
 <?php
 
-use function PHPSTORM_META\map;
+namespace App\Controllers;
 
-session_start();
+use App\Core\Controller;
+use App\Models\ContactInfoModel;
+use App\Models\ScheduleModel;
+use App\Models\ServiceModel;
 
-class ScheduleController extends RenderView
+class ScheduleController extends Controller
 {
     public function index()
     {
@@ -21,11 +24,8 @@ class ScheduleController extends RenderView
             exit;
         }
 
-        $contactInfo = new ContactInfoModel();
-        $service = new ServiceModel();
-
-        $allServices = $service->allServices();
-        $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
+        $allServices = ServiceModel::allServices();
+        $allContactInfos = ContactInfoModel::allContactInfos()[0] ?? null;
 
         $this->loadView('templates/head', [
             'title' => 'Agendamento',
@@ -50,7 +50,6 @@ class ScheduleController extends RenderView
 
     public function create()
     {
-        $schedule = new ScheduleModel();
         // $unavailableDatetime = new UnavailableDatetimeModel();
 
         $user = $_POST["username"];
@@ -62,7 +61,7 @@ class ScheduleController extends RenderView
         $user_id = $_POST["user_id"];
 
         try {
-            $schedule->create($user, $tel, $email, $service_id, $datetime, $message, $user_id);
+            ScheduleModel::create($user, $tel, $email, $service_id, $datetime, $message, $user_id);
             // $unavailableDatetime->create($datetime);
             echo json_encode([
                 "status" => 200,

@@ -1,13 +1,17 @@
 <?php
 
-session_start();
+namespace App\Controllers;
 
-class UserController extends RenderView
+use App\Core\Controller;
+use App\Models\ContactInfoModel;
+use App\Models\UserModel;
+use Throwable;
+
+class UserController extends Controller
 {
     public function login()
     {
-        $contactInfo = new ContactInfoModel();
-        $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
+        $allContactInfos = ContactInfoModel::allContactInfos()[0] ?? null;
 
         $this->loadView('templates/head', [
             'title' => 'Login',
@@ -30,8 +34,7 @@ class UserController extends RenderView
 
     public function register()
     {
-        $contactInfo = new ContactInfoModel();
-        $allContactInfos = $contactInfo->allContactInfos()[0] ?? null;
+        $allContactInfos = ContactInfoModel::allContactInfos()[0] ?? null;
 
         $this->loadView('templates/head', [
             'title' => 'Registro',
@@ -69,10 +72,8 @@ class UserController extends RenderView
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $userModel = new UserModel();
-
         try {
-            $user = $userModel->login($username, $password);
+            $user = UserModel::login($username, $password);
 
             if (!$user) {
                 echo json_encode([
@@ -93,7 +94,7 @@ class UserController extends RenderView
                     "url" => BASE_URL
                 ]
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             echo json_encode([
                 "status" => 500,
                 "message" => $th->getMessage(),
@@ -128,7 +129,7 @@ class UserController extends RenderView
                     "url" =>  BASE_URL . 'login'
                 ]
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             echo json_encode([
                 "status" => 500,
                 "message" => $th->getMessage(),

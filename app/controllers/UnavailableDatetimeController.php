@@ -1,8 +1,10 @@
 <?php
 
-session_start();
+namespace App\Controllers;
 
-class UnavailableDatetimeController extends RenderView
+use App\Core\Controller;
+
+class UnavailableDatetimeController extends Controller
 {
     public function save()
     {

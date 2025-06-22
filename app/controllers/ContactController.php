@@ -1,8 +1,11 @@
 <?php
 
-session_start();
+namespace App\Controllers;
 
-class ContactController extends RenderView
+use App\Core\Controller;
+use App\Models\ContactInfoModel;
+
+class ContactController extends Controller
 {
     public function save()
     {
@@ -16,8 +19,7 @@ class ContactController extends RenderView
 
     public function create()
     {
-        $contactInfo = new ContactInfoModel();
-        $isAlreadyCountainsInfo = sizeof($contactInfo->allContactInfos()) > 0;
+        $isAlreadyCountainsInfo = sizeof(ContactInfoModel::allContactInfos()) > 0;
 
         if ($isAlreadyCountainsInfo) {
             echo json_encode([
@@ -34,7 +36,7 @@ class ContactController extends RenderView
         $whatsapp = $_POST['whatsapp'];
 
         try {
-            $contactInfo->create($email, $address, $tel, $whatsapp);
+            ContactInfoModel::create($email, $address, $tel, $whatsapp);
             echo json_encode([
                 "status" => 200,
                 "message" => "Contato criado com sucesso!"
@@ -49,8 +51,6 @@ class ContactController extends RenderView
 
     public function edit()
     {
-        $contactInfo = new ContactInfoModel();
-
         $email = $_POST['email'];
         $address = $_POST['address'];
         $tel = $_POST['tel'];
@@ -58,7 +58,7 @@ class ContactController extends RenderView
         $id = $_POST['id'];
 
         try {
-            $contactInfo->update($email, $address, $tel, $whatsapp, $id);
+            ContactInfoModel::update($email, $address, $tel, $whatsapp, $id);
             echo json_encode([
                 "status" => 200,
                 "message" => "Contato atualizado com sucesso!"
@@ -73,10 +73,8 @@ class ContactController extends RenderView
 
     public function delete($id)
     {
-        $contactInfo = new ContactInfoModel();
-
         try {
-            $contactInfo->delete($id[0]);
+            ContactInfoModel::delete($id[0]);
 
             echo json_encode([
                 "status" => 200,
@@ -92,10 +90,8 @@ class ContactController extends RenderView
 
     public function getContactInfo()
     {
-        $contactInfo = new ContactInfoModel();
-
         try {
-            $allContactInfos = $contactInfo->allContactInfos();
+            $allContactInfos = ContactInfoModel::allContactInfos();
             echo json_encode([
                 "status" => 200,
                 "message" => "Busca de informações de contato concluída com sucesso",
